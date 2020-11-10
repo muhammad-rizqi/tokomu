@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, Button} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {register} from '../controller/User';
+import {register} from '../../controller/User';
 
 const Register = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState(0);
+  const [role, setRole] = useState(2);
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState({});
@@ -38,9 +38,7 @@ const Register = ({navigation}) => {
       />
       {error.email ? <Text>{error.email}</Text> : null}
       <Text>Daftar Sebagai</Text>
-      <Picker
-        selectedValue={role === 0 ? 2 : role}
-        onValueChange={(value) => setRole(value)}>
+      <Picker selectedValue={role} onValueChange={(value) => setRole(value)}>
         <Picker.Item label="Pembeli" value="3" />
         <Picker.Item label="Penjual" value="2" />
       </Picker>

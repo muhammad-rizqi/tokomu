@@ -24,10 +24,10 @@ const getToken = async () => {
 const removeToken = async () => {
   try {
     await AsyncStorage.removeItem('token');
+    console.log('Done. delete token');
   } catch (e) {
     console.log(e);
   }
-  console.log('Done. delete token');
 };
 
 export {storeToken, getToken, removeToken};
