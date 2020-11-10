@@ -4,7 +4,7 @@ import {View, Text, TextInput, Button} from 'react-native';
 import {login} from '../controller/User';
 import {getToken} from '../controller/Token';
 
-const Login = () => {
+const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -35,7 +35,10 @@ const Login = () => {
         textContentType="password"
       />
       <Button title="Login" onPress={() => loginUser()} />
-      <Button title="Register" />
+      <Button
+        title="Register"
+        onPress={() => navigation.navigate('Register')}
+      />
     </View>
   );
 };
