@@ -1,11 +1,16 @@
 import React from 'react';
-import {View, Text, ActivityIndicator} from 'react-native';
+import {View, Text, ActivityIndicator, Image} from 'react-native';
+import {styles, colors} from '../../styles/styles';
 
 const Splash = () => {
   return (
-    <View>
-      <Text>Tokomu</Text>
-      <ActivityIndicator color="red" />
+    <View style={[styles.screenDark, styles.centerContainer]}>
+      <Image source={require('../../assets/img/logo.png')} />
+      <ActivityIndicator
+        style={styles.splashLoading}
+        color={colors.primary}
+        size="large"
+      />
     </View>
   );
 };
