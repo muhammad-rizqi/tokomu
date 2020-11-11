@@ -31,7 +31,11 @@ const Login = ({navigation}) => {
         });
       } else {
         removeToken();
-        ToastAndroid.show(response.error, ToastAndroid.SHORT);
+        if (response.error) {
+          ToastAndroid.show(response.error, ToastAndroid.SHORT);
+        } else {
+          ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
+        }
       }
       setLoading(false);
     });

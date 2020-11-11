@@ -21,11 +21,11 @@ class UpdateAddress extends Component {
     this.setLoading(true);
     const {userData, phone_number, address} = this.state;
     updateUserDetail(userData.id, phone_number, address).then((data) => {
-      if (data.status !== 'error') {
+      if (data.status === 'success') {
         ToastAndroid.show(data.message, ToastAndroid.LONG);
         this.props.navigation.goBack();
       } else {
-        ToastAndroid.show(data.message, ToastAndroid.LONG);
+        ToastAndroid.show(JSON.stringify(data), ToastAndroid.LONG);
       }
       this.setLoading(false);
     });

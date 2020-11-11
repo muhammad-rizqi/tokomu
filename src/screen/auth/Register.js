@@ -23,7 +23,11 @@ const Register = ({navigation}) => {
         navigation.navigate('Login');
       } else {
         ToastAndroid.show('Daftar Gagal', ToastAndroid.SHORT);
-        setError(JSON.parse(data));
+        if (typeof data === 'string') {
+          setError(JSON.parse(data));
+        } else {
+          ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
+        }
       }
       setLoading(false);
     });

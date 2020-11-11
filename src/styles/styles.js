@@ -71,4 +71,14 @@ export const styles = StyleSheet.create({
   textError: {
     color: colors.error,
   },
+  textMediumBold: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  row: {
+    flexDirection: 'row',
+  },
+  marginHorizontalMini: {
+    marginHorizontal: 8,
+  },
 });
