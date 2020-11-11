@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, ToastAndroid} from 'react-native';
 import {login} from '../../controller/User';
-import {getToken} from '../../controller/Token';
+import {getToken, storeToken} from '../../controller/Token';
 import {useDispatch} from 'react-redux';
 import {changeToken, clearToken} from '../../redux/action';
 import {styles} from '../../styles/styles';
@@ -26,18 +26,18 @@ const Login = ({navigation}) => {
     login(email, password)
       .then((response) => {
         if (response.token) {
+          storeToken(response.token);
           getToken().then((data) => {
             ToastAndroid.show('Login Berhasil', ToastAndroid.SHORT);
             addToken(data);
           });
         } else {
-          removeToken();
           ToastAndroid.show(response.error, ToastAndroid.SHORT);
         }
         setLoading(false);
       })
-      .catch(() => {
-        ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
+      .catch((err) => {
+        ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
         setLoading(false);
       });
   };
