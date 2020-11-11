@@ -23,8 +23,8 @@ const Profile = ({navigation}) => {
           setUserData(user.data.user);
         }
       })
-      .catch(() => {
-        ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
+      .catch((err) => {
+        ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
       });
   }, []);
 

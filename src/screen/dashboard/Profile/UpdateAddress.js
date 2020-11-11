@@ -14,6 +14,7 @@ class UpdateAddress extends Component {
       phone_number: 0,
       address: '',
       isLoading: false,
+      error: {},
     };
   }
 
@@ -25,13 +26,16 @@ class UpdateAddress extends Component {
         if (data.status === 'success') {
           ToastAndroid.show(data.message, ToastAndroid.LONG);
           this.props.navigation.goBack();
-        } else {
+        } else if (data.status === 'error') {
           ToastAndroid.show(data.message, ToastAndroid.LONG);
+        } else {
+          this.setState({error: data});
         }
         this.setLoading(false);
+        console.log(data);
       })
-      .catch(() => {
-        ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
+      .catch((err) => {
+        ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
         this.setLoading(false);
       });
   }
@@ -50,8 +54,8 @@ class UpdateAddress extends Component {
           });
         }
       })
-      .catch(() => {
-        ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
+      .catch((err) => {
+        ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
         this.setLoading(false);
       });
   }
@@ -64,7 +68,7 @@ class UpdateAddress extends Component {
   }
 
   render() {
-    const {userData} = this.state;
+    const {userData, error} = this.state;
     return (
       <ScrollView style={[styles.screen, styles.container]}>
         <Text style={styles.textTitle}>Ubah Profile</Text>
@@ -79,6 +83,9 @@ class UpdateAddress extends Component {
             onChangeText={(number) => this.setState({phone_number: number})}
             value={userData.userdetail ? this.state.phone_number : null}
           />
+          {error.phone_number ? (
+            <Text style={styles.textError}>{error.phone_number}</Text>
+          ) : null}
         </View>
         <View style={styles.marginVerticalMini}>
           <Text>Alamat</Text>
@@ -89,6 +96,9 @@ class UpdateAddress extends Component {
             onChangeText={(address) => this.setState({address})}
             value={userData.userdetail ? this.state.address : null}
           />
+          {error.address ? (
+            <Text style={styles.textError}>{error.address}</Text>
+          ) : null}
         </View>
         <View style={styles.marginVerticalMini}>
           <Button
