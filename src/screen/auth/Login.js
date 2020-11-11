@@ -32,11 +32,13 @@ const Login = ({navigation}) => {
             addToken(data);
           });
         } else {
+          removeToken();
           ToastAndroid.show(response.error, ToastAndroid.SHORT);
         }
         setLoading(false);
       })
       .catch((err) => {
+        removeToken();
         ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
         setLoading(false);
       });
