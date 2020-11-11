@@ -12,7 +12,8 @@ const Profile = ({navigation}) => {
   const logout = () => {
     removeToken().then(() => deleteToken());
   };
-  const getProfile = () => {
+
+  useEffect(() => {
     getUserDetail()
       .then((user) => {
         console.log(user);
@@ -23,17 +24,12 @@ const Profile = ({navigation}) => {
       .catch((err) => {
         console.log(err);
       });
-  };
-
-  useEffect(() => {
-    getProfile();
-  });
+  }, []);
 
   return (
     <View>
       <Text>Hi {userData.name}</Text>
       <Text>{JSON.stringify(userData)}</Text>
-      <Button title="Info" onPress={() => getProfile()} />
       <Button
         title="Update Address"
         onPress={() => navigation.navigate('UpdateAddress')}
