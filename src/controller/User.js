@@ -94,4 +94,29 @@ const getUserDetail = async () => {
   return data;
 };
 
-export {login, register, getUserInfo, getUserDetail};
+const updateUserDetail = async (user_id, phone_number, address) => {
+  const token = await getToken();
+  const data = await fetch(host + '/user/detail', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      user_id: user_id,
+      phone_number: phone_number,
+      address: address,
+    }),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      return json;
+    })
+    .catch((error) => {
+      return error;
+    });
+  return data;
+};
+
+export {login, register, getUserInfo, getUserDetail, updateUserDetail};

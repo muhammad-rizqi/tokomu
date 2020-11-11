@@ -1,21 +1,22 @@
 /* eslint-disable no-alert */
 import React, {useState} from 'react';
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput} from 'react-native';
 import {login} from '../../controller/User';
 import {getToken} from '../../controller/Token';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {changeToken, clearToken} from '../../redux/action';
 import {styles} from '../../styles/styles';
 import {
   ScrollView,
   TouchableNativeFeedback,
-  TouchableOpacity,
 } from 'react-native-gesture-handler';
+import Button from '../../components/Button';
 
 const Login = ({navigation}) => {
   // State
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   // end state
 
   // redux
@@ -25,6 +26,7 @@ const Login = ({navigation}) => {
   //end redux
 
   const loginUser = () => {
+    setLoading(true);
     login(email, password).then((response) => {
       if (response.token) {
         getToken().then((data) => {
@@ -35,6 +37,7 @@ const Login = ({navigation}) => {
         removeToken();
         alert(response.error);
       }
+      setLoading(false);
     });
   };
 
@@ -62,11 +65,7 @@ const Login = ({navigation}) => {
           style={styles.textInput}
         />
       </View>
-      <TouchableNativeFeedback
-        style={styles.button}
-        onPress={() => loginUser()}>
-        <Text style={styles.textLight}>Login</Text>
-      </TouchableNativeFeedback>
+      <Button title="Login" isLoading={loading} onPress={() => loginUser()} />
       <View style={[styles.centerContainer, styles.marginVerticalLarge]}>
         <Text
           onPress={() => navigation.navigate('Register')}

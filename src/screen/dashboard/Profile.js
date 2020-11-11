@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {clearToken} from '../../redux/action';
 import {removeToken} from '../../controller/Token';
-import {getUserDetail, getUserInfo} from '../../controller/User';
+import {getUserDetail} from '../../controller/User';
 
 const Profile = ({navigation}) => {
   const [userData, setUserData] = useState({});

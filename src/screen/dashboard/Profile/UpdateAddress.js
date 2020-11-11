@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {Component} from 'react';
 import {View, Text} from 'react-native';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import Button from '../../../components/Button';
-import {getUserDetail} from '../../../controller/User';
+import {getUserDetail, updateUserDetail} from '../../../controller/User';
 import {styles} from '../../../styles/styles';
 
 class UpdateAddress extends Component {
@@ -11,22 +11,49 @@ class UpdateAddress extends Component {
     super();
     this.state = {
       userData: {},
+      phone_number: 0,
+      address: '',
+      isLoading: false,
     };
   }
 
+  updateProfile() {
+    this.setLoading(true);
+    const {userData, phone_number, address} = this.state;
+    updateUserDetail(userData.id, phone_number, address).then((data) => {
+      if (data.status !== 'error') {
+        alert(data.message);
+      } else {
+        alert(data.message);
+      }
+      this.setLoading(false);
+    });
+  }
+
   getProfile() {
+    this.setLoading(true);
     getUserDetail().then((user) => {
-      if (user.data) {
-        this.setState({userData: user.data.user});
+      this.setLoading(false);
+      const {userdetail} = user.data.user;
+      this.setState({userData: user.data.user});
+      if (userdetail) {
+        this.setState({
+          phone_number: userdetail.phone_number,
+          address: userdetail.address,
+        });
       }
     });
   }
 
+  setLoading(boolean) {
+    this.setState({isLoading: boolean});
+  }
   componentDidMount() {
     this.getProfile();
   }
 
   render() {
+    const {userData} = this.state;
     return (
       <ScrollView style={[styles.screen, styles.container]}>
         <Text style={styles.textTitle}>Ubah Profile</Text>
@@ -37,18 +64,25 @@ class UpdateAddress extends Component {
             keyboardType="phone-pad"
             placeholder="Nomor Telepon"
             style={styles.textInput}
+            onChangeText={(number) => this.setState({phone_number: number})}
+            value={userData.userdetail ? this.state.phone_number : null}
           />
         </View>
         <View style={styles.marginVerticalMini}>
           <Text>Alamat</Text>
           <TextInput
-            keyboardType="email-address"
             placeholder="Alamat"
             style={styles.textInput}
+            onChangeText={(address) => this.setState({address})}
+            value={userData.userdetail ? this.state.address : null}
           />
         </View>
         <View style={styles.marginVerticalMini}>
-          <Button title="Update" onPress={() => alert('ahahahaha')} />
+          <Button
+            title="Update"
+            isLoading={this.state.isLoading}
+            onPress={() => this.updateProfile()}
+          />
         </View>
       </ScrollView>
     );

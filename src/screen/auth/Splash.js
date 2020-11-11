@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, ActivityIndicator, Image} from 'react-native';
+import {View, ActivityIndicator, Image} from 'react-native';
 import {styles, colors} from '../../styles/styles';
 
 const Splash = () => {

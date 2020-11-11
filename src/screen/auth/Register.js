@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput, Button} from 'react-native';
+import {View, Text, TextInput} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {register} from '../../controller/User';
 import {styles} from '../../styles/styles';
@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableNativeFeedback,
 } from 'react-native-gesture-handler';
+import Button from '../../components/Button';
 
 const Register = ({navigation}) => {
   const [name, setName] = useState('');
@@ -15,8 +16,10 @@ const Register = ({navigation}) => {
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const registerUser = () => {
+    setLoading(true);
     register(name, email, role, password, confirm).then((data) => {
       if (data.user) {
         alert('Success');
@@ -25,6 +28,7 @@ const Register = ({navigation}) => {
         console.log(data);
         setError(JSON.parse(data));
       }
+      setLoading(false);
     });
   };
 
@@ -40,7 +44,7 @@ const Register = ({navigation}) => {
           onChangeText={(inputName) => setName(inputName)}
           style={styles.textInput}
         />
-        {error.name ? <Text>{error.name}</Text> : null}
+        {error.name ? <Text style={styles.textError}>{error.name}</Text> : null}
       </View>
       <View style={styles.marginVerticalMini}>
         <Text>Email</Text>
@@ -49,7 +53,9 @@ const Register = ({navigation}) => {
           onChangeText={(inputEmail) => setEmail(inputEmail)}
           style={styles.textInput}
         />
-        {error.email ? <Text>{error.email}</Text> : null}
+        {error.email ? (
+          <Text style={styles.textError}>{error.email}</Text>
+        ) : null}
       </View>
       <View style={styles.marginVerticalMini}>
         <Text>Daftar Sebagai</Text>
@@ -75,13 +81,15 @@ const Register = ({navigation}) => {
           onChangeText={(inputConfirm) => setConfirm(inputConfirm)}
           style={styles.textInput}
         />
-        {error.password ? <Text>{error.password}</Text> : null}
+        {error.password ? (
+          <Text style={styles.textError}>{error.password}</Text>
+        ) : null}
       </View>
-      <TouchableNativeFeedback
-        style={styles.button}
-        onPress={() => registerUser()}>
-        <Text style={styles.textLight}>Register</Text>
-      </TouchableNativeFeedback>
+      <Button
+        title="Register"
+        isLoading={loading}
+        onPress={() => registerUser()}
+      />
       <View style={[styles.centerContainer, styles.marginVerticalLarge]}>
         <Text
           onPress={() => navigation.navigate('Login')}

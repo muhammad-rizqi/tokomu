@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {Home, Profile, Chat, Cart, Transaction} from '../../screen';
+import {Home, Chat, Cart, Transaction} from '../../screen';
 import AuthNavigator from '../auth/AuthNavigator';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ProfileNavigator from './ProfileNavigator';

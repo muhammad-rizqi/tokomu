@@ -1,3 +1,5 @@
+import {color} from 'react-native-reanimated';
+
 const {StyleSheet} = require('react-native');
 
 export const colors = {
@@ -5,8 +7,10 @@ export const colors = {
   white: 'white',
   backgroundDark: '#020C53',
   backgroundDark2: '#1A237E',
+  backgroundLight: '#5A73fE',
   primary: '#FFCA3D',
   border: '#ebebeb',
+  error: '#b51c1c',
 };
 
 export const styles = StyleSheet.create({
@@ -55,10 +59,16 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: colors.backgroundDark2,
   },
+  buttonDisabled: {
+    backgroundColor: colors.backgroundLight,
+  },
   textLight: {
     color: 'white',
   },
   textCenter: {
     textAlign: 'center',
+  },
+  textError: {
+    color: colors.error,
   },
 });
