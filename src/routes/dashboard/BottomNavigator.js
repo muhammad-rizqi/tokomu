@@ -3,6 +3,7 @@ import React from 'react';
 import {Home, Profile, Chat, Cart, Transaction} from '../../screen';
 import AuthNavigator from '../auth/AuthNavigator';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import ProfileNavigator from './ProfileNavigator';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -10,17 +11,16 @@ const BottomNavigator = ({token}) => {
   return (
     <BottomTab.Navigator>
       <BottomTab.Screen name="Home" component={Home} />
-      <BottomTab.Screen name="Chat" component={token ? Chat : AuthNavigator} />
-      <BottomTab.Screen name="Cart" component={token ? Cart : AuthNavigator} />
-      <BottomTab.Screen
-        name="Transaction"
-        component={token ? Transaction : AuthNavigator}
-      />
-      <BottomTab.Screen
-        name="Profile"
-        options={{title: token ? 'Profile' : 'Login'}}
-        component={token ? Profile : AuthNavigator}
-      />
+      {token ? (
+        <>
+          <BottomTab.Screen name="Chat" component={Chat} />
+          <BottomTab.Screen name="Cart" component={Cart} />
+          <BottomTab.Screen name="Transaction" component={Transaction} />
+          <BottomTab.Screen name="Profile" component={ProfileNavigator} />
+        </>
+      ) : (
+        <BottomTab.Screen name="Login" component={AuthNavigator} />
+      )}
     </BottomTab.Navigator>
   );
 };
