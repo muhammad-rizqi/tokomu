@@ -1,6 +1,6 @@
 import React from 'react';
 import {Component} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ToastAndroid} from 'react-native';
 import {ScrollView, TextInput} from 'react-native-gesture-handler';
 import Button from '../../../components/Button';
 import {getUserDetail, updateUserDetail} from '../../../controller/User';
@@ -22,9 +22,10 @@ class UpdateAddress extends Component {
     const {userData, phone_number, address} = this.state;
     updateUserDetail(userData.id, phone_number, address).then((data) => {
       if (data.status !== 'error') {
-        alert(data.message);
+        ToastAndroid.show(data.message, ToastAndroid.LONG);
+        this.props.navigation.goBack();
       } else {
-        alert(data.message);
+        ToastAndroid.show(data.message, ToastAndroid.LONG);
       }
       this.setLoading(false);
     });
@@ -60,6 +61,7 @@ class UpdateAddress extends Component {
         <View style={styles.marginVerticalMini}>
           <Text>Nomor Telepon</Text>
           <TextInput
+            editable={!this.state.isLoading}
             textContentType="telephoneNumber"
             keyboardType="phone-pad"
             placeholder="Nomor Telepon"
@@ -72,6 +74,7 @@ class UpdateAddress extends Component {
           <Text>Alamat</Text>
           <TextInput
             placeholder="Alamat"
+            editable={!this.state.isLoading}
             style={styles.textInput}
             onChangeText={(address) => this.setState({address})}
             value={userData.userdetail ? this.state.address : null}

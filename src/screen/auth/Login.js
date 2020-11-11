@@ -1,15 +1,11 @@
-/* eslint-disable no-alert */
 import React, {useState} from 'react';
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, ToastAndroid} from 'react-native';
 import {login} from '../../controller/User';
 import {getToken} from '../../controller/Token';
 import {useDispatch} from 'react-redux';
 import {changeToken, clearToken} from '../../redux/action';
 import {styles} from '../../styles/styles';
-import {
-  ScrollView,
-  TouchableNativeFeedback,
-} from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import Button from '../../components/Button';
 
 const Login = ({navigation}) => {
@@ -30,12 +26,12 @@ const Login = ({navigation}) => {
     login(email, password).then((response) => {
       if (response.token) {
         getToken().then((data) => {
-          alert(data);
+          ToastAndroid.show('Login Berhasil', ToastAndroid.SHORT);
           addToken(data);
         });
       } else {
         removeToken();
-        alert(response.error);
+        ToastAndroid.show(response.error, ToastAndroid.SHORT);
       }
       setLoading(false);
     });

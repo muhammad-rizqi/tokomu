@@ -1,12 +1,9 @@
 import React, {useState} from 'react';
-import {View, Text, TextInput} from 'react-native';
+import {View, Text, TextInput, ToastAndroid} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
 import {register} from '../../controller/User';
 import {styles} from '../../styles/styles';
-import {
-  ScrollView,
-  TouchableNativeFeedback,
-} from 'react-native-gesture-handler';
+import {ScrollView} from 'react-native-gesture-handler';
 import Button from '../../components/Button';
 
 const Register = ({navigation}) => {
@@ -22,10 +19,10 @@ const Register = ({navigation}) => {
     setLoading(true);
     register(name, email, role, password, confirm).then((data) => {
       if (data.user) {
-        alert('Success');
+        ToastAndroid.show('Daftar Berhasil', ToastAndroid.SHORT);
         navigation.navigate('Login');
       } else {
-        console.log(data);
+        ToastAndroid.show('Daftar Gagal', ToastAndroid.SHORT);
         setError(JSON.parse(data));
       }
       setLoading(false);
