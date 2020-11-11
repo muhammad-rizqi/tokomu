@@ -20,30 +20,40 @@ class UpdateAddress extends Component {
   updateProfile() {
     this.setLoading(true);
     const {userData, phone_number, address} = this.state;
-    updateUserDetail(userData.id, phone_number, address).then((data) => {
-      if (data.status === 'success') {
-        ToastAndroid.show(data.message, ToastAndroid.LONG);
-        this.props.navigation.goBack();
-      } else {
-        ToastAndroid.show(JSON.stringify(data), ToastAndroid.LONG);
-      }
-      this.setLoading(false);
-    });
+    updateUserDetail(userData.id, phone_number, address)
+      .then((data) => {
+        if (data.status === 'success') {
+          ToastAndroid.show(data.message, ToastAndroid.LONG);
+          this.props.navigation.goBack();
+        } else {
+          ToastAndroid.show(data.message, ToastAndroid.LONG);
+        }
+        this.setLoading(false);
+      })
+      .catch(() => {
+        ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
+        this.setLoading(false);
+      });
   }
 
   getProfile() {
     this.setLoading(true);
-    getUserDetail().then((user) => {
-      this.setLoading(false);
-      const {userdetail} = user.data.user;
-      this.setState({userData: user.data.user});
-      if (userdetail) {
-        this.setState({
-          phone_number: userdetail.phone_number,
-          address: userdetail.address,
-        });
-      }
-    });
+    getUserDetail()
+      .then((user) => {
+        this.setLoading(false);
+        const {userdetail} = user.data.user;
+        this.setState({userData: user.data.user});
+        if (userdetail) {
+          this.setState({
+            phone_number: userdetail.phone_number,
+            address: userdetail.address,
+          });
+        }
+      })
+      .catch(() => {
+        ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
+        this.setLoading(false);
+      });
   }
 
   setLoading(boolean) {
@@ -62,7 +72,7 @@ class UpdateAddress extends Component {
           <Text>Nomor Telepon</Text>
           <TextInput
             editable={!this.state.isLoading}
-            textContentType="telephoneNumber"
+            // textContentType="telephoneNumber"
             keyboardType="phone-pad"
             placeholder="Nomor Telepon"
             style={styles.textInput}

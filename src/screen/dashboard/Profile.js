@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, Image} from 'react-native';
+import {View, Text, Button, Image, ToastAndroid} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {clearToken} from '../../redux/action';
 import {removeToken} from '../../controller/Token';
@@ -23,8 +23,8 @@ const Profile = ({navigation}) => {
           setUserData(user.data.user);
         }
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
       });
   }, []);
 

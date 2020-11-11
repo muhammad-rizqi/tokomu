@@ -23,22 +23,23 @@ const Login = ({navigation}) => {
 
   const loginUser = () => {
     setLoading(true);
-    login(email, password).then((response) => {
-      if (response.token) {
-        getToken().then((data) => {
-          ToastAndroid.show('Login Berhasil', ToastAndroid.SHORT);
-          addToken(data);
-        });
-      } else {
-        removeToken();
-        if (response.error) {
-          ToastAndroid.show(response.error, ToastAndroid.SHORT);
+    login(email, password)
+      .then((response) => {
+        if (response.token) {
+          getToken().then((data) => {
+            ToastAndroid.show('Login Berhasil', ToastAndroid.SHORT);
+            addToken(data);
+          });
         } else {
-          ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
+          removeToken();
+          ToastAndroid.show(response.error, ToastAndroid.SHORT);
         }
-      }
-      setLoading(false);
-    });
+        setLoading(false);
+      })
+      .catch(() => {
+        ToastAndroid.show('Kesalahan Jaringan', ToastAndroid.SHORT);
+        setLoading(false);
+      });
   };
 
   return (

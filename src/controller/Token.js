@@ -8,6 +8,13 @@ const storeToken = async (token) => {
   }
 };
 
+const storeGetStarted = async () => {
+  try {
+    await AsyncStorage.setItem('getStarted', true);
+  } catch (e) {
+    console.log(e);
+  }
+};
 const getToken = async () => {
   try {
     const value = await AsyncStorage.getItem('token');

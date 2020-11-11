@@ -21,9 +21,6 @@ const login = async (email, password) => {
         removeToken();
       }
       return json;
-    })
-    .catch((error) => {
-      return error;
     });
   return data;
 };
@@ -46,9 +43,6 @@ const register = async (name, email, role, password, confirm) => {
     .then((response) => response.json())
     .then((json) => {
       return json;
-    })
-    .catch((error) => {
-      return error;
     });
   return data;
 };
@@ -66,9 +60,6 @@ const getUserInfo = async () => {
     .then((response) => response.json())
     .then((json) => {
       return json;
-    })
-    .catch((error) => {
-      return error;
     });
   return data;
 };
@@ -87,9 +78,6 @@ const getUserDetail = async () => {
     .then((response) => response.json())
     .then((json) => {
       return json;
-    })
-    .catch((error) => {
-      return error;
     });
   return data;
 };
@@ -112,9 +100,6 @@ const updateUserDetail = async (user_id, phone_number, address) => {
     .then((response) => response.json())
     .then((json) => {
       return json;
-    })
-    .catch((error) => {
-      return error;
     });
   return data;
 };
