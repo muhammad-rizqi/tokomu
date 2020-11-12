@@ -6,7 +6,7 @@ import {styles} from '../../../styles/styles';
 import Button from '../../../components/Button';
 import ImagePicker from 'react-native-image-picker';
 
-const ShopDashboard = ({navigation}) => {
+const ShopUpdate = ({navigation}) => {
   const [shop, setShop] = useState(null);
   const [shopName, setShopName] = useState('');
   const [photo, setPhoto] = useState(null);
@@ -92,4 +92,4 @@ const ShopDashboard = ({navigation}) => {
   );
 };
 
-export default ShopDashboard;
+export default ShopUpdate;
