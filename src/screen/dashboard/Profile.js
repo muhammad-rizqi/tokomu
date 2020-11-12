@@ -35,7 +35,11 @@ const Profile = ({navigation}) => {
           style={{width: 50, height: 50, borderRadius: 25}}
           source={
             userData.userdetail
-              ? {uri: userData.userdetail.avatar}
+              ? {
+                  uri:
+                    'http://tokomu.herokuapp.com/uploads/avatars/' +
+                    userData.userdetail.avatar,
+                }
               : require('../../assets/img/user-shape.png')
           }
         />

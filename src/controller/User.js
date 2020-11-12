@@ -1,5 +1,6 @@
 import {getToken} from '../controller/Token';
 import {api} from './global_var/api';
+import {createFormData} from './helper';
 
 const login = async (email, password) => {
   const body = {
@@ -38,7 +39,12 @@ const getUserDetail = async () => {
   return data;
 };
 
-const updateUserDetail = async (user_id, phone_number, address) => {
+const updateUserDetail = async (
+  user_id,
+  phone_number,
+  address,
+  avatar = null,
+) => {
   const token = await getToken();
   const body = {
     user_id: user_id,
@@ -46,7 +52,13 @@ const updateUserDetail = async (user_id, phone_number, address) => {
     address: address,
   };
 
-  const data = await api('POST', '/user/detail', JSON.stringify(body), token);
+  const data = await api(
+    'POST',
+    '/user/detail',
+    avatar ? createFormData(avatar, 'avatar', body) : JSON.stringify(body),
+    token,
+    avatar ? true : false,
+  );
   return data;
 };
 

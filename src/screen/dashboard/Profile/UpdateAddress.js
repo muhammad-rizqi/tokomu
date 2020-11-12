@@ -1,10 +1,15 @@
 import React from 'react';
 import {Component} from 'react';
-import {View, Text, ToastAndroid} from 'react-native';
-import {ScrollView, TextInput} from 'react-native-gesture-handler';
+import {View, Text, ToastAndroid, Image} from 'react-native';
+import {
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 import Button from '../../../components/Button';
 import {getUserDetail, updateUserDetail} from '../../../controller/User';
 import {styles} from '../../../styles/styles';
+import ImagePicker from 'react-native-image-picker';
 
 class UpdateAddress extends Component {
   constructor() {
@@ -15,13 +20,25 @@ class UpdateAddress extends Component {
       address: '',
       isLoading: false,
       error: {},
+      photo: null,
     };
   }
 
+  handleChoosePhoto = () => {
+    const options = {
+      noData: true,
+    };
+    ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.uri) {
+        this.setState({photo: response});
+      }
+    });
+  };
+
   updateProfile() {
     this.setLoading(true);
-    const {userData, phone_number, address} = this.state;
-    updateUserDetail(userData.id, phone_number, address)
+    const {userData, phone_number, address, photo} = this.state;
+    updateUserDetail(userData.id, phone_number, address, photo)
       .then((data) => {
         if (data.status === 'success') {
           ToastAndroid.show(data.message, ToastAndroid.LONG);
@@ -76,12 +93,12 @@ class UpdateAddress extends Component {
           <Text>Nomor Telepon</Text>
           <TextInput
             editable={!this.state.isLoading}
-            // textContentType="telephoneNumber"
+            textContentType="telephoneNumber"
             keyboardType="phone-pad"
             placeholder="Nomor Telepon"
             style={styles.textInput}
             onChangeText={(number) => this.setState({phone_number: number})}
-            value={userData.userdetail ? this.state.phone_number : null}
+            value={userData.userdetail ? `${this.state.phone_number}` : null}
           />
           {error.phone_number ? (
             <Text style={styles.textError}>{error.phone_number}</Text>
@@ -107,6 +124,24 @@ class UpdateAddress extends Component {
             onPress={() => this.updateProfile()}
           />
         </View>
+        <TouchableOpacity
+          style={styles.centerContainer}
+          onPress={() => this.handleChoosePhoto()}>
+          <Image
+            style={{width: 150, height: 150, borderRadius: 75}}
+            source={
+              this.state.photo
+                ? this.state.photo
+                : userData.userdetail
+                ? {
+                    uri:
+                      'http://tokomu.herokuapp.com/uploads/avatars/' +
+                      userData.userdetail.avatar,
+                  }
+                : require('../../../assets/img/user-shape.png')
+            }
+          />
+        </TouchableOpacity>
       </ScrollView>
     );
   }
