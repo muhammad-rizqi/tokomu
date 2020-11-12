@@ -8,9 +8,7 @@ const login = async (email, password) => {
     password: password,
   };
 
-  const data = await api('POST', '/login', JSON.stringify(body));
-
-  return data;
+  return await api('POST', '/login', JSON.stringify(body));
 };
 
 const register = async (name, email, role, password, confirm) => {
@@ -22,21 +20,18 @@ const register = async (name, email, role, password, confirm) => {
     password_confirmation: confirm,
   };
 
-  const data = await api('POST', '/register', body);
-  return data;
+  return await api('POST', '/register', body);
 };
 
 const getUserInfo = async () => {
   const token = await getToken();
-  const data = await api('GET', '/getAuthenticatedUser', null, token);
-  return data;
+  return await api('GET', '/getAuthenticatedUser', null, token);
 };
 
 const getUserDetail = async () => {
   const user = await getUserInfo();
   const token = await getToken();
-  const data = await api('GET', `/user/${user.data.user.id}`, null, token);
-  return data;
+  return await api('GET', `/user/${user.data.user.id}`, null, token);
 };
 
 const updateUserDetail = async (
@@ -52,14 +47,13 @@ const updateUserDetail = async (
     address: address,
   };
 
-  const data = await api(
+  return await api(
     'POST',
     '/user/detail',
     avatar ? createFormData(avatar, 'avatar', body) : JSON.stringify(body),
     token,
     avatar ? true : false,
   );
-  return data;
 };
 
 export {login, register, getUserInfo, getUserDetail, updateUserDetail};

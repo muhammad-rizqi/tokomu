@@ -1,38 +1,59 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, Image, ToastAndroid} from 'react-native';
+import {View, Text, Image, ToastAndroid, RefreshControl} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {clearToken} from '../../redux/action';
 import {removeToken} from '../../controller/Token';
 import {getUserDetail} from '../../controller/User';
-import {ScrollView} from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TouchableNativeFeedback,
+} from 'react-native-gesture-handler';
 import {styles} from '../../styles/styles';
 
 const Profile = ({navigation}) => {
   const [userData, setUserData] = useState({});
+  const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
   const deleteToken = () => dispatch(clearToken());
+
   const logout = () => {
     removeToken().then(() => deleteToken());
   };
 
-  useEffect(() => {
+  const getProfile = () => {
     getUserDetail()
       .then((user) => {
         console.log(user);
         if (user.data) {
           setUserData(user.data.user);
         }
+        setRefreshing(false);
       })
       .catch((err) => {
         ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
+        setRefreshing(false);
       });
+  };
+
+  useEffect(() => {
+    getProfile();
   }, []);
 
   return (
-    <ScrollView style={[styles.screen, styles.container]}>
+    <ScrollView
+      contentContainerStyle={[styles.screen, styles.container]}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => {
+            setRefreshing(true);
+            getProfile();
+          }}
+        />
+      }>
       <View style={styles.row}>
         <Image
-          style={{width: 50, height: 50, borderRadius: 25}}
+          style={styles.profileImageSmall}
           source={
             userData.userdetail
               ? {
@@ -49,12 +70,23 @@ const Profile = ({navigation}) => {
         </View>
       </View>
 
-      <Text>{JSON.stringify(userData)}</Text>
-      <Button
-        title="Update Address"
-        onPress={() => navigation.navigate('UpdateAddress')}
-      />
-      <Button title="Logout" onPress={() => logout()} />
+      {/* <Text>{JSON.stringify(userData)}</Text> */}
+      {userData.role !== 3 ? (
+        <TouchableNativeFeedback
+          style={styles.menuList}
+          onPress={() => navigation.navigate('Shop')}>
+          <Text>Shop Dashboard</Text>
+        </TouchableNativeFeedback>
+      ) : null}
+
+      <TouchableNativeFeedback
+        style={styles.menuList}
+        onPress={() => navigation.navigate('UpdateAddress')}>
+        <Text>Update Profile</Text>
+      </TouchableNativeFeedback>
+      <TouchableNativeFeedback style={styles.menuList} onPress={() => logout()}>
+        <Text>Logout</Text>
+      </TouchableNativeFeedback>
     </ScrollView>
   );
 };

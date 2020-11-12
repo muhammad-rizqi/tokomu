@@ -80,4 +80,10 @@ export const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   profileImageLarge: {width: 150, height: 150, borderRadius: 75},
+  profileImageSmall: {width: 50, height: 50, borderRadius: 25},
+  menuList: {
+    paddingVertical: 16,
+    borderBottomColor: colors.border,
+    borderBottomWidth: 1,
+  },
 });
