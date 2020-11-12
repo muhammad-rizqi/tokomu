@@ -49,7 +49,6 @@ class UpdateAddress extends Component {
           this.setState({error: data});
         }
         this.setLoading(false);
-        console.log(data);
       })
       .catch((err) => {
         ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
@@ -90,7 +89,7 @@ class UpdateAddress extends Component {
       <ScrollView style={[styles.screen, styles.container]}>
         <Text style={styles.textTitle}>Ubah Profile</Text>
         <View style={styles.marginVerticalMini}>
-          <Text>Nomor Telepon</Text>
+          <Text>Edit Nomor Telepon</Text>
           <TextInput
             editable={!this.state.isLoading}
             textContentType="telephoneNumber"
@@ -105,7 +104,7 @@ class UpdateAddress extends Component {
           ) : null}
         </View>
         <View style={styles.marginVerticalMini}>
-          <Text>Alamat</Text>
+          <Text>Edit Alamat</Text>
           <TextInput
             placeholder="Alamat"
             editable={!this.state.isLoading}
@@ -117,18 +116,12 @@ class UpdateAddress extends Component {
             <Text style={styles.textError}>{error.address}</Text>
           ) : null}
         </View>
-        <View style={styles.marginVerticalMini}>
-          <Button
-            title="Update"
-            isLoading={this.state.isLoading}
-            onPress={() => this.updateProfile()}
-          />
-        </View>
+        <Text>Edit Photo</Text>
         <TouchableOpacity
           style={styles.centerContainer}
           onPress={() => this.handleChoosePhoto()}>
           <Image
-            style={{width: 150, height: 150, borderRadius: 75}}
+            style={styles.profileImageLarge}
             source={
               this.state.photo
                 ? this.state.photo
@@ -142,6 +135,13 @@ class UpdateAddress extends Component {
             }
           />
         </TouchableOpacity>
+        <View style={styles.marginVerticalMini}>
+          <Button
+            title="Update"
+            isLoading={this.state.isLoading}
+            onPress={() => this.updateProfile()}
+          />
+        </View>
       </ScrollView>
     );
   }

@@ -1,5 +1,3 @@
-import {color} from 'react-native-reanimated';
-
 const {StyleSheet} = require('react-native');
 
 export const colors = {
@@ -81,4 +79,5 @@ export const styles = StyleSheet.create({
   marginHorizontalMini: {
     marginHorizontal: 8,
   },
+  profileImageLarge: {width: 150, height: 150, borderRadius: 75},
 });

@@ -16,7 +16,11 @@ const BottomNavigator = ({token}) => {
           <BottomTab.Screen name="Chat" component={Chat} />
           <BottomTab.Screen name="Cart" component={Cart} />
           <BottomTab.Screen name="Transaction" component={Transaction} />
-          <BottomTab.Screen name="Profile" component={ProfileNavigator} />
+          <BottomTab.Screen
+            name="Profile"
+            component={ProfileNavigator}
+            options={{tabBarVisible: false}}
+          />
         </>
       ) : (
         <BottomTab.Screen name="Login" component={AuthNavigator} />
