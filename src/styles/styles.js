@@ -56,6 +56,7 @@ export const styles = StyleSheet.create({
     height: 48,
     borderRadius: 5,
     backgroundColor: colors.backgroundDark2,
+    paddingHorizontal: 16,
   },
   buttonDisabled: {
     backgroundColor: colors.backgroundLight,

@@ -1,10 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, ToastAndroid, Image, ActivityIndicator} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {
+  View,
+  Text,
+  ToastAndroid,
+  Image,
+  ActivityIndicator,
+  RefreshControl,
+} from 'react-native';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import {getMyShop} from '../../../controller/Shop';
 import {colors, styles} from '../../../styles/styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {setShopId} from '../../../redux/action';
+import Button from '../../../components/Button';
 
 const ShopDashboard = ({navigation}) => {
   const [shop, setShop] = useState('');
@@ -12,7 +20,7 @@ const ShopDashboard = ({navigation}) => {
 
   //redux
   const {token, user} = useSelector((state) => state);
-  const shopReducer = useSelector((state) => state.shop);
+  const {shopReducer} = useSelector((state) => state.shop);
   const dispatch = useDispatch();
   //
 
@@ -24,7 +32,6 @@ const ShopDashboard = ({navigation}) => {
           setShop(res.data);
           dispatch(setShopId(res.data.id));
         }
-        console.log(res);
         setLoading(false);
       })
       .catch((err) => {
@@ -45,9 +52,33 @@ const ShopDashboard = ({navigation}) => {
     );
   }
 
+  if (shop === '' || shop == null) {
+    return (
+      <View style={[styles.centerContainer, styles.screen]}>
+        <Text>Anda belum punya toko </Text>
+        <Button
+          title="Buat toko?"
+          onPress={() => navigation.navigate('UpdateShop')}
+        />
+      </View>
+    );
+  }
+
   return (
-    <ScrollView contentContainerStyle={[styles.container, styles.screen]}>
-      <View style={styles.row}>
+    <ScrollView
+      contentContainerStyle={[styles.screen, styles.container]}
+      refreshControl={
+        <RefreshControl
+          refreshing={loading}
+          onRefresh={() => {
+            setLoading(true);
+            getShop();
+          }}
+        />
+      }>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('UpdateShop')}
+        style={styles.row}>
         <Image
           style={styles.profileImageSmall}
           source={
@@ -64,7 +95,7 @@ const ShopDashboard = ({navigation}) => {
         <View style={styles.marginHorizontalMini}>
           <Text style={styles.textMediumBold}>{shop.shop_name}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 };

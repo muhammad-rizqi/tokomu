@@ -45,7 +45,6 @@ const Profile = ({navigation}) => {
   };
 
   useEffect(() => {
-    console.log(userData);
     getUserDetail(user.id, token)
       .then((res) => {
         if (res.data) {
