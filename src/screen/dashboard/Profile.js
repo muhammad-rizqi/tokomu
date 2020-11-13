@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, ToastAndroid, RefreshControl} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ToastAndroid,
+  RefreshControl,
+  ActivityIndicator,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearToken} from '../../redux/action';
 import {removeToken} from '../../controller/Token';
@@ -8,13 +15,14 @@ import {
   ScrollView,
   TouchableNativeFeedback,
 } from 'react-native-gesture-handler';
-import {styles} from '../../styles/styles';
+import {colors, styles} from '../../styles/styles';
 
 const Profile = ({navigation}) => {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const {token, user} = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [loading, setloading] = useState(true);
 
   const logout = () => {
     removeToken().then(() => dispatch(clearToken()));
@@ -27,10 +35,12 @@ const Profile = ({navigation}) => {
           setUserData(res.data.user);
         }
         setRefreshing(false);
+        setloading(false);
       })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.SHORT);
         setRefreshing(false);
+        setloading(false);
       });
   };
 
@@ -42,13 +52,22 @@ const Profile = ({navigation}) => {
           setUserData(res.data.user);
         }
         setRefreshing(false);
+        setloading(false);
       })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.SHORT);
         setRefreshing(false);
+        setloading(false);
       });
   }, []);
 
+  if (loading === true && userData === null) {
+    return (
+      <View style={[styles.centerContainer, styles.screen]}>
+        <ActivityIndicator color={colors.primary} size="large" />
+      </View>
+    );
+  }
   return (
     <ScrollView
       contentContainerStyle={[styles.screen, styles.container]}
