@@ -35,6 +35,7 @@ const Profile = ({navigation}) => {
   };
 
   useEffect(() => {
+    console.log(userData);
     getUserDetail(user.id, token)
       .then((res) => {
         if (res.data) {
@@ -79,7 +80,7 @@ const Profile = ({navigation}) => {
         </View>
       </View>
 
-      {userData.role !== 3 ? (
+      {userData.role === 2 ? (
         <TouchableNativeFeedback
           style={styles.menuList}
           onPress={() => navigation.navigate('Shop')}>

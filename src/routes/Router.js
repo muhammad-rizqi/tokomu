@@ -32,20 +32,22 @@ const Router = () => {
           setLoading(false);
         }
       })
-      .catch((err) => ToastAndroid.show(err.message, ToastAndroid.SHORT));
+      .catch((err) => {
+        setLoading(false);
+        ToastAndroid.show(err.message, ToastAndroid.SHORT);
+      });
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      getToken().then((data) => {
-        if (data) {
-          dispatch(changeToken(data));
-          getUser(data);
-        } else {
-          dispatch(clearToken());
-        }
-      });
-    }, 1000);
+    getToken().then((data) => {
+      if (data) {
+        dispatch(changeToken(data));
+        getUser(data);
+      } else {
+        dispatch(clearToken());
+        setLoading(false);
+      }
+    });
   }, []);
 
   if (loading) {

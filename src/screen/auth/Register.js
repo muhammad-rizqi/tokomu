@@ -61,8 +61,8 @@ const Register = ({navigation}) => {
       <View style={styles.marginVerticalMini}>
         <Text>Daftar Sebagai</Text>
         <Picker selectedValue={role} onValueChange={(value) => setRole(value)}>
-          <Picker.Item label="Pembeli" value="3" />
-          <Picker.Item label="Penjual" value="2" />
+          <Picker.Item label="Pembeli" value={3} />
+          <Picker.Item label="Penjual" value={2} />
         </Picker>
       </View>
       <View style={styles.marginVerticalMini}>

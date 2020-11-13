@@ -19,20 +19,6 @@ const Login = ({navigation}) => {
   const dispatch = useDispatch();
   //end redux
 
-  const getUser = (tokenData) => {
-    getUserInfo(tokenData)
-      .then((res) => {
-        if (res.data) {
-          const {id, name, role} = res.data.user;
-          dispatch(setUser(id, res.data.user.email, name, role));
-        } else if (res.status !== 'success') {
-          dispatch(clearToken());
-          removeToken();
-        }
-      })
-      .catch((err) => ToastAndroid.show(err.message, ToastAndroid.SHORT));
-  };
-
   const loginUser = () => {
     setLoading(true);
     login(email, password)
@@ -41,9 +27,21 @@ const Login = ({navigation}) => {
           storeToken(response.token);
           getToken().then((data) => {
             ToastAndroid.show('Login Berhasil', ToastAndroid.SHORT);
-            dispatch(changeToken(data));
+            getUserInfo(data)
+              .then((res) => {
+                if (res.data) {
+                  const {id, name, role} = res.data.user;
+                  dispatch(setUser(id, res.data.user.email, name, role));
+                  dispatch(changeToken(data));
+                } else if (res.status !== 'success') {
+                  dispatch(clearToken());
+                  removeToken();
+                }
+              })
+              .catch((err) =>
+                ToastAndroid.show(err.message, ToastAndroid.SHORT),
+              );
           });
-          getUser(response.token);
         } else {
           dispatch(clearToken());
           ToastAndroid.show(response.error, ToastAndroid.SHORT);
