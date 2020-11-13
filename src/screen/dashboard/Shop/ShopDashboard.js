@@ -77,7 +77,7 @@ const ShopDashboard = ({navigation}) => {
         />
       }>
       <TouchableOpacity
-        onPress={() => navigation.navigate('UpdateShop')}
+        onPress={() => navigation.navigate('ShopUpdate')}
         style={styles.row}>
         <Image
           style={styles.profileImageSmall}

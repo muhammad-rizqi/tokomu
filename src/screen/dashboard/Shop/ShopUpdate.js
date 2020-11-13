@@ -30,10 +30,10 @@ const ShopUpdate = ({navigation}) => {
       .then((res) => {
         ToastAndroid.show(res.message, ToastAndroid.LONG);
         setLoading(false);
-        navigation.goBack();
+        navigation.navigate('ShopDashboard', {initial: false});
       })
       .catch((err) => {
-        ToastAndroid.show(`${err}`, ToastAndroid.LONG);
+        ToastAndroid.show(err.message, ToastAndroid.LONG);
         setLoading(false);
       });
   };

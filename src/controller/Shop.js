@@ -29,4 +29,13 @@ const addShop = async (shopName, description, image, userId, token) => {
   );
 };
 
-export {getShopList, getShop, getMyShop, addShop};
+const getProductByShop = (shopId, token) => {
+    return await api(
+    'GET',
+    `/shop/${shopId}/products`,
+    null,
+    token
+  );
+}
+
+export {getShopList, getShop, getMyShop, addShop, getProductByShop};
