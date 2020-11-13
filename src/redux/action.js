@@ -23,4 +23,10 @@ const setUser = (id, email, name, role) => {
   };
 };
 
-export {changeToken, clearToken, setUser};
+const setShopId = (data) => {
+  return {
+    type: 'SET_ID',
+    data: data,
+  };
+};
+export {changeToken, clearToken, setUser, setShopId};

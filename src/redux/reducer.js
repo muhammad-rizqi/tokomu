@@ -36,4 +36,21 @@ const userReducer = (state = userState, action) => {
   }
 };
 
-export default combineReducers({user: userReducer, token: tokenReducer});
+const shopState = {
+  id: 0,
+};
+
+const shopReducer = (state = shopState, action) => {
+  switch (action.type) {
+    case 'SET_ID':
+      return {id: action.data};
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({
+  user: userReducer,
+  token: tokenReducer,
+  shop: shopReducer,
+});

@@ -25,9 +25,11 @@ const Router = () => {
         if (res.data) {
           const {id, email, name, role} = res.data.user;
           dispatch(setUser(id, email, name, role));
+          setLoading(false);
         } else if (res.status !== 'success') {
           dispatch(clearToken());
           removeToken();
+          setLoading(false);
         }
       })
       .catch((err) => ToastAndroid.show(err.message, ToastAndroid.SHORT));
@@ -39,10 +41,8 @@ const Router = () => {
         if (data) {
           dispatch(changeToken(data));
           getUser(data);
-          setLoading(false);
         } else {
           dispatch(clearToken());
-          setLoading(false);
         }
       });
     }, 1000);

@@ -86,4 +86,7 @@ export const styles = StyleSheet.create({
     borderBottomColor: colors.border,
     borderBottomWidth: 1,
   },
+  textInputMultiline: {
+    maxHeight: 150,
+  },
 });
