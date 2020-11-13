@@ -15,7 +15,6 @@ const ProfileNavigator = () => {
         component={Profile}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="Shop" component={ShopDashboard} />
       <Stack.Screen name="UpdateShop" component={ShopUpdate} />
       <Stack.Screen name="UpdateAddress" component={UpdateAddress} />
     </Stack.Navigator>

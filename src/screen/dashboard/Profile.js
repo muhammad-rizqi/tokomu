@@ -98,14 +98,6 @@ const Profile = ({navigation}) => {
         </View>
       </View>
 
-      {userData.role === 2 ? (
-        <TouchableNativeFeedback
-          style={styles.menuList}
-          onPress={() => navigation.navigate('Shop')}>
-          <Text>Shop Dashboard</Text>
-        </TouchableNativeFeedback>
-      ) : null}
-
       <TouchableNativeFeedback
         style={styles.menuList}
         onPress={() => navigation.navigate('UpdateAddress')}>

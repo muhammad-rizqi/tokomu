@@ -58,7 +58,7 @@ const ShopDashboard = ({navigation}) => {
         <Text>Anda belum punya toko </Text>
         <Button
           title="Buat toko?"
-          onPress={() => navigation.navigate('UpdateShop')}
+          onPress={() => navigation.navigate('ShopUpdate')}
         />
       </View>
     );
