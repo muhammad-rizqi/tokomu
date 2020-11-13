@@ -24,7 +24,28 @@ const UpdateAddress = ({navigation}) => {
   const {token, user} = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  console.log(userData);
+  useEffect(() => {
+    getUserDetail(user.id, token)
+      .then((res) => {
+        if (res.data) {
+          const {userdetail} = res.data.user;
+          setUserData(res.data.user);
+          if (userdetail !== null) {
+            if (userdetail.phone_number !== null) {
+              setPhoneNumber(userdetail.phone_number);
+            }
+            if (userdetail.address !== null) {
+              setAddress(userdetail.address);
+            }
+          }
+        }
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        ToastAndroid.show(err.message, ToastAndroid.SHORT);
+        setIsLoading(false);
+      });
+  }, []);
 
   const logout = () => {
     removeToken().then(() => dispatch(clearToken()));
@@ -61,24 +82,6 @@ const UpdateAddress = ({navigation}) => {
         setIsLoading(false);
       });
   };
-
-  useEffect(() => {
-    getUserDetail(user.id, token)
-      .then((res) => {
-        console.log(res);
-        if (res.data) {
-          const {userdetail} = res.data.user;
-          setUserData(res.data.user);
-          setPhoneNumber(userdetail.phone_number);
-          setAddress(userdetail.address);
-        }
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        ToastAndroid.show(err.message, ToastAndroid.SHORT);
-        setIsLoading(false);
-      });
-  }, []);
 
   return (
     <ScrollView style={[styles.screen, styles.container]}>

@@ -5,6 +5,7 @@ import {addShop, getMyShop} from '../../../controller/Shop';
 import {styles} from '../../../styles/styles';
 import Button from '../../../components/Button';
 import ImagePicker from 'react-native-image-picker';
+import {useDispatch, useSelector} from 'react-redux';
 
 const ShopDashboard = ({navigation}) => {
   const [shop, setShop] = useState(null);
@@ -13,9 +14,12 @@ const ShopDashboard = ({navigation}) => {
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
 
+  //redux
+  const {token, user} = useSelector((state) => state);
+  //
   const updateShop = () => {
     setLoading(true);
-    addShop(shopName, description, photo)
+    addShop(shopName, description, photo, user.id, token)
       .then((res) => {
         ToastAndroid.show(res.message, ToastAndroid.LONG);
         setLoading(false);
@@ -40,7 +44,7 @@ const ShopDashboard = ({navigation}) => {
 
   const getShop = () => {
     setLoading(true);
-    getMyShop()
+    getMyShop(user.id, token)
       .then((res) => {
         if (res.data) {
           setShop(res.data);

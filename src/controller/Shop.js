@@ -1,7 +1,5 @@
-import {getToken} from '../controller/Token';
 import {api} from './global_var/api';
 import {createFormData} from './helper';
-import {getUserInfo} from './User';
 
 const getShopList = async () => {
   return await api('GET', '/shop');
@@ -11,19 +9,15 @@ const getShop = async (id) => {
   return await api('GET', '/shop/' + id);
 };
 
-const getMyShop = async () => {
-  const token = await getToken();
-  const user = await getUserInfo();
-  return await api('GET', '/myshop/' + user.data.user.id, null, token);
+const getMyShop = async (userId, token) => {
+  return await api('GET', '/myshop/' + userId, null, token);
 };
 
-const addShop = async (shopName, description, image) => {
-  const token = await getToken();
-  const user = await getUserInfo();
+const addShop = async (shopName, description, image, userId, token) => {
   const body = {
+    user_id: userId,
     shop_name: shopName,
     description: description,
-    user_id: user.data.user.id,
   };
 
   return await api(

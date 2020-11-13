@@ -22,7 +22,6 @@ const Router = () => {
   const getUser = (tokenData) => {
     getUserInfo(tokenData)
       .then((res) => {
-        console.log(res);
         if (res.data) {
           const {id, email, name, role} = res.data.user;
           dispatch(setUser(id, email, name, role));

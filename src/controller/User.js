@@ -19,7 +19,7 @@ const register = async (name, email, role, password, confirm) => {
     password_confirmation: confirm,
   };
 
-  return await api('POST', '/register', body);
+  return await api('POST', '/register', JSON.stringify(body));
 };
 
 const getUserInfo = async (token) => {

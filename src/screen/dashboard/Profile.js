@@ -23,7 +23,6 @@ const Profile = ({navigation}) => {
   const getProfile = () => {
     getUserDetail(user.id, token)
       .then((res) => {
-        console.log(res);
         if (res.data) {
           setUserData(res.data.user);
         }
@@ -36,7 +35,17 @@ const Profile = ({navigation}) => {
   };
 
   useEffect(() => {
-    getProfile();
+    getUserDetail(user.id, token)
+      .then((res) => {
+        if (res.data) {
+          setUserData(res.data.user);
+        }
+        setRefreshing(false);
+      })
+      .catch((err) => {
+        ToastAndroid.show(err.message, ToastAndroid.SHORT);
+        setRefreshing(false);
+      });
   }, []);
 
   return (
@@ -70,7 +79,6 @@ const Profile = ({navigation}) => {
         </View>
       </View>
 
-      {/* <Text>{JSON.stringify(userData)}</Text> */}
       {userData.role !== 3 ? (
         <TouchableNativeFeedback
           style={styles.menuList}
