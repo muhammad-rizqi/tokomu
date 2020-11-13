@@ -17,8 +17,6 @@ const Login = ({navigation}) => {
 
   // redux
   const dispatch = useDispatch();
-  const addToken = (dataToken) => dispatch(changeToken(dataToken));
-  const removeToken = () => dispatch(clearToken());
   //end redux
 
   const loginUser = () => {
@@ -29,16 +27,16 @@ const Login = ({navigation}) => {
           storeToken(response.token);
           getToken().then((data) => {
             ToastAndroid.show('Login Berhasil', ToastAndroid.SHORT);
-            addToken(data);
+            dispatch(changeToken(data));
           });
         } else {
-          removeToken();
+          dispatch(clearToken());
           ToastAndroid.show(response.error, ToastAndroid.SHORT);
         }
         setLoading(false);
       })
       .catch((err) => {
-        removeToken();
+        dispatch(clearToken());
         ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
         setLoading(false);
       });

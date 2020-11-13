@@ -1,4 +1,3 @@
-import {getToken} from '../controller/Token';
 import {api} from './global_var/api';
 import {createFormData} from './helper';
 
@@ -23,15 +22,12 @@ const register = async (name, email, role, password, confirm) => {
   return await api('POST', '/register', body);
 };
 
-const getUserInfo = async () => {
-  const token = await getToken();
+const getUserInfo = async (token) => {
   return await api('GET', '/getAuthenticatedUser', null, token);
 };
 
-const getUserDetail = async () => {
-  const user = await getUserInfo();
-  const token = await getToken();
-  return await api('GET', `/user/${user.data.user.id}`, null, token);
+const getUserDetail = async (id, token) => {
+  return await api('GET', `/user/${id}`, null, token);
 };
 
 const updateUserDetail = async (
@@ -39,8 +35,8 @@ const updateUserDetail = async (
   phone_number,
   address,
   avatar = null,
+  token,
 ) => {
-  const token = await getToken();
   const body = {
     user_id: user_id,
     phone_number: phone_number,

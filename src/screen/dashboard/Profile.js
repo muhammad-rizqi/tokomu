@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, ToastAndroid, RefreshControl} from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {clearToken} from '../../redux/action';
 import {removeToken} from '../../controller/Token';
 import {getUserDetail} from '../../controller/User';
@@ -13,24 +13,24 @@ import {styles} from '../../styles/styles';
 const Profile = ({navigation}) => {
   const [userData, setUserData] = useState({});
   const [refreshing, setRefreshing] = useState(false);
+  const {token, user} = useSelector((state) => state);
   const dispatch = useDispatch();
-  const deleteToken = () => dispatch(clearToken());
 
   const logout = () => {
-    removeToken().then(() => deleteToken());
+    removeToken().then(() => dispatch(clearToken()));
   };
 
   const getProfile = () => {
-    getUserDetail()
-      .then((user) => {
-        console.log(user);
-        if (user.data) {
-          setUserData(user.data.user);
+    getUserDetail(user.id, token)
+      .then((res) => {
+        console.log(res);
+        if (res.data) {
+          setUserData(res.data.user);
         }
         setRefreshing(false);
       })
       .catch((err) => {
-        ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
+        ToastAndroid.show(err.message, ToastAndroid.SHORT);
         setRefreshing(false);
       });
   };

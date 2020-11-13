@@ -1,3 +1,5 @@
+import {combineReducers} from 'redux';
+
 const tokenState = '';
 
 const tokenReducer = (state = tokenState, action) => {
@@ -6,7 +8,32 @@ const tokenReducer = (state = tokenState, action) => {
       return action.data;
     case 'CLEAR':
       return null;
+    default:
+      return state;
   }
 };
 
-export default tokenReducer;
+const userState = {
+  id: 0,
+  email: '',
+  name: '',
+  role: 0,
+};
+
+const userReducer = (state = userState, action) => {
+  switch (action.type) {
+    case 'SET_USER':
+      return action.data;
+    case 'CHANGE_ID':
+      return {
+        ...state,
+        id: action.data.id,
+      };
+    case 'CLEAR':
+      return null;
+    default:
+      return state;
+  }
+};
+
+export default combineReducers({user: userReducer, token: tokenReducer});

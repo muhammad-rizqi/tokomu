@@ -1,5 +1,4 @@
-import React from 'react';
-import {Component} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, ToastAndroid, Image} from 'react-native';
 import {
   ScrollView,
@@ -10,140 +9,136 @@ import Button from '../../../components/Button';
 import {getUserDetail, updateUserDetail} from '../../../controller/User';
 import {styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {removeToken} from '../../../controller/Token';
+import {clearToken} from '../../../redux/action';
 
-class UpdateAddress extends Component {
-  constructor() {
-    super();
-    this.state = {
-      userData: {},
-      phone_number: 0,
-      address: '',
-      isLoading: false,
-      error: {},
-      photo: null,
-    };
-  }
+const UpdateAddress = ({navigation}) => {
+  const [userData, setUserData] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [photo, setPhoto] = useState('');
 
-  handleChoosePhoto = () => {
+  const {token, user} = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  console.log(userData);
+
+  const logout = () => {
+    removeToken().then(() => dispatch(clearToken()));
+  };
+
+  const handleChoosePhoto = () => {
     const options = {
       noData: true,
     };
     ImagePicker.launchImageLibrary(options, (response) => {
       if (response.uri) {
-        this.setState({photo: response});
+        setPhoto(response);
       }
     });
   };
 
-  updateProfile() {
-    this.setLoading(true);
-    const {userData, phone_number, address, photo} = this.state;
-    updateUserDetail(userData.id, phone_number, address, photo)
+  const updateProfile = () => {
+    setIsLoading(true);
+    updateUserDetail(userData.id, phoneNumber, address, photo, token)
       .then((data) => {
         if (data.status === 'success') {
           ToastAndroid.show(data.message, ToastAndroid.LONG);
-          this.props.navigation.goBack();
+          navigation.goBack();
         } else if (data.status === 'error') {
           ToastAndroid.show(data.message, ToastAndroid.LONG);
         } else {
-          this.setState({error: data});
+          setError(data);
         }
-        this.setLoading(false);
+        console.log(data);
+        setIsLoading(false);
       })
       .catch((err) => {
-        ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
-        this.setLoading(false);
+        ToastAndroid.show(err.message, ToastAndroid.SHORT);
+        setIsLoading(false);
       });
-  }
+  };
 
-  getProfile() {
-    this.setLoading(true);
-    getUserDetail()
-      .then((user) => {
-        this.setLoading(false);
-        const {userdetail} = user.data.user;
-        this.setState({userData: user.data.user});
-        if (userdetail) {
-          this.setState({
-            phone_number: userdetail.phone_number,
-            address: userdetail.address,
-          });
+  useEffect(() => {
+    getUserDetail(user.id, token)
+      .then((res) => {
+        console.log(res);
+        if (res.data) {
+          const {userdetail} = res.data.user;
+          setUserData(res.data.user);
+          setPhoneNumber(userdetail.phone_number);
+          setAddress(userdetail.address);
         }
+        setIsLoading(false);
       })
       .catch((err) => {
-        ToastAndroid.show(`${err}`, ToastAndroid.SHORT);
-        this.setLoading(false);
+        ToastAndroid.show(err.message, ToastAndroid.SHORT);
+        setIsLoading(false);
       });
-  }
+  }, []);
 
-  setLoading(boolean) {
-    this.setState({isLoading: boolean});
-  }
-  componentDidMount() {
-    this.getProfile();
-  }
+  return (
+    <ScrollView style={[styles.screen, styles.container]}>
+      <Text style={styles.textTitle}>Ubah Profile</Text>
+      <View style={styles.marginVerticalMini}>
+        <Text>Edit Nomor Telepon</Text>
+        <TextInput
+          editable={!isLoading}
+          textContentType="telephoneNumber"
+          keyboardType="phone-pad"
+          placeholder="Nomor Telepon"
+          style={styles.textInput}
+          onChangeText={(number) => setPhoneNumber(number)}
+          value={userData.userdetail ? `${phoneNumber}` : null}
+        />
+        {error.phoneNumber ? (
+          <Text style={styles.textError}>{error.phone_number}</Text>
+        ) : null}
+      </View>
+      <View style={styles.marginVerticalMini}>
+        <Text>Edit Alamat</Text>
+        <TextInput
+          placeholder="Alamat"
+          editable={!isLoading}
+          style={styles.textInput}
+          onChangeText={(inputAddress) => setAddress(inputAddress)}
+          value={userData.userdetail ? address : null}
+        />
+        {error.address ? (
+          <Text style={styles.textError}>{error.address}</Text>
+        ) : null}
+      </View>
+      <Text>Edit Photo</Text>
+      <TouchableOpacity
+        style={styles.centerContainer}
+        onPress={() => handleChoosePhoto()}>
+        <Image
+          style={styles.profileImageLarge}
+          source={
+            photo
+              ? photo
+              : userData.userdetail
+              ? {
+                  uri:
+                    'http://tokomu.herokuapp.com/uploads/avatars/' +
+                    userData.userdetail.avatar,
+                }
+              : require('../../../assets/img/user-shape.png')
+          }
+        />
+      </TouchableOpacity>
+      <View style={styles.marginVerticalMini}>
+        <Button
+          title="Update"
+          isLoading={isLoading}
+          onPress={() => updateProfile()}
+        />
+      </View>
+    </ScrollView>
+  );
+};
 
-  render() {
-    const {userData, error} = this.state;
-    return (
-      <ScrollView style={[styles.screen, styles.container]}>
-        <Text style={styles.textTitle}>Ubah Profile</Text>
-        <View style={styles.marginVerticalMini}>
-          <Text>Edit Nomor Telepon</Text>
-          <TextInput
-            editable={!this.state.isLoading}
-            textContentType="telephoneNumber"
-            keyboardType="phone-pad"
-            placeholder="Nomor Telepon"
-            style={styles.textInput}
-            onChangeText={(number) => this.setState({phone_number: number})}
-            value={userData.userdetail ? `${this.state.phone_number}` : null}
-          />
-          {error.phone_number ? (
-            <Text style={styles.textError}>{error.phone_number}</Text>
-          ) : null}
-        </View>
-        <View style={styles.marginVerticalMini}>
-          <Text>Edit Alamat</Text>
-          <TextInput
-            placeholder="Alamat"
-            editable={!this.state.isLoading}
-            style={styles.textInput}
-            onChangeText={(address) => this.setState({address})}
-            value={userData.userdetail ? this.state.address : null}
-          />
-          {error.address ? (
-            <Text style={styles.textError}>{error.address}</Text>
-          ) : null}
-        </View>
-        <Text>Edit Photo</Text>
-        <TouchableOpacity
-          style={styles.centerContainer}
-          onPress={() => this.handleChoosePhoto()}>
-          <Image
-            style={styles.profileImageLarge}
-            source={
-              this.state.photo
-                ? this.state.photo
-                : userData.userdetail
-                ? {
-                    uri:
-                      'http://tokomu.herokuapp.com/uploads/avatars/' +
-                      userData.userdetail.avatar,
-                  }
-                : require('../../../assets/img/user-shape.png')
-            }
-          />
-        </TouchableOpacity>
-        <View style={styles.marginVerticalMini}>
-          <Button
-            title="Update"
-            isLoading={this.state.isLoading}
-            onPress={() => this.updateProfile()}
-          />
-        </View>
-      </ScrollView>
-    );
-  }
-}
 export default UpdateAddress;
