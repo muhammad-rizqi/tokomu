@@ -31,7 +31,7 @@ export const addProduct = (
   return api(
     'POST',
     '/product',
-    createFormData(image, 'image', body),
+    image ? createFormData(image, 'image', body) : JSON.stringify(body),
     token,
     image ? true : false,
   );

@@ -128,4 +128,20 @@ export const styles = StyleSheet.create({
   textPrice: {
     color: colors.primaryDark,
   },
+  icon: {
+    width: 20,
+    height: 20,
+    margin: 2,
+    tintColor: colors.backgroundDark,
+  },
+  relative: {
+    position: 'relative',
+  },
+  absoluteTopRight: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+  },
+  alignSelfCenter: {alignSelf: 'center'},
+  imgSquareMedium: {width: 150, height: 150, borderRadius: 10},
 });
