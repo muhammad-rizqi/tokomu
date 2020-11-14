@@ -1,11 +1,28 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, ScrollView} from 'react-native';
+import ProductItem from '../../components/ProductItem';
+import {getProductList} from '../../controller/Product';
+import {styles} from '../../styles/styles';
 
 const Home = () => {
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    getProductList().then((data) => {
+      if (data.data) {
+        setProducts(data.data);
+      }
+    });
+  }, []);
   return (
-    <View>
+    <ScrollView style={styles.screen}>
       <Text>Home</Text>
-    </View>
+
+      <View style={styles.productContainer}>
+        {products.map((product) => (
+          <ProductItem product={product} key={product.id} />
+        ))}
+      </View>
+    </ScrollView>
   );
 };
 

@@ -1,5 +1,5 @@
 import {api} from './global_var/api';
 
-export const getCategoryList = async () => {
-  return await api('GET', '/categories');
+export const getCategoryList = () => {
+  return api('GET', '/categories');
 };

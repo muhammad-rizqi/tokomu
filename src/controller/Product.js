@@ -1,15 +1,15 @@
 import {api} from './global_var/api';
 import {createFormData} from './helper';
 
-export const getProductList = async () => {
-  return await api('GET', '/product');
+export const getProductList = () => {
+  return api('GET', '/product');
 };
 
-export const getProductDetail = async (productId) => {
-  return await api('GET', `/product/${productId}`);
+export const getProductDetail = (productId) => {
+  return api('GET', `/product/${productId}`);
 };
 
-export const addProduct = async (
+export const addProduct = (
   productName,
   description,
   price,
@@ -28,7 +28,7 @@ export const addProduct = async (
     shop_id: shopId,
   };
 
-  return await api(
+  return api(
     'POST',
     '/product',
     createFormData(image, 'image', body),
@@ -37,7 +37,7 @@ export const addProduct = async (
   );
 };
 
-export const updateProduct = async (
+export const updateProduct = (
   productId,
   productName,
   description,
@@ -55,7 +55,7 @@ export const updateProduct = async (
     category_id: categoryId,
   };
 
-  return await api(
+  return api(
     'PATCH',
     '/product' + productId,
     createFormData(image, 'image', body),
@@ -64,6 +64,6 @@ export const updateProduct = async (
   );
 };
 
-export const deleteProduct = async (productId, token) => {
-  return await api('DELETE', '/product' + productId, null, token);
+export const deleteProduct = (productId, token) => {
+  return api('DELETE', '/product' + productId, null, token);
 };

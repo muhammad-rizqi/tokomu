@@ -1,12 +1,6 @@
 export const host = 'http://tokomu.herokuapp.com/api';
 
-export const api = async (
-  method,
-  path,
-  body = null,
-  token = null,
-  file = null,
-) => {
+export const api = (method, path, body = null, token = null, file = null) => {
   const headers = file
     ? {
         Authorization: `Bearer ${token}`,
@@ -17,7 +11,7 @@ export const api = async (
         Authorization: `Bearer ${token}`,
       };
 
-  const data = await fetch(host + path, {
+  const data = fetch(host + path, {
     method: method,
     headers: headers,
     body: body,

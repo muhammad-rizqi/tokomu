@@ -1,7 +1,7 @@
 const {StyleSheet} = require('react-native');
 
 export const colors = {
-  background: '#f8f8f8',
+  background: '#f1f1f1',
   white: 'white',
   backgroundDark: '#020C53',
   backgroundDark2: '#1A237E',
@@ -9,6 +9,7 @@ export const colors = {
   primary: '#FFCA3D',
   border: '#ebebeb',
   error: '#b51c1c',
+  primaryDark: '#df7b01',
 };
 
 export const styles = StyleSheet.create({
@@ -101,5 +102,30 @@ export const styles = StyleSheet.create({
   },
   textInputMultiline: {
     maxHeight: 150,
+  },
+
+  productContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+  },
+  productItem: {
+    flexBasis: '47%',
+
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    marginVertical: 8,
+  },
+  productImage: {
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+
+    height: 140,
+  },
+  productTextContainer: {
+    padding: 8,
+  },
+  textPrice: {
+    color: colors.primaryDark,
   },
 });

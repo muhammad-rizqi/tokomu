@@ -1,16 +1,16 @@
 import {api} from './global_var/api';
 import {createFormData} from './helper';
 
-const login = async (email, password) => {
+const login = (email, password) => {
   const body = {
     email: email,
     password: password,
   };
 
-  return await api('POST', '/login', JSON.stringify(body));
+  return api('POST', '/login', JSON.stringify(body));
 };
 
-const register = async (name, email, role, password, confirm) => {
+const register = (name, email, role, password, confirm) => {
   const body = {
     name: name,
     email: email,
@@ -19,18 +19,18 @@ const register = async (name, email, role, password, confirm) => {
     password_confirmation: confirm,
   };
 
-  return await api('POST', '/register', JSON.stringify(body));
+  return api('POST', '/register', JSON.stringify(body));
 };
 
-const getUserInfo = async (token) => {
-  return await api('GET', '/getAuthenticatedUser', null, token);
+const getUserInfo = (token) => {
+  return api('GET', '/getAuthenticatedUser', null, token);
 };
 
-const getUserDetail = async (id, token) => {
-  return await api('GET', `/user/${id}`, null, token);
+const getUserDetail = (id, token) => {
+  return api('GET', `/user/${id}`, null, token);
 };
 
-const updateUserDetail = async (
+const updateUserDetail = (
   user_id,
   phone_number,
   address,
@@ -43,7 +43,7 @@ const updateUserDetail = async (
     address: address,
   };
 
-  return await api(
+  return api(
     'POST',
     '/user/detail',
     avatar ? createFormData(avatar, 'avatar', body) : JSON.stringify(body),

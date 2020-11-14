@@ -6,21 +6,23 @@ import {
   Image,
   ActivityIndicator,
   RefreshControl,
+  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
-import {getMyShop} from '../../../controller/Shop';
+import {getMyShop, getProductByShop} from '../../../controller/Shop';
 import {colors, styles} from '../../../styles/styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {setShopId} from '../../../redux/action';
 import Button from '../../../components/Button';
+import ProductItem from '../../../components/ProductItem';
 
 const ShopDashboard = ({navigation}) => {
   const [shop, setShop] = useState('');
   const [loading, setLoading] = useState(true);
-
+  const [products, setProducts] = useState([]);
   //redux
   const {token, user} = useSelector((state) => state);
-  const {shopReducer} = useSelector((state) => state.shop);
+  // const shopReducer = useSelector((state) => state.shop);
   const dispatch = useDispatch();
   //
 
@@ -31,6 +33,7 @@ const ShopDashboard = ({navigation}) => {
         if (res.data) {
           setShop(res.data);
           dispatch(setShopId(res.data.id));
+          getProductList(res.data.id);
         }
         setLoading(false);
       })
@@ -38,6 +41,12 @@ const ShopDashboard = ({navigation}) => {
         ToastAndroid.show(`${err}`, ToastAndroid.LONG);
         setLoading(false);
       });
+  };
+
+  const getProductList = (shopId) => {
+    getProductByShop(shopId, token)
+      .then((data) => setProducts(data.data))
+      .catch((e) => console.log(e.message));
   };
 
   useEffect(() => {
@@ -65,38 +74,46 @@ const ShopDashboard = ({navigation}) => {
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={[styles.screen, styles.container]}
-      refreshControl={
-        <RefreshControl
-          refreshing={loading}
-          onRefresh={() => {
-            setLoading(true);
-            getShop();
-          }}
-        />
-      }>
-      <TouchableOpacity
-        onPress={() => navigation.navigate('ShopUpdate')}
-        style={styles.row}>
-        <Image
-          style={styles.profileImageSmall}
-          source={
-            shop.image
-              ? {
-                  uri:
-                    'http://tokomu.herokuapp.com/uploads/shops/' + shop.image,
-                }
-              : {
-                  uri: 'http://tokomu.herokuapp.com/uploads/shops/default.jpg',
-                }
-          }
-        />
-        <View style={styles.marginHorizontalMini}>
-          <Text style={styles.textMediumBold}>{shop.shop_name}</Text>
+    <View style={styles.screen}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => {
+              setLoading(true);
+              getShop();
+            }}
+          />
+        }>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('ShopUpdate')}
+          style={styles.row}>
+          <Image
+            style={styles.profileImageSmall}
+            source={
+              shop.image
+                ? {
+                    uri:
+                      'http://tokomu.herokuapp.com/uploads/shops/' + shop.image,
+                  }
+                : {
+                    uri:
+                      'http://tokomu.herokuapp.com/uploads/shops/default.jpg',
+                  }
+            }
+          />
+          <View style={styles.marginHorizontalMini}>
+            <Text style={styles.textMediumBold}>{shop.shop_name}</Text>
+          </View>
+        </TouchableOpacity>
+
+        <View style={styles.productContainer}>
+          {products.map((product) => (
+            <ProductItem product={product} key={product.id} />
+          ))}
         </View>
-      </TouchableOpacity>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
