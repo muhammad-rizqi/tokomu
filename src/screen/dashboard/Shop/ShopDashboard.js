@@ -38,7 +38,7 @@ const ShopDashboard = ({navigation}) => {
   const [description, setdescription] = useState('');
   const [price, setprice] = useState(0);
   const [stock, setstock] = useState(0);
-  const [category, setcategory] = useState(0);
+  const [category, setcategory] = useState(1);
   const [categories, setcategories] = useState([]);
 
   //redux

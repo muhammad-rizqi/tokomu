@@ -1,4 +1,7 @@
-const {StyleSheet} = require('react-native');
+const {Dimensions, StyleSheet} = require('react-native');
+
+const windowWidth = Dimensions.get('window').width;
+// const windowHeight = Dimensions.get('window').height;
 
 export const colors = {
   background: '#f1f1f1',
@@ -120,7 +123,7 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
 
-    height: 140,
+    height: windowWidth / 2,
   },
   productTextContainer: {
     padding: 8,
