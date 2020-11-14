@@ -16,7 +16,10 @@ import ImagePicker from 'react-native-image-picker';
 import {addProduct} from '../../../controller/Product';
 import {useSelector} from 'react-redux';
 
-const AddProduct = ({navigation}) => {
+const AddProduct = ({route, navigation}) => {
+  // console.log(route.params)
+  const prod = route.params.data;
+
   const [uploading, setuploading] = useState(false);
   const [photo, setPhoto] = useState(null);
   const {token} = useSelector((state) => state);
@@ -38,6 +41,7 @@ const AddProduct = ({navigation}) => {
       (response) => {
         if (response.uri) {
           setPhoto(response);
+          // prod.image = null;
         }
       },
     );
@@ -80,7 +84,16 @@ const AddProduct = ({navigation}) => {
 
   useEffect(() => {
     getCategories();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      setPhoto(null);
+      setproductName('');
+      setdescription('');
+      setprice(0);
+      setstock(0);
+      setcategory(1);
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <ScrollView style={[styles.screen, styles.container, styles.relative]}>
@@ -99,6 +112,12 @@ const AddProduct = ({navigation}) => {
           source={
             photo
               ? photo
+              : prod.image
+              ? {
+                  uri:
+                    'http://tokomu.herokuapp.com/uploads/products/' +
+                    prod.image,
+                }
               : require('../../../assets/icons/insert-picture-button.png')
           }
           style={styles.imgSquareMedium}
@@ -108,6 +127,11 @@ const AddProduct = ({navigation}) => {
         <TextInput
           style={styles.textInput}
           placeholder="Nama Barang"
+          value={
+            prod.product_name && productName === ''
+              ? prod.product_name
+              : productName
+          }
           onChangeText={(inputName) => setproductName(inputName)}
         />
       </View>
@@ -116,6 +140,11 @@ const AddProduct = ({navigation}) => {
           style={[styles.textInput, styles.textInputMultiline]}
           multiline={true}
           placeholder="Deskripsi"
+          value={
+            prod.description && description === ''
+              ? prod.description
+              : description
+          }
           onChangeText={(inputDesc) => setdescription(inputDesc)}
         />
       </View>
@@ -126,6 +155,7 @@ const AddProduct = ({navigation}) => {
               style={styles.textInput}
               keyboardType="numeric"
               placeholder="Harga"
+              value={prod.price && price === 0 ? `${prod.price}` : `${price}`}
               onChangeText={(inputPrice) => setprice(inputPrice)}
             />
           </View>
@@ -134,6 +164,7 @@ const AddProduct = ({navigation}) => {
               style={styles.textInput}
               keyboardType="numeric"
               placeholder="Stock"
+              value={prod.stock && stock === 0 ? `${prod.stock}` : `${stock}`}
               onChangeText={(inputStock) => setstock(inputStock)}
             />
           </View>
@@ -141,7 +172,9 @@ const AddProduct = ({navigation}) => {
       </View>
       <View style={styles.marginVerticalMini}>
         <Picker
-          selectedValue={category}
+          selectedValue={
+            prod.category_id && category === 1 ? prod.category_id : category
+          }
           onValueChange={(value) => setcategory(value)}>
           {categories.map((cat) => (
             <Picker.Item label={cat.category} value={cat.id} key={cat.id} />

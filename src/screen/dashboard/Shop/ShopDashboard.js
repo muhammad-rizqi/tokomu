@@ -118,12 +118,18 @@ const ShopDashboard = ({navigation}) => {
 
         <View style={styles.productContainer}>
           {products.map((product) => (
-            <ProductItem product={product} key={product.id} />
+            <ProductItem
+              product={product}
+              key={product.id}
+              onPress={() => navigation.navigate('AddProduct', {data: product})}
+            />
           ))}
         </View>
       </ScrollView>
       <View style={{position: 'absolute', bottom: 16, right: 16}}>
-        <FloatingActionBar onPress={() => navigation.navigate('AddProduct')} />
+        <FloatingActionBar
+          onPress={() => navigation.navigate('AddProduct', {data: {}})}
+        />
       </View>
     </View>
   );

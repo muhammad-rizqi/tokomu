@@ -2,21 +2,19 @@ import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import {styles} from '../styles/styles';
 
-const ProductItem = (props) => {
+const ProductItem = ({product, onPress}) => {
   return (
-    <TouchableOpacity style={styles.productItem}>
+    <TouchableOpacity style={styles.productItem} onPress={() => onPress()}>
       <Image
         source={{
-          uri:
-            'http://tokomu.herokuapp.com/uploads/products/' +
-            props.product.image,
+          uri: 'http://tokomu.herokuapp.com/uploads/products/' + product.image,
         }}
         style={styles.productImage}
       />
       <View style={styles.productTextContainer}>
-        <Text numberOfLines={2}>{props.product.product_name}</Text>
+        <Text numberOfLines={2}>{product.product_name}</Text>
         <Text style={styles.textPrice} numberOfLines={1}>
-          Rp. {props.product.price},-
+          Rp. {product.price},-
         </Text>
       </View>
     </TouchableOpacity>
