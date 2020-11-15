@@ -85,8 +85,7 @@ const ProductDetail = ({route, navigation}) => {
               <Image
                 source={{
                   uri:
-                    'http://tokomu.herokuapp.com/uploads/products/' +
-                    product.image,
+                    'https://.herokuapp.com/uploads/products/' + product.image,
                 }}
                 style={styles.imgSquareSmall}
               />
@@ -133,8 +132,7 @@ const ProductDetail = ({route, navigation}) => {
         <View>
           <Image
             source={{
-              uri:
-                'http://tokomu.herokuapp.com/uploads/products/' + product.image,
+              uri: 'https://.herokuapp.com/uploads/products/' + product.image,
             }}
             style={styles.productImageLarge}
           />
@@ -162,8 +160,7 @@ const ProductDetail = ({route, navigation}) => {
               style={styles.profileImageSmall}
               source={{
                 uri:
-                  'http://tokomu.herokuapp.com/uploads/shops/' +
-                  product.shop.image,
+                  'https://.herokuapp.com/uploads/shops/' + product.shop.image,
               }}
             />
             <View style={[styles.marginHorizontalMini, styles.justifyCenter]}>

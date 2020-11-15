@@ -1,4 +1,4 @@
-export const host = 'http://tokomu.herokuapp.com/api';
+export const host = 'https://tokomu.herokuapp.com/api';
 
 export const api = (method, path, body = null, token = null, file = null) => {
   const headers = file

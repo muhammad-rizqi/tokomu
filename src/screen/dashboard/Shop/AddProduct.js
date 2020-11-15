@@ -187,9 +187,7 @@ const AddProduct = ({route, navigation}) => {
               ? photo
               : prod.image
               ? {
-                  uri:
-                    'http://tokomu.herokuapp.com/uploads/products/' +
-                    prod.image,
+                  uri: 'https://.herokuapp.com/uploads/products/' + prod.image,
                 }
               : require('../../../assets/icons/insert-picture-button.png')
           }

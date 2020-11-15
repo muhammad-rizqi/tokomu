@@ -86,7 +86,7 @@ const Profile = ({navigation}) => {
             userData.userdetail
               ? {
                   uri:
-                    'http://tokomu.herokuapp.com/uploads/avatars/' +
+                    'https://.herokuapp.com/uploads/avatars/' +
                     userData.userdetail.avatar,
                 }
               : require('../../assets/img/user-shape.png')

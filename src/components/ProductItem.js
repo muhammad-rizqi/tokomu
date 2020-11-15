@@ -7,7 +7,7 @@ const ProductItem = ({product, onPress}) => {
     <TouchableOpacity style={styles.productItem} onPress={() => onPress()}>
       <Image
         source={{
-          uri: 'http://tokomu.herokuapp.com/uploads/products/' + product.image,
+          uri: 'https://.herokuapp.com/uploads/products/' + product.image,
         }}
         style={styles.productImage}
       />

@@ -103,8 +103,7 @@ const ShopUpdate = ({navigation}) => {
               ? photo
               : shop
               ? {
-                  uri:
-                    'http://tokomu.herokuapp.com/uploads/shops/' + shop.image,
+                  uri: 'https://.herokuapp.com/uploads/shops/' + shop.image,
                 }
               : require('../../../assets/img/user-shape.png')
           }

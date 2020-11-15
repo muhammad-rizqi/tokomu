@@ -83,7 +83,7 @@ const Cart = ({navigation}) => {
                 <Image
                   source={{
                     uri:
-                      'http://tokomu.herokuapp.com/uploads/products/' +
+                      'https://.herokuapp.com/uploads/products/' +
                       product.product.image,
                   }}
                   style={styles.imgSquareMini}

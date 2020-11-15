@@ -102,13 +102,10 @@ const ShopDashboard = ({navigation}) => {
               source={
                 shop.image
                   ? {
-                      uri:
-                        'http://tokomu.herokuapp.com/uploads/shops/' +
-                        shop.image,
+                      uri: 'https://.herokuapp.com/uploads/shops/' + shop.image,
                     }
                   : {
-                      uri:
-                        'http://tokomu.herokuapp.com/uploads/shops/default.jpg',
+                      uri: 'https://.herokuapp.com/uploads/shops/default.jpg',
                     }
               }
             />
