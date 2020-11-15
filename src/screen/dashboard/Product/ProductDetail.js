@@ -11,23 +11,32 @@ import {
   TextInput,
   ToastAndroid,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Button from '../../../components/Button';
-import {addCart} from '../../../controller/Cart';
+import {addCart, cartFromUser, updateCartItem} from '../../../controller/Cart';
 import {colors, styles} from '../../../styles/styles';
+import _ from 'lodash';
+import {setCartData} from '../../../redux/action';
 
 const ProductDetail = ({route, navigation}) => {
   const [modal, setmodal] = useState(false);
   const [qty, setqty] = useState(1);
   const [buy, setbuy] = useState(false);
-  const {token, user} = useSelector((state) => state);
+  const {token, user, cartReducer} = useSelector((state) => state);
   const [loading, setloading] = useState(false);
 
   const product = route.params.data;
 
-  const addToCart = () => {
+  const addOrUpdate = () => {
     setloading(true);
-    addCart(product.id, user.id, qty, token)
+    const data = _.find(cartReducer, {product: {id: product.id}});
+    // => true
+    console.log(data);
+    const updateToCart = data
+      ? updateCartItem(data.id, qty, token)
+      : addCart(product.id, user.id, qty, token);
+
+    updateToCart
       .then((res) => {
         if ((res.status = 'success')) {
           ToastAndroid.show(
@@ -38,7 +47,7 @@ const ProductDetail = ({route, navigation}) => {
           ToastAndroid.show(res.status, ToastAndroid.LONG);
         }
         setmodal(false);
-        setloading(false);
+        // setloading(false);
         if (buy) {
           navigation.navigate('Cart');
         }
@@ -46,7 +55,22 @@ const ProductDetail = ({route, navigation}) => {
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);
         console.log(err);
-      });
+      })
+      .finally(() => getCart());
+  };
+
+  const dispatch = useDispatch();
+
+  const getCart = () => {
+    setloading(true);
+    cartFromUser(user.id, token)
+      .then((res) => {
+        dispatch(setCartData(res.data.carts));
+      })
+      .catch((err) => {
+        ToastAndroid.show(err.message, ToastAndroid.LONG);
+      })
+      .finally(() => setloading(false));
   };
 
   return (
@@ -98,7 +122,7 @@ const ProductDetail = ({route, navigation}) => {
               </View>
               <Button
                 isLoading={loading}
-                onPress={() => addToCart()}
+                onPress={() => addOrUpdate()}
                 title={buy ? 'Beli Sekarang' : 'Tambah ke keranjang'}
               />
             </View>

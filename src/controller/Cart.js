@@ -19,7 +19,8 @@ export const deleteCartItem = (cartId, token) => {
 
 export const updateCartItem = (cartId, qty, token) => {
   const body = {
+    _method: 'PATCH',
     qty: qty,
   };
-  return api('DELETE', '/user/cart/' + cartId, JSON.stringify(body), token);
+  return api('POST', '/user/cart/' + cartId, JSON.stringify(body), token);
 };

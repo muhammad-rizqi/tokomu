@@ -12,6 +12,7 @@ import {
   TouchableNativeFeedback,
   TextInput,
   ToastAndroid,
+  RefreshControl,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {cartFromUser, deleteCartItem} from '../../controller/Cart';
@@ -64,49 +65,63 @@ const Cart = ({navigation}) => {
   }
 
   return (
-    <ScrollView style={{flex: 1}}>
-      {cart.map((product, index) => (
-        <TouchableNativeFeedback key={index}>
-          <View style={[styles.cartItem, styles.container]}>
-            <View style={styles.row}>
-              <Image
-                source={{
-                  uri:
-                    'http://tokomu.herokuapp.com/uploads/products/' +
-                    product.product.image,
-                }}
-                style={styles.imgSquareMini}
-              />
-              <View style={styles.marginHorizontalMini}>
-                <Text style={styles.textMediumBold}>
-                  {product.product.product_name}
-                </Text>
-                <Text style={styles.textPrice}>
-                  Rp. {product.product.price},-
-                </Text>
-                <View style={[styles.row, styles.marginVerticalMini]}>
-                  <TouchableOpacity
-                    style={styles.buttonOutlineSmall}
-                    onPress={() => Alert.alert('yysysys')}>
-                    <Text>-</Text>
-                  </TouchableOpacity>
-                  <TextInput
-                    style={[styles.textInputMini, styles.marginHorizontalNano]}
-                    value={`${product.qty}`}
-                  />
-                  <TouchableOpacity
-                    style={styles.buttonOutlineSmall}
-                    onPress={() => Alert.alert('yyyyyyy')}>
-                    <Text>+</Text>
-                  </TouchableOpacity>
+    <View style={styles.screen}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => {
+              setloading(true);
+              getCart();
+            }}
+          />
+        }>
+        {cart.map((product, index) => (
+          <TouchableNativeFeedback key={index}>
+            <View style={[styles.cartItem, styles.container]}>
+              <View style={styles.row}>
+                <Image
+                  source={{
+                    uri:
+                      'http://tokomu.herokuapp.com/uploads/products/' +
+                      product.product.image,
+                  }}
+                  style={styles.imgSquareMini}
+                />
+                <View style={styles.marginHorizontalMini}>
+                  <Text style={styles.textMediumBold}>
+                    {product.product.product_name}
+                  </Text>
+                  <Text style={styles.textPrice}>
+                    Rp. {product.product.price},-
+                  </Text>
+                  <View style={[styles.row, styles.marginVerticalMini]}>
+                    <TouchableOpacity
+                      style={styles.buttonOutlineSmall}
+                      onPress={() => Alert.alert('yysysys')}>
+                      <Text>-</Text>
+                    </TouchableOpacity>
+                    <TextInput
+                      style={[
+                        styles.textInputMini,
+                        styles.marginHorizontalNano,
+                      ]}
+                      value={`${product.qty}`}
+                    />
+                    <TouchableOpacity
+                      style={styles.buttonOutlineSmall}
+                      onPress={() => Alert.alert('yyyyyyy')}>
+                      <Text>+</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
+              <Button title="Hapus" onPress={() => deleteCart(product.id)} />
             </View>
-            <Button title="Hapus" onPress={() => deleteCart(product.id)} />
-          </View>
-        </TouchableNativeFeedback>
-      ))}
-    </ScrollView>
+          </TouchableNativeFeedback>
+        ))}
+      </ScrollView>
+    </View>
   );
 };
 
