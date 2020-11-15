@@ -149,4 +149,20 @@ export const styles = StyleSheet.create({
   imgSquareMedium: {width: 150, height: 150, borderRadius: 10},
   justifyCenter: {justifyContent: 'center'},
   productImageLarge: {width: windowWidth, height: windowHeight / 3},
+  flex1: {flex: 1},
+  flex2: {flex: 2},
+  flex3: {flex: 3},
+  buttonOutlineMedium: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 48,
+    width: 48,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: colors.backgroundDark2,
+    paddingHorizontal: 16,
+  },
+  marginHorizontalNano: {
+    marginHorizontal: 2,
+  },
 });
