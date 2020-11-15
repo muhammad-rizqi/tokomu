@@ -48,9 +48,18 @@ const shopReducer = (state = shopState, action) => {
       return state;
   }
 };
+const cartReducer = (state = {}, action) => {
+  switch (action.type) {
+    case 'SET_CART':
+      return action.data;
+    default:
+      return state;
+  }
+};
 
 export default combineReducers({
   user: userReducer,
   token: tokenReducer,
   shop: shopReducer,
+  cartReducer: cartReducer,
 });

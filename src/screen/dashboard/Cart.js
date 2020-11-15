@@ -13,19 +13,26 @@ import {
   TextInput,
   ToastAndroid,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {cartFromUser, deleteCartItem} from '../../controller/Cart';
+import {setCartData} from '../../redux/action';
 import {colors, styles} from '../../styles/styles';
 
 const Cart = ({navigation}) => {
-  const {token, user} = useSelector((state) => state);
+  const {token, user, cartReducer} = useSelector((state) => state);
   const [cart, setcart] = useState([]);
   const [loading, setloading] = useState(true);
+
+  // const shopReducer = useSelector((state) => state.shop);
+  const dispatch = useDispatch();
 
   const getCart = () => {
     setloading(true);
     cartFromUser(user.id, token)
-      .then((res) => setcart(res.data.carts))
+      .then((res) => {
+        setcart(res.data.carts);
+        dispatch(setCartData(res.data.carts));
+      })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);
       })

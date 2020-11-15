@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
-import {addCart, cartFromUser} from '../../../controller/Cart';
+import {addCart} from '../../../controller/Cart';
 import {colors, styles} from '../../../styles/styles';
 
 const ProductDetail = ({route, navigation}) => {

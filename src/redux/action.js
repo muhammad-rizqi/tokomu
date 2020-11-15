@@ -29,4 +29,12 @@ const setShopId = (data) => {
     data: data,
   };
 };
-export {changeToken, clearToken, setUser, setShopId};
+
+const setCartData = (data) => {
+  return {
+    type: 'SET_CART',
+    data: data,
+  };
+};
+
+export {changeToken, clearToken, setUser, setShopId, setCartData};
