@@ -43,11 +43,12 @@ export const updateProduct = (
   description,
   price,
   stock,
-  image,
+  image = null,
   categoryId,
   token,
 ) => {
   const body = {
+    _method: 'PATCH',
     product_name: productName,
     description: description,
     price: price,
@@ -56,7 +57,7 @@ export const updateProduct = (
   };
 
   return api(
-    'PATCH',
+    'POST',
     '/product/' + productId,
     image ? createFormData(image, 'image', body) : JSON.stringify(body),
     token,

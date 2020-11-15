@@ -193,4 +193,9 @@ export const styles = StyleSheet.create({
   wrap: {
     flexWrap: 'nowrap',
   },
+  cartItem: {
+    borderRadius: 5,
+    backgroundColor: '#fff',
+    marginVertical: 8,
+  },
 });

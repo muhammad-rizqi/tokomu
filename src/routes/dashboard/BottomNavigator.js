@@ -20,7 +20,7 @@ const BottomNavigator = ({token}) => {
           <BottomTab.Screen name="Chat" component={Chat} />
           <BottomTab.Screen name="Cart" component={Cart} />
           <BottomTab.Screen name="Profile" component={ProfileNavigator} />
-          {user.role == 2 ? (
+          {user.role === 2 ? (
             <BottomTab.Screen name="Shop" component={ShopNavigator} />
           ) : null}
         </>

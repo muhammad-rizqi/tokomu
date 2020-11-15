@@ -13,10 +13,10 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
-import {addCart} from '../../../controller/Cart';
+import {addCart, cartFromUser} from '../../../controller/Cart';
 import {colors, styles} from '../../../styles/styles';
 
-const ProductDetail = ({route}) => {
+const ProductDetail = ({route, navigation}) => {
   const [modal, setmodal] = useState(false);
   const [qty, setqty] = useState(1);
   const [buy, setbuy] = useState(false);
@@ -39,6 +39,9 @@ const ProductDetail = ({route}) => {
         }
         setmodal(false);
         setloading(false);
+        if (buy) {
+          navigation.navigate('Cart');
+        }
       })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);
@@ -156,8 +159,12 @@ const ProductDetail = ({route}) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setmodal(true);
-            setbuy(false);
+            if (user) {
+              setmodal(true);
+              setbuy(false);
+            } else {
+              navigation.navigate('Login');
+            }
           }}
           style={[styles.buttonOutlineMedium, styles.marginHorizontalNano]}>
           <Image
@@ -169,8 +176,12 @@ const ProductDetail = ({route}) => {
           <Button
             title="Beli Sekarang"
             onPress={() => {
-              setmodal(true);
-              setbuy(true);
+              if (user) {
+                setmodal(true);
+                setbuy(true);
+              } else {
+                navigation.navigate('Login');
+              }
             }}
           />
         </View>
