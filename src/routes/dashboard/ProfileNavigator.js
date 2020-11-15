@@ -2,7 +2,6 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Profile, UpdateAddress} from '../../screen';
-import ShopDashboard from '../../screen/dashboard/Shop/ShopDashboard';
 import ShopUpdate from '../../screen/dashboard/Shop/ShopUpdate';
 
 const Stack = createStackNavigator();

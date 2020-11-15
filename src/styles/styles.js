@@ -1,7 +1,7 @@
 const {Dimensions, StyleSheet} = require('react-native');
 
 const windowWidth = Dimensions.get('window').width;
-// const windowHeight = Dimensions.get('window').height;
+const windowHeight = Dimensions.get('window').height;
 
 export const colors = {
   background: '#f1f1f1',
@@ -148,4 +148,5 @@ export const styles = StyleSheet.create({
   alignSelfCenter: {alignSelf: 'center'},
   imgSquareMedium: {width: 150, height: 150, borderRadius: 10},
   justifyCenter: {justifyContent: 'center'},
+  productImageLarge: {width: windowWidth, height: windowHeight / 3},
 });

@@ -6,6 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ProfileNavigator from './ProfileNavigator';
 import ShopNavigator from './ShopNavigator';
 import {useSelector} from 'react-redux';
+import ProductNavigator from './ProductNavigator';
 
 const BottomTab = createBottomTabNavigator();
 
@@ -13,7 +14,7 @@ const BottomNavigator = ({token}) => {
   const {user} = useSelector((state) => state);
   return (
     <BottomTab.Navigator>
-      <BottomTab.Screen name="Home" component={Home} />
+      <BottomTab.Screen name="Home" component={ProductNavigator} />
       {token ? (
         <>
           <BottomTab.Screen name="Chat" component={Chat} />

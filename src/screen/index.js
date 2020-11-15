@@ -7,6 +7,10 @@ import Chat from './dashboard/Chat';
 import Profile from './dashboard/Profile';
 import Transaction from './dashboard/Transaction';
 import UpdateAddress from './dashboard/Profile/UpdateAddress';
+import AddProduct from './dashboard/Shop/AddProduct';
+import ShopDashboard from './dashboard/Shop/ShopDashboard';
+import ShopUpdate from './dashboard/Shop/ShopUpdate';
+import ProductDetail from './dashboard/Product/ProductDetail';
 
 export {
   Login,
@@ -18,4 +22,8 @@ export {
   Profile,
   Transaction,
   UpdateAddress,
+  AddProduct,
+  ShopDashboard,
+  ShopUpdate,
+  ProductDetail,
 };
