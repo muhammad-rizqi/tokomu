@@ -3,7 +3,6 @@ import {View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import {styles} from '../../../styles/styles';
 
 const ProductDetail = ({route}) => {
-  console.log(route.params.data);
   const product = route.params.data;
   return (
     <View style={styles.screen}>
