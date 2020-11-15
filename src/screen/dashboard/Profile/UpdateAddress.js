@@ -126,7 +126,7 @@ const UpdateAddress = ({navigation}) => {
               : userData.userdetail
               ? {
                   uri:
-                    'https://.herokuapp.com/uploads/avatars/' +
+                    'https://tokomu.herokuapp.com/uploads/avatars/' +
                     userData.userdetail.avatar,
                 }
               : require('../../../assets/img/user-shape.png')
