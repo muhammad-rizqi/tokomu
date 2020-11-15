@@ -57,13 +57,13 @@ export const updateProduct = (
 
   return api(
     'PATCH',
-    '/product' + productId,
-    createFormData(image, 'image', body),
+    '/product/' + productId,
+    image ? createFormData(image, 'image', body) : JSON.stringify(body),
     token,
     image ? true : false,
   );
 };
 
 export const deleteProduct = (productId, token) => {
-  return api('DELETE', '/product' + productId, null, token);
+  return api('DELETE', '/product/' + productId, null, token);
 };

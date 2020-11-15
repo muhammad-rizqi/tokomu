@@ -55,8 +55,11 @@ const ShopDashboard = ({navigation}) => {
   };
 
   useEffect(() => {
-    getShop();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getShop();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   if (loading === true) {
     return (
@@ -117,13 +120,19 @@ const ShopDashboard = ({navigation}) => {
         </View>
 
         <View style={styles.productContainer}>
-          {products.map((product) => (
-            <ProductItem
-              product={product}
-              key={product.id}
-              onPress={() => navigation.navigate('AddProduct', {data: product})}
-            />
-          ))}
+          {products ? (
+            products.map((product) => (
+              <ProductItem
+                product={product}
+                key={product.id}
+                onPress={() =>
+                  navigation.navigate('AddProduct', {data: product})
+                }
+              />
+            ))
+          ) : (
+            <Text>Tidak Ada Barang</Text>
+          )}
         </View>
       </ScrollView>
       <View style={{position: 'absolute', bottom: 16, right: 16}}>

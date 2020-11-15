@@ -13,11 +13,14 @@ import Button from '../../../components/Button';
 import {getCategoryList} from '../../../controller/Category';
 import {styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
-import {addProduct} from '../../../controller/Product';
+import {
+  addProduct,
+  deleteProduct,
+  updateProduct,
+} from '../../../controller/Product';
 import {useSelector} from 'react-redux';
 
 const AddProduct = ({route, navigation}) => {
-  // console.log(route.params)
   const prod = route.params.data;
 
   const [uploading, setuploading] = useState(false);
@@ -26,12 +29,17 @@ const AddProduct = ({route, navigation}) => {
   const shopReducer = useSelector((state) => state.shop);
 
   //data to send
-  const [productName, setproductName] = useState('');
-  const [description, setdescription] = useState('');
-  const [price, setprice] = useState(0);
-  const [stock, setstock] = useState(0);
-  const [category, setcategory] = useState(1);
+  const [productName, setproductName] = useState(
+    prod.product_name ? prod.product_name : '',
+  );
+  const [description, setdescription] = useState(
+    prod.description ? prod.description : '',
+  );
+  const [price, setprice] = useState(prod.price ? prod.price : 0);
+  const [stock, setstock] = useState(prod.stock ? prod.stock : 0);
+  const [category, setcategory] = useState(prod.category ? prod.category : 1);
   const [categories, setcategories] = useState([]);
+  const [error, seterror] = useState({});
 
   const handleChoosePhoto = () => {
     ImagePicker.launchImageLibrary(
@@ -41,13 +49,15 @@ const AddProduct = ({route, navigation}) => {
       (response) => {
         if (response.uri) {
           setPhoto(response);
-          // prod.image = null;
         }
       },
     );
   };
 
   const addProductToShop = () => {
+    console.log('hahaha');
+    console.log(photo);
+
     setuploading(true);
     addProduct(
       productName,
@@ -60,13 +70,73 @@ const AddProduct = ({route, navigation}) => {
       token,
     )
       .then((res) => {
+        if (res.data) {
+          ToastAndroid.show('Berhasil', ToastAndroid.LONG);
+          navigation.navigate('ShopDashboard');
+        } else {
+          seterror(res);
+          ToastAndroid.show('Gagal Tambah Product', ToastAndroid.LONG);
+        }
         setuploading(false);
-        navigation.navigate('ShopDashboard');
         console.log(res);
       })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);
         setuploading(false);
+      });
+  };
+
+  const updateProductToShop = () => {
+    setuploading(true);
+    console.log(photo);
+
+    updateProduct(
+      prod.id,
+      productName,
+      description,
+      price,
+      stock,
+      photo,
+      category,
+      token,
+    )
+      .then((res) => {
+        console.log('hahaha');
+        if (res.data) {
+          ToastAndroid.show('Berhasil', ToastAndroid.LONG);
+          navigation.navigate('ShopDashboard');
+        } else {
+          seterror(res);
+          ToastAndroid.show('Gagal Tambah Product', ToastAndroid.LONG);
+        }
+        setuploading(false);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        ToastAndroid.show(err.message, ToastAndroid.LONG);
+        setuploading(false);
+      });
+  };
+
+  const deleteItem = (prodId) => {
+    setuploading(true);
+    deleteProduct(prodId, token)
+      .then((res) => {
+        if (res.status === 'success') {
+          ToastAndroid.show('Berhasil Dihapus', ToastAndroid.LONG);
+          navigation.navigate('ShopDashboard');
+        } else {
+          seterror(res);
+          ToastAndroid.show('Gagal Hapus Product', ToastAndroid.LONG);
+        }
+        setuploading(false);
+        console.log(res);
+      })
+      .catch((err) => {
+        ToastAndroid.show(err.message, ToastAndroid.LONG);
+        setuploading(false);
+        console.log(err);
       });
   };
 
@@ -84,16 +154,19 @@ const AddProduct = ({route, navigation}) => {
 
   useEffect(() => {
     getCategories();
+
     const unsubscribe = navigation.addListener('focus', () => {
+      seterror([]);
+      setuploading(false);
       setPhoto(null);
-      setproductName('');
-      setdescription('');
-      setprice(0);
-      setstock(0);
-      setcategory(1);
+      setproductName(prod.product_name ? prod.product_name : '');
+      setdescription(prod.description ? prod.description : '');
+      setprice(prod.price ? prod.price : 0);
+      setstock(prod.stock ? prod.stock : 0);
+      setcategory(prod.category ? prod.category : 1);
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [prod]);
 
   return (
     <ScrollView style={[styles.screen, styles.container, styles.relative]}>
@@ -123,30 +196,29 @@ const AddProduct = ({route, navigation}) => {
           style={styles.imgSquareMedium}
         />
       </TouchableOpacity>
+      {error.image ? <Text style={styles.textError}>{error.image}</Text> : null}
       <View style={styles.marginVerticalMini}>
         <TextInput
           style={styles.textInput}
           placeholder="Nama Barang"
-          value={
-            prod.product_name && productName === ''
-              ? prod.product_name
-              : productName
-          }
+          value={productName}
           onChangeText={(inputName) => setproductName(inputName)}
         />
+        {error.product_name ? (
+          <Text style={styles.textError}>{error.product_name}</Text>
+        ) : null}
       </View>
       <View style={styles.marginVerticalMini}>
         <TextInput
           style={[styles.textInput, styles.textInputMultiline]}
           multiline={true}
           placeholder="Deskripsi"
-          value={
-            prod.description && description === ''
-              ? prod.description
-              : description
-          }
+          value={description}
           onChangeText={(inputDesc) => setdescription(inputDesc)}
         />
+        {error.description ? (
+          <Text style={styles.textError}>{error.description}</Text>
+        ) : null}
       </View>
       <View style={styles.marginVerticalMini}>
         <View style={styles.row}>
@@ -155,36 +227,58 @@ const AddProduct = ({route, navigation}) => {
               style={styles.textInput}
               keyboardType="numeric"
               placeholder="Harga"
-              value={prod.price && price === 0 ? `${prod.price}` : `${price}`}
+              value={`${price}`}
               onChangeText={(inputPrice) => setprice(inputPrice)}
             />
+            {error.price ? (
+              <Text style={styles.textError}>{error.price}</Text>
+            ) : null}
           </View>
           <View style={{flex: 1, marginLeft: 8}}>
             <TextInput
               style={styles.textInput}
               keyboardType="numeric"
               placeholder="Stock"
-              value={prod.stock && stock === 0 ? `${prod.stock}` : `${stock}`}
+              value={`${stock}`}
               onChangeText={(inputStock) => setstock(inputStock)}
             />
+            {error.stock ? (
+              <Text style={styles.textError}>{error.stock}</Text>
+            ) : null}
           </View>
         </View>
       </View>
       <View style={styles.marginVerticalMini}>
         <Picker
-          selectedValue={
-            prod.category_id && category === 1 ? prod.category_id : category
-          }
+          selectedValue={category}
           onValueChange={(value) => setcategory(value)}>
           {categories.map((cat) => (
             <Picker.Item label={cat.category} value={cat.id} key={cat.id} />
           ))}
         </Picker>
+        {error.category ? (
+          <Text style={styles.textError}>{error.category}</Text>
+        ) : null}
       </View>
+      {prod.id ? (
+        <TouchableOpacity
+          style={[styles.row, styles.marginVerticalMini]}
+          onPress={() => deleteItem(prod.id)}>
+          <Image
+            source={require('../../../assets/icons/rubbish-bin-delete-button.png')}
+            style={styles.icon}
+          />
+          <View style={[styles.marginHorizontalMini, styles.justifyCenter]}>
+            <Text>Hapus</Text>
+          </View>
+        </TouchableOpacity>
+      ) : null}
       <Button
-        title="Add Product"
+        title={prod.id ? 'Update Product' : 'Add Product'}
         isLoading={uploading}
-        onPress={() => addProductToShop()}
+        onPress={() => {
+          prod.id ? updateProductToShop() : addProductToShop();
+        }}
       />
     </ScrollView>
   );

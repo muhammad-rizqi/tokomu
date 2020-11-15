@@ -147,4 +147,5 @@ export const styles = StyleSheet.create({
   },
   alignSelfCenter: {alignSelf: 'center'},
   imgSquareMedium: {width: 150, height: 150, borderRadius: 10},
+  justifyCenter: {justifyContent: 'center'},
 });
