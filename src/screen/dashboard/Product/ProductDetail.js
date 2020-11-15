@@ -148,6 +148,7 @@ const ProductDetail = ({route, navigation}) => {
             <Text>Stok : {product.stock} pcs</Text>
             <Text>Kategori : {product.category.category}</Text>
           </View>
+          <Text>Deskripsi : </Text>
           <View style={styles.marginVerticalMini}>
             <Text>{product.description}</Text>
           </View>

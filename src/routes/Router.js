@@ -4,13 +4,14 @@ import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 //redux
 import {useDispatch, useSelector} from 'react-redux';
-import {changeToken, clearToken, setUser} from '../redux/action';
+import {changeToken, clearToken, setCartData, setUser} from '../redux/action';
 //component
 import {getToken, removeToken} from '../controller/Token';
 import BottomNavigator from './dashboard/BottomNavigator';
 import {Splash} from '../screen';
 import {getUserInfo} from '../controller/User';
 import {ToastAndroid} from 'react-native';
+import {cartFromUser} from '../controller/Cart';
 
 const Router = () => {
   //redux
@@ -25,17 +26,29 @@ const Router = () => {
         if (res.data) {
           const {id, email, name, role} = res.data.user;
           dispatch(setUser(id, email, name, role));
-          setLoading(false);
+          // setLoading(false);
+          getCart(id, tokenData);
         } else if (res.status !== 'success') {
           dispatch(clearToken());
           removeToken();
-          setLoading(false);
+          // setLoading(false);
         }
       })
       .catch((err) => {
-        setLoading(false);
+        // setLoading(false);
         ToastAndroid.show(err.message, ToastAndroid.SHORT);
       });
+  };
+
+  const getCart = (id, tokenCart) => {
+    cartFromUser(id, tokenCart)
+      .then((res) => {
+        dispatch(setCartData(res.data.carts));
+      })
+      .catch((err) => {
+        ToastAndroid.show(err.message, ToastAndroid.LONG);
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => {

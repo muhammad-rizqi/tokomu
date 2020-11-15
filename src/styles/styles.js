@@ -159,7 +159,7 @@ export const styles = StyleSheet.create({
   imgSquareMini: {width: 50, height: 50, borderRadius: 5},
   imgSquareSmall: {width: 75, height: 75, borderRadius: 5},
   justifyCenter: {justifyContent: 'center'},
-  productImageLarge: {width: windowWidth, height: windowHeight / 3},
+  productImageLarge: {width: windowWidth, height: windowHeight / 2.5},
   flex1: {flex: 1},
   flex2: {flex: 2},
   flex3: {flex: 3},
