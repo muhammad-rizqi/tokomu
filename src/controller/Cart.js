@@ -10,8 +10,7 @@ export const addCart = (productId, userId, qty, token) => {
     user_id: userId,
     qty: qty,
   };
-
-  return api('POST', '/user/cart', JSON.parse(body), token);
+  return api('POST', '/user/cart', JSON.stringify(body), token);
 };
 
 export const deleteCartItem = (cartId, token) => {

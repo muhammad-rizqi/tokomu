@@ -54,6 +54,15 @@ export const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: colors.border,
   },
+  textInputMini: {
+    padding: 0,
+    height: 32,
+    borderWidth: 1,
+    backgroundColor: colors.white,
+    paddingHorizontal: 8,
+    borderRadius: 5,
+    borderColor: colors.border,
+  },
   button: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -147,6 +156,8 @@ export const styles = StyleSheet.create({
   },
   alignSelfCenter: {alignSelf: 'center'},
   imgSquareMedium: {width: 150, height: 150, borderRadius: 10},
+  imgSquareMini: {width: 50, height: 50, borderRadius: 5},
+  imgSquareSmall: {width: 75, height: 75, borderRadius: 5},
   justifyCenter: {justifyContent: 'center'},
   productImageLarge: {width: windowWidth, height: windowHeight / 3},
   flex1: {flex: 1},
@@ -162,7 +173,24 @@ export const styles = StyleSheet.create({
     borderColor: colors.backgroundDark2,
     paddingHorizontal: 16,
   },
+  buttonOutlineSmall: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 32,
+    width: 32,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: colors.backgroundDark2,
+    paddingHorizontal: 8,
+  },
   marginHorizontalNano: {
     marginHorizontal: 2,
+  },
+  backgroundOpacity: {
+    backgroundColor: '#333',
+    opacity: 0.3,
+  },
+  wrap: {
+    flexWrap: 'nowrap',
   },
 });
