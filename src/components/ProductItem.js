@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
+import {hostWeb} from '../controller/global_var/api';
 import {styles} from '../styles/styles';
 
 const ProductItem = ({product, onPress}) => {
@@ -7,7 +8,7 @@ const ProductItem = ({product, onPress}) => {
     <TouchableOpacity style={styles.productItem} onPress={() => onPress()}>
       <Image
         source={{
-          uri: 'https://tokomu.herokuapp.com/uploads/products/' + product.image,
+          uri: hostWeb + '/uploads/products/' + product.image,
         }}
         style={styles.productImage}
       />

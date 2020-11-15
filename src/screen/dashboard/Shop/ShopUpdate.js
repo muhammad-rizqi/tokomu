@@ -11,6 +11,7 @@ import Button from '../../../components/Button';
 import ImagePicker from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {setShopId} from '../../../redux/action';
+import {hostWeb} from '../../../controller/global_var/api';
 
 const ShopUpdate = ({navigation}) => {
   const [shop, setShop] = useState(null);
@@ -103,8 +104,7 @@ const ShopUpdate = ({navigation}) => {
               ? photo
               : shop
               ? {
-                  uri:
-                    'https://tokomu.herokuapp.com/uploads/shops/' + shop.image,
+                  uri: hostWeb + '/uploads/shops/' + shop.image,
                 }
               : require('../../../assets/img/user-shape.png')
           }

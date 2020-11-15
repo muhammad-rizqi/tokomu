@@ -17,6 +17,7 @@ import {addCart, cartFromUser, updateCartItem} from '../../../controller/Cart';
 import {colors, styles} from '../../../styles/styles';
 import _ from 'lodash';
 import {setCartData} from '../../../redux/action';
+import {hostWeb} from '../../../controller/global_var/api';
 
 const ProductDetail = ({route, navigation}) => {
   const [modal, setmodal] = useState(false);
@@ -84,9 +85,7 @@ const ProductDetail = ({route, navigation}) => {
             <View>
               <Image
                 source={{
-                  uri:
-                    'https://tokomu.herokuapp.com/uploads/products/' +
-                    product.image,
+                  uri: hostWeb + '/uploads/products/' + product.image,
                 }}
                 style={styles.imgSquareSmall}
               />
@@ -133,9 +132,7 @@ const ProductDetail = ({route, navigation}) => {
         <View>
           <Image
             source={{
-              uri:
-                'https://tokomu.herokuapp.com/uploads/products/' +
-                product.image,
+              uri: hostWeb + '/uploads/products/' + product.image,
             }}
             style={styles.productImageLarge}
           />
@@ -162,9 +159,7 @@ const ProductDetail = ({route, navigation}) => {
             <Image
               style={styles.profileImageSmall}
               source={{
-                uri:
-                  'https://tokomu.herokuapp.com/uploads/shops/' +
-                  product.shop.image,
+                uri: hostWeb + '/uploads/shops/' + product.shop.image,
               }}
             />
             <View style={[styles.marginHorizontalMini, styles.justifyCenter]}>

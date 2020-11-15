@@ -16,6 +16,7 @@ import {
   TouchableNativeFeedback,
 } from 'react-native-gesture-handler';
 import {colors, styles} from '../../styles/styles';
+import {hostWeb} from '../../controller/global_var/api';
 
 const Profile = ({navigation}) => {
   const [userData, setUserData] = useState(null);
@@ -86,8 +87,7 @@ const Profile = ({navigation}) => {
             userData.userdetail
               ? {
                   uri:
-                    'https://tokomu.herokuapp.com/uploads/avatars/' +
-                    userData.userdetail.avatar,
+                    hostWeb + '/uploads/avatars/' + userData.userdetail.avatar,
                 }
               : require('../../assets/img/user-shape.png')
           }

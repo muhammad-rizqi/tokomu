@@ -12,6 +12,7 @@ import ImagePicker from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {removeToken} from '../../../controller/Token';
 import {clearToken} from '../../../redux/action';
+import {hostWeb} from '../../../controller/global_var/api';
 
 const UpdateAddress = ({navigation}) => {
   const [userData, setUserData] = useState('');
@@ -126,8 +127,7 @@ const UpdateAddress = ({navigation}) => {
               : userData.userdetail
               ? {
                   uri:
-                    'https://tokomu.herokuapp.com/uploads/avatars/' +
-                    userData.userdetail.avatar,
+                    hostWeb + '/uploads/avatars/' + userData.userdetail.avatar,
                 }
               : require('../../../assets/img/user-shape.png')
           }

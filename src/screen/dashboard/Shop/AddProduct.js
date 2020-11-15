@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {Picker} from '@react-native-picker/picker';
 import React, {useEffect, useState} from 'react';
 import {
@@ -19,6 +20,7 @@ import {
   updateProduct,
 } from '../../../controller/Product';
 import {useSelector} from 'react-redux';
+import {hostWeb} from '../../../controller/global_var/api';
 
 const AddProduct = ({route, navigation}) => {
   const prod = route.params.data;
@@ -187,9 +189,7 @@ const AddProduct = ({route, navigation}) => {
               ? photo
               : prod.image
               ? {
-                  uri:
-                    'https://tokomu.herokuapp.com/uploads/products/' +
-                    prod.image,
+                  uri: hostWeb + '/uploads/products/' + prod.image,
                 }
               : require('../../../assets/icons/insert-picture-button.png')
           }

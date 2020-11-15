@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -16,6 +15,7 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {cartFromUser, deleteCartItem} from '../../controller/Cart';
+import {hostWeb} from '../../controller/global_var/api';
 import {setCartData} from '../../redux/action';
 import {colors, styles} from '../../styles/styles';
 
@@ -53,8 +53,11 @@ const Cart = ({navigation}) => {
   };
 
   useEffect(() => {
-    getCart();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      getCart();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   if (loading === true) {
     return (
@@ -82,9 +85,7 @@ const Cart = ({navigation}) => {
               <View style={styles.row}>
                 <Image
                   source={{
-                    uri:
-                      'https://tokomu.herokuapp.com/uploads/products/' +
-                      product.product.image,
+                    uri: hostWeb + '/uploads/products/' + product.product.image,
                   }}
                   style={styles.imgSquareMini}
                 />
