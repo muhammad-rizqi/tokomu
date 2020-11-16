@@ -27,6 +27,7 @@ const ProductDetail = ({route, navigation}) => {
   const [loading, setloading] = useState(false);
 
   const product = route.params.data;
+  console.log(product);
 
   const addOrUpdate = () => {
     setloading(true);

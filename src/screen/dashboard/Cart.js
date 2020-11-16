@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -18,6 +19,7 @@ import {cartFromUser, deleteCartItem} from '../../controller/Cart';
 import {hostWeb} from '../../controller/global_var/api';
 import {setCartData} from '../../redux/action';
 import {colors, styles} from '../../styles/styles';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Cart = ({navigation}) => {
   const {token, user, cartReducer} = useSelector((state) => state);
@@ -31,8 +33,13 @@ const Cart = ({navigation}) => {
     setloading(true);
     cartFromUser(user.id, token)
       .then((res) => {
-        setcart(res.data.carts);
-        dispatch(setCartData(res.data.carts));
+        if (res.data) {
+          setcart(res.data.carts);
+          dispatch(setCartData(res.data.carts));
+        } else {
+          setcart([]);
+          dispatch(setCartData([]));
+        }
       })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);
@@ -57,7 +64,7 @@ const Cart = ({navigation}) => {
       getCart();
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [cartReducer]);
 
   if (loading === true) {
     return (
@@ -79,48 +86,43 @@ const Cart = ({navigation}) => {
             }}
           />
         }>
-        {cart.map((product, index) => (
-          <TouchableNativeFeedback key={index}>
-            <View style={[styles.cartItem, styles.container]}>
-              <View style={styles.row}>
-                <Image
-                  source={{
-                    uri: hostWeb + '/uploads/products/' + product.product.image,
-                  }}
-                  style={styles.imgSquareMini}
-                />
-                <View style={styles.marginHorizontalMini}>
-                  <Text style={styles.textMediumBold}>
-                    {product.product.product_name}
-                  </Text>
-                  <Text style={styles.textPrice}>
-                    Rp. {product.product.price},-
-                  </Text>
-                  <View style={[styles.row, styles.marginVerticalMini]}>
-                    <TouchableOpacity
-                      style={styles.buttonOutlineSmall}
-                      onPress={() => Alert.alert('yysysys')}>
-                      <Text>-</Text>
-                    </TouchableOpacity>
-                    <TextInput
-                      style={[
-                        styles.textInputMini,
-                        styles.marginHorizontalNano,
-                      ]}
-                      value={`${product.qty}`}
-                    />
-                    <TouchableOpacity
-                      style={styles.buttonOutlineSmall}
-                      onPress={() => Alert.alert('yyyyyyy')}>
-                      <Text>+</Text>
-                    </TouchableOpacity>
+        {cart.length === 0 ? (
+          <View style={styles.centerContainer}>
+            <Text>Keranjang Kosong</Text>
+          </View>
+        ) : (
+          cart.map((product, index) => (
+            <TouchableNativeFeedback key={index}>
+              <View style={[styles.cartItem, styles.container]}>
+                <View style={styles.row}>
+                  <Image
+                    source={{
+                      uri:
+                        hostWeb + '/uploads/products/' + product.product.image,
+                    }}
+                    style={styles.imgSquareMini}
+                  />
+                  <View style={[styles.marginHorizontalMini, styles.flex1]}>
+                    <Text style={styles.textMediumBold}>
+                      {product.product.product_name}
+                    </Text>
+                    <Text style={[styles.textPrice, styles.textSmallBold]}>
+                      Rp. {product.product.price},-
+                    </Text>
+                    <Text>Jumlah barang : {product.qty}</Text>
                   </View>
+                  <TouchableOpacity onPress={() => deleteCart(product.id)}>
+                    <MaterialCommunityIcons
+                      name="delete"
+                      color={colors.backgroundDark2}
+                      size={26}
+                    />
+                  </TouchableOpacity>
                 </View>
               </View>
-              <Button title="Hapus" onPress={() => deleteCart(product.id)} />
-            </View>
-          </TouchableNativeFeedback>
-        ))}
+            </TouchableNativeFeedback>
+          ))
+        )}
       </ScrollView>
     </View>
   );

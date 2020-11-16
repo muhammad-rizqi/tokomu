@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 //navigation
@@ -43,7 +44,11 @@ const Router = () => {
   const getCart = (id, tokenCart) => {
     cartFromUser(id, tokenCart)
       .then((res) => {
-        dispatch(setCartData(res.data.carts));
+        if (res.data) {
+          dispatch(setCartData(res.data.carts));
+        } else {
+          dispatch(setCartData([]));
+        }
       })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);

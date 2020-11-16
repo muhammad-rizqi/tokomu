@@ -1,31 +1,28 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {Home, Chat, Cart, Transaction} from '../../screen';
+import {Chat, Cart} from '../../screen';
 import AuthNavigator from '../auth/AuthNavigator';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import ProfileNavigator from './ProfileNavigator';
 import ShopNavigator from './ShopNavigator';
 import {useSelector} from 'react-redux';
 import ProductNavigator from './ProductNavigator';
-import {Image} from 'react-native';
-import {styles} from '../../styles/styles';
+import {colors} from '../../styles/styles';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const BottomTab = createBottomTabNavigator();
+const BottomTab = createMaterialBottomTabNavigator();
 
 const BottomNavigator = ({token}) => {
   const {user, cartReducer} = useSelector((state) => state);
   const cartBadge = cartReducer.length;
   return (
-    <BottomTab.Navigator>
+    <BottomTab.Navigator barStyle={{backgroundColor: colors.backgroundDark2}}>
       <BottomTab.Screen
         name="Home"
         component={ProductNavigator}
         options={{
-          tabBarIcon: ({color, size}) => (
-            <Image
-              style={[styles.icon, {tintColor: color}]}
-              source={require('../../assets/icons/home-button.png')}
-            />
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
           ),
         }}
       />
@@ -35,11 +32,8 @@ const BottomNavigator = ({token}) => {
             name="Chat"
             component={Chat}
             options={{
-              tabBarIcon: ({color, size}) => (
-                <Image
-                  style={[styles.icon, {tintColor: color}]}
-                  source={require('../../assets/icons/chat-bubble.png')}
-                />
+              tabBarIcon: ({color}) => (
+                <MaterialCommunityIcons name="chat" color={color} size={26} />
               ),
             }}
           />
@@ -47,23 +41,21 @@ const BottomNavigator = ({token}) => {
             name="Cart"
             component={Cart}
             options={{
-              tabBarIcon: ({color, size}) => (
-                <Image
-                  style={[styles.icon, {tintColor: color}]}
-                  source={require('../../assets/icons/shopping-basket-button.png')}
-                />
+              tabBarIcon: ({color}) => (
+                <MaterialCommunityIcons name="cart" color={color} size={26} />
               ),
-              tabBarBadge: cartBadge,
+              tabBarBadge: cartBadge > 0 ? cartBadge : null,
             }}
           />
           <BottomTab.Screen
             name="Profile"
             component={ProfileNavigator}
             options={{
-              tabBarIcon: ({color, size}) => (
-                <Image
-                  style={[styles.icon, {tintColor: color}]}
-                  source={require('../../assets/icons/user-account-box.png')}
+              tabBarIcon: ({color}) => (
+                <MaterialCommunityIcons
+                  name="account-circle"
+                  color={color}
+                  size={26}
                 />
               ),
             }}
@@ -73,10 +65,11 @@ const BottomNavigator = ({token}) => {
               name="Shop"
               component={ShopNavigator}
               options={{
-                tabBarIcon: ({color, size}) => (
-                  <Image
-                    style={[styles.icon, {tintColor: color}]}
-                    source={require('../../assets/icons/front-store.png')}
+                tabBarIcon: ({color}) => (
+                  <MaterialCommunityIcons
+                    name="store"
+                    color={color}
+                    size={26}
                   />
                 ),
               }}
@@ -88,11 +81,8 @@ const BottomNavigator = ({token}) => {
           name="Login"
           component={AuthNavigator}
           options={{
-            tabBarIcon: ({color, size}) => (
-              <Image
-                style={[styles.icon, {tintColor: color}]}
-                source={require('../../assets/icons/exit-to-app-button.png')}
-              />
+            tabBarIcon: ({color}) => (
+              <MaterialCommunityIcons name="login" color={color} size={26} />
             ),
           }}
         />

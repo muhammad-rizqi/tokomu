@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import {Picker} from '@react-native-picker/picker';
 import React, {useEffect, useState} from 'react';

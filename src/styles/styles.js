@@ -198,4 +198,5 @@ export const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginVertical: 8,
   },
+  textSmallBold: {fontWeight: 'bold'},
 });
