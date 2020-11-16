@@ -15,6 +15,7 @@ const BottomTab = createMaterialBottomTabNavigator();
 const BottomNavigator = ({token}) => {
   const {user, cartReducer} = useSelector((state) => state);
   const cartBadge = cartReducer.length;
+
   return (
     <BottomTab.Navigator barStyle={{backgroundColor: colors.backgroundDark2}}>
       <BottomTab.Screen

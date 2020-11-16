@@ -1,8 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {Profile, UpdateAddress} from '../../screen';
-import ShopUpdate from '../../screen/dashboard/Shop/ShopUpdate';
+import {Profile, UpdateAccount, UpdateAddress} from '../../screen';
 
 const Stack = createStackNavigator();
 
@@ -14,8 +13,8 @@ const ProfileNavigator = () => {
         component={Profile}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="UpdateShop" component={ShopUpdate} />
       <Stack.Screen name="UpdateAddress" component={UpdateAddress} />
+      <Stack.Screen name="UpdateAccount" component={UpdateAccount} />
     </Stack.Navigator>
   );
 };

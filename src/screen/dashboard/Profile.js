@@ -60,7 +60,7 @@ const Profile = ({navigation}) => {
         setRefreshing(false);
         setloading(false);
       });
-  }, []);
+  }, [user]);
 
   if (loading === true && userData === null) {
     return (
@@ -103,6 +103,11 @@ const Profile = ({navigation}) => {
         style={styles.menuList}
         onPress={() => navigation.navigate('UpdateAddress')}>
         <Text>Update Profile</Text>
+      </TouchableNativeFeedback>
+      <TouchableNativeFeedback
+        style={styles.menuList}
+        onPress={() => navigation.navigate('UpdateAccount')}>
+        <Text>Pengaturan Akun</Text>
       </TouchableNativeFeedback>
       <TouchableNativeFeedback style={styles.menuList} onPress={() => logout()}>
         <Text>Logout</Text>

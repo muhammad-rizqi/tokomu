@@ -52,4 +52,39 @@ const updateUserDetail = (
   );
 };
 
+export const updateUser = (userId, name, email, token) => {
+  const body = {
+    name: name,
+    email: email,
+  };
+
+  return api('POST', '/user/update/' + userId, JSON.stringify(body), token);
+};
+
+export const updatePassword = (
+  userId,
+  oldPassword,
+  newPassword,
+  confirmPassword,
+  token,
+) => {
+  const body = {
+    _method: 'PATCH',
+    old_password: oldPassword,
+    password: newPassword,
+    password_confirmation: confirmPassword,
+  };
+
+  return api('POST', '/user/password/' + userId, JSON.stringify(body), token);
+};
+
+export const deleteUser = (userId, password, token) => {
+  const body = {
+    user_id: userId,
+    password: password,
+  };
+
+  return api('POST', '/user/delete/', JSON.stringify(body), token);
+};
+
 export {login, register, getUserInfo, getUserDetail, updateUserDetail};

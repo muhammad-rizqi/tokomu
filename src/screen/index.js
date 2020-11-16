@@ -11,6 +11,7 @@ import AddProduct from './dashboard/Shop/AddProduct';
 import ShopDashboard from './dashboard/Shop/ShopDashboard';
 import ShopUpdate from './dashboard/Shop/ShopUpdate';
 import ProductDetail from './dashboard/Product/ProductDetail';
+import UpdateAccount from './dashboard/Profile/UpdateAccount';
 
 export {
   Login,
@@ -26,4 +27,5 @@ export {
   ShopDashboard,
   ShopUpdate,
   ProductDetail,
+  UpdateAccount,
 };
