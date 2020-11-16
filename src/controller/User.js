@@ -84,7 +84,7 @@ export const deleteUser = (userId, password, token) => {
     password: password,
   };
 
-  return api('POST', '/user/delete/', JSON.stringify(body), token);
+  return api('POST', '/user/delete', JSON.stringify(body), token);
 };
 
 export {login, register, getUserInfo, getUserDetail, updateUserDetail};
