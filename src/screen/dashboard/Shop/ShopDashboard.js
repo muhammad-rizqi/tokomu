@@ -18,7 +18,6 @@ import {setShopId} from '../../../redux/action';
 import Button from '../../../components/Button';
 import ProductItem from '../../../components/ProductItem';
 import FloatingActionBar from '../../../components/FloatingActionBar';
-import {hostWeb} from '../../../controller/global_var/api';
 
 const ShopDashboard = ({navigation}) => {
   const [shop, setShop] = useState('');
@@ -103,15 +102,9 @@ const ShopDashboard = ({navigation}) => {
             style={styles.row}>
             <Image
               style={styles.profileImageSmall}
-              source={
-                shop.image
-                  ? {
-                      uri: hostWeb + '/uploads/shops/' + shop.image,
-                    }
-                  : {
-                      uri: hostWeb + '/uploads/shops/default.jpg',
-                    }
-              }
+              source={{
+                uri: shop.image,
+              }}
             />
             <View
               style={[styles.marginHorizontalMini, {justifyContent: 'center'}]}>

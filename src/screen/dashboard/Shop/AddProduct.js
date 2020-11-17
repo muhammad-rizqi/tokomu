@@ -190,7 +190,7 @@ const AddProduct = ({route, navigation}) => {
               ? photo
               : prod.image
               ? {
-                  uri: hostWeb + '/uploads/products/' + prod.image,
+                  uri: prod.image,
                 }
               : require('../../../assets/icons/insert-picture-button.png')
           }

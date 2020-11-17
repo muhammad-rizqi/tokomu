@@ -1,6 +1,6 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {Home, ProductDetail} from '../../screen';
+import {Home, ProductDetail, SearchPoduct} from '../../screen';
 const Stack = createStackNavigator();
 
 const ProductNavigator = () => {
@@ -11,6 +11,12 @@ const ProductNavigator = () => {
         component={Home}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="Search"
+        component={SearchPoduct}
+        options={{headerShown: false}}
+      />
+
       <Stack.Screen name="Detail" component={ProductDetail} />
     </Stack.Navigator>
   );

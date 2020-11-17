@@ -1,23 +1,25 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView, RefreshControl} from 'react-native';
 import {Searchbar} from 'react-native-paper';
-import ProductItem from '../../components/ProductItem';
-import {getProductList} from '../../controller/Product';
-import {styles} from '../../styles/styles';
+import ProductItem from '../../../components/ProductItem';
+import {searchProduct} from '../../../controller/Product';
+import {styles} from '../../../styles/styles';
 
-const Home = ({navigation}) => {
+const SearchPoduct = ({route, navigation}) => {
   const [products, setProducts] = useState([]);
   const [loading, setloading] = useState(false);
-  const [keyword, setKeyword] = useState('');
+  const {query} = route.params;
 
   const getProduct = () => {
-    getProductList().then((data) => {
+    searchProduct(query).then((data) => {
       if (data.data) {
-        setProducts(data.data);
+        setProducts(data.data.products);
       }
       setloading(false);
     });
   };
+
   useEffect(() => {
     getProduct();
     setloading(true);
@@ -37,12 +39,9 @@ const Home = ({navigation}) => {
         }>
         <Searchbar
           placeholder="Search"
-          onChangeText={(value) => setKeyword(value)}
-          onSubmitEditing={() => {
-            navigation.navigate('Search', {query: keyword});
-          }}
+          onChangeText={(value) => console.log(value)}
         />
-        <Text>Home</Text>
+        <Text>Search Poduc</Text>
 
         <View style={styles.productContainer}>
           {products.map((product) => (
@@ -58,4 +57,4 @@ const Home = ({navigation}) => {
   );
 };
 
-export default Home;
+export default SearchPoduct;

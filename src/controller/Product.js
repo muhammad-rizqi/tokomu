@@ -68,3 +68,10 @@ export const updateProduct = (
 export const deleteProduct = (productId, token) => {
   return api('DELETE', '/product/' + productId, null, token);
 };
+
+export const searchProduct = (keyword) => {
+  const body = {
+    keyword: keyword,
+  };
+  return api('POST', '/search', JSON.stringify(body));
+};

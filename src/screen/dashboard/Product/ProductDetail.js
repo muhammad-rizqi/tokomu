@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -17,7 +18,8 @@ import {addCart, cartFromUser, updateCartItem} from '../../../controller/Cart';
 import {colors, styles} from '../../../styles/styles';
 import _ from 'lodash';
 import {setCartData} from '../../../redux/action';
-import {hostWeb} from '../../../controller/global_var/api';
+import {getProductDetail} from '../../../controller/Product';
+import {ActivityIndicator} from 'react-native-paper';
 
 const ProductDetail = ({route, navigation}) => {
   const [modal, setmodal] = useState(false);
@@ -25,18 +27,18 @@ const ProductDetail = ({route, navigation}) => {
   const [buy, setbuy] = useState(false);
   const {token, user, cartReducer} = useSelector((state) => state);
   const [loading, setloading] = useState(false);
+  const [product, setProduct] = useState([]);
+  const [productLoading, setproductLoading] = useState(true);
 
-  const product = route.params.data;
-  console.log(product);
+  const productData = route.params.data;
 
   const addOrUpdate = () => {
     setloading(true);
-    const data = _.find(cartReducer, {product: {id: product.id}});
+    const data = _.find(cartReducer, {product: {id: productData.id}});
     // => true
-    console.log(data);
     const updateToCart = data
       ? updateCartItem(data.id, qty, token)
-      : addCart(product.id, user.id, qty, token);
+      : addCart(productData.id, user.id, qty, token);
 
     updateToCart
       .then((res) => {
@@ -56,7 +58,6 @@ const ProductDetail = ({route, navigation}) => {
       })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);
-        console.log(err);
       })
       .finally(() => getCart());
   };
@@ -75,6 +76,30 @@ const ProductDetail = ({route, navigation}) => {
       .finally(() => setloading(false));
   };
 
+  const getDetail = async () => {
+    setproductLoading(true);
+    const {data} = await getProductDetail(productData.id);
+    try {
+      setProduct(data);
+    } catch (e) {
+      ToastAndroid.show(e.message, ToastAndroid.LONG);
+    } finally {
+      setproductLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getDetail();
+  }, []);
+
+  if (productLoading) {
+    return (
+      <View style={[styles.centerContainer, styles.screen]}>
+        <ActivityIndicator color={colors.primary} size="large" />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.screen}>
       <Modal transparent={true} visible={modal}>
@@ -86,7 +111,7 @@ const ProductDetail = ({route, navigation}) => {
             <View>
               <Image
                 source={{
-                  uri: hostWeb + '/uploads/products/' + product.image,
+                  uri: product.image,
                 }}
                 style={styles.imgSquareSmall}
               />
@@ -133,7 +158,7 @@ const ProductDetail = ({route, navigation}) => {
         <View>
           <Image
             source={{
-              uri: hostWeb + '/uploads/products/' + product.image,
+              uri: product.image,
             }}
             style={styles.productImageLarge}
           />
@@ -160,7 +185,7 @@ const ProductDetail = ({route, navigation}) => {
             <Image
               style={styles.profileImageSmall}
               source={{
-                uri: hostWeb + '/uploads/shops/' + product.shop.image,
+                uri: product.shop.image,
               }}
             />
             <View style={[styles.marginHorizontalMini, styles.justifyCenter]}>

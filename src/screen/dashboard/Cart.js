@@ -6,17 +6,13 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-  Button,
-  Alert,
   ActivityIndicator,
   TouchableNativeFeedback,
-  TextInput,
   ToastAndroid,
   RefreshControl,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {cartFromUser, deleteCartItem} from '../../controller/Cart';
-import {hostWeb} from '../../controller/global_var/api';
 import {setCartData} from '../../redux/action';
 import {colors, styles} from '../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -92,13 +88,14 @@ const Cart = ({navigation}) => {
           </View>
         ) : (
           cart.map((product, index) => (
-            <TouchableNativeFeedback key={index}>
+            <TouchableNativeFeedback
+              key={index}
+              onPress={() => navigation.navigate('Detail', {data: product})}>
               <View style={[styles.cartItem, styles.container]}>
                 <View style={styles.row}>
                   <Image
                     source={{
-                      uri:
-                        hostWeb + '/uploads/products/' + product.product.image,
+                      uri: product.product.image,
                     }}
                     style={styles.imgSquareMini}
                   />

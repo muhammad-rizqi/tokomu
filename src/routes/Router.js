@@ -66,7 +66,7 @@ const Router = () => {
         setLoading(false);
       }
     });
-  }, []);
+  }, [token]);
 
   if (loading) {
     return <Splash />;

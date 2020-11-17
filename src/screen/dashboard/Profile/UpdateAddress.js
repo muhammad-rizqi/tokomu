@@ -10,10 +10,7 @@ import Button from '../../../components/Button';
 import {getUserDetail, updateUserDetail} from '../../../controller/User';
 import {styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
-import {useDispatch, useSelector} from 'react-redux';
-import {removeToken} from '../../../controller/Token';
-import {clearToken} from '../../../redux/action';
-import {hostWeb} from '../../../controller/global_var/api';
+import {useSelector} from 'react-redux';
 
 const UpdateAddress = ({navigation}) => {
   const [userData, setUserData] = useState('');
@@ -24,7 +21,6 @@ const UpdateAddress = ({navigation}) => {
   const [photo, setPhoto] = useState('');
 
   const {token, user} = useSelector((state) => state);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     getUserDetail(user.id, token)
@@ -48,10 +44,6 @@ const UpdateAddress = ({navigation}) => {
         setIsLoading(false);
       });
   }, []);
-
-  const logout = () => {
-    removeToken().then(() => dispatch(clearToken()));
-  };
 
   const handleChoosePhoto = () => {
     const options = {
@@ -127,8 +119,7 @@ const UpdateAddress = ({navigation}) => {
               ? photo
               : userData.userdetail
               ? {
-                  uri:
-                    hostWeb + '/uploads/avatars/' + userData.userdetail.avatar,
+                  uri: userData.userdetail.avatar,
                 }
               : require('../../../assets/img/user-shape.png')
           }

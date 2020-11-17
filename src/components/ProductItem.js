@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text, Image, TouchableNativeFeedback} from 'react-native';
-import {hostWeb} from '../controller/global_var/api';
 import {styles} from '../styles/styles';
 
 const ProductItem = ({product, onPress}) => {
@@ -9,7 +8,7 @@ const ProductItem = ({product, onPress}) => {
       <View style={styles.productItem}>
         <Image
           source={{
-            uri: hostWeb + '/uploads/products/' + product.image,
+            uri: product.image,
           }}
           style={styles.productImage}
         />
