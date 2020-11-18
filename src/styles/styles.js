@@ -199,4 +199,7 @@ export const styles = StyleSheet.create({
     marginVertical: 8,
   },
   textSmallBold: {fontWeight: 'bold'},
+  backgroundDark: {
+    backgroundColor: colors.backgroundDark2,
+  },
 });
