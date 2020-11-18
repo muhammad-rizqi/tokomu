@@ -166,34 +166,36 @@ const ProductDetail = ({route, navigation}) => {
         <View style={styles.container}>
           <View style={styles.marginVerticalMini}>
             <Text style={styles.textMediumBold}>{product.product_name}</Text>
-            <Text style={styles.textPrice}>Rp. {product.price},-</Text>
+            <Text style={[styles.textPrice, styles.textSmallBold]}>
+              Rp. {product.price},-
+            </Text>
+          </View>
+
+          <View style={styles.marginVerticalMini}>
+            <TouchableOpacity
+              onPress={() => Alert.alert('ShopUpdate')}
+              style={styles.row}>
+              <Image
+                style={styles.profileImageSmall}
+                source={{
+                  uri: product.shop.image,
+                }}
+              />
+              <View style={[styles.marginHorizontalMini, styles.justifyCenter]}>
+                <Text style={styles.textMediumBold}>
+                  {product.shop.shop_name}
+                </Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.marginVerticalMini}>
-            <Text>Stok : {product.stock} pcs</Text>
             <Text>Kategori : {product.category.category}</Text>
+            <Text>Stok : {product.stock} pcs</Text>
           </View>
           <Text>Deskripsi : </Text>
           <View style={styles.marginVerticalMini}>
             <Text>{product.description}</Text>
           </View>
-        </View>
-
-        <View style={styles.container}>
-          <TouchableOpacity
-            onPress={() => Alert.alert('ShopUpdate')}
-            style={styles.row}>
-            <Image
-              style={styles.profileImageSmall}
-              source={{
-                uri: product.shop.image,
-              }}
-            />
-            <View style={[styles.marginHorizontalMini, styles.justifyCenter]}>
-              <Text style={styles.textMediumBold}>
-                {product.shop.shop_name}
-              </Text>
-            </View>
-          </TouchableOpacity>
         </View>
       </ScrollView>
       <View style={styles.row}>

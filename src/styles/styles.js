@@ -1,7 +1,7 @@
 const {Dimensions, StyleSheet} = require('react-native');
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+// const windowHeight = Dimensions.get('window').height;
 
 export const colors = {
   background: '#f1f1f1',
@@ -132,7 +132,7 @@ export const styles = StyleSheet.create({
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
 
-    height: windowWidth / 2,
+    height: windowWidth * 0.47,
   },
   productTextContainer: {
     padding: 8,
@@ -159,7 +159,7 @@ export const styles = StyleSheet.create({
   imgSquareMini: {width: 50, height: 50, borderRadius: 5},
   imgSquareSmall: {width: 75, height: 75, borderRadius: 5},
   justifyCenter: {justifyContent: 'center'},
-  productImageLarge: {width: windowWidth, height: windowHeight / 2.5},
+  productImageLarge: {width: windowWidth, height: windowWidth},
   flex1: {flex: 1},
   flex2: {flex: 2},
   flex3: {flex: 3},

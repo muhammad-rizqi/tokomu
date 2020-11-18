@@ -40,7 +40,9 @@ const AddProduct = ({route, navigation}) => {
   );
   const [price, setprice] = useState(prod.price ? prod.price : 0);
   const [stock, setstock] = useState(prod.stock ? prod.stock : 0);
-  const [category, setcategory] = useState(prod.category ? prod.category : 1);
+  const [category, setcategory] = useState(
+    prod.category_id ? prod.category_id : 1,
+  );
   const [categories, setcategories] = useState([]);
   const [error, seterror] = useState({});
 
@@ -164,9 +166,9 @@ const AddProduct = ({route, navigation}) => {
       setPhoto(null);
       setproductName(prod.product_name ? prod.product_name : '');
       setdescription(prod.description ? prod.description : '');
-      setprice(prod.price ? prod.price : 0);
-      setstock(prod.stock ? prod.stock : 0);
-      setcategory(prod.category ? prod.category : 1);
+      setprice(prod.price ? prod.price : 1);
+      setstock(prod.stock ? prod.stock : 1);
+      setcategory(prod.category_id ? prod.category_id : 1);
     });
     return unsubscribe;
   }, [prod]);
