@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {clearToken} from '../../redux/action';
-import {removeToken} from '../../controller/Token';
-import {getUserDetail} from '../../controller/User';
+import {removeToken} from '../../services/Token';
+import {getUserDetail} from '../../services/User';
 import {
   ScrollView,
   TouchableNativeFeedback,

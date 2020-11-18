@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text, Image, TouchableNativeFeedback} from 'react-native';
+import {Card} from 'react-native-paper';
 import {styles} from '../styles/styles';
 
 const ProductItem = ({product, onPress}) => {
   return (
     <TouchableNativeFeedback onPress={() => onPress()}>
-      <View style={styles.productItem}>
+      <Card style={styles.productItem}>
         <Image
           source={{
             uri: product.image,
@@ -18,7 +19,7 @@ const ProductItem = ({product, onPress}) => {
             Rp. {product.price},-
           </Text>
         </View>
-      </View>
+      </Card>
     </TouchableNativeFeedback>
   );
 };

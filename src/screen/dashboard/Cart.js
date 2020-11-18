@@ -12,7 +12,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {cartFromUser, deleteCartItem} from '../../controller/Cart';
+import {cartFromUser, deleteCartItem} from '../../services/Cart';
 import {setCartData} from '../../redux/action';
 import {colors, styles} from '../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';

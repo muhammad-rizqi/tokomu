@@ -1,26 +1,48 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView, RefreshControl} from 'react-native';
-import {Searchbar} from 'react-native-paper';
+import {
+  View,
+  Text,
+  ScrollView,
+  RefreshControl,
+  ToastAndroid,
+} from 'react-native';
+import {Card, Searchbar, Title} from 'react-native-paper';
 import ProductItem from '../../components/ProductItem';
-import {getProductList} from '../../controller/Product';
+import {getCategoryList} from '../../services/Category';
+import {getProductList} from '../../services/Product';
 import {styles} from '../../styles/styles';
 
 const Home = ({navigation}) => {
   const [products, setProducts] = useState([]);
   const [loading, setloading] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const [categories, setCategories] = useState([]);
 
-  const getProduct = () => {
-    getProductList().then((data) => {
-      if (data.data) {
-        setProducts(data.data);
-      }
-      setloading(false);
-    });
+  const getProduct = async () => {
+    setloading(true);
+    try {
+      const {data} = await getProductList();
+      setProducts(data);
+    } catch (e) {
+      ToastAndroid.show(e.message, ToastAndroid.LONG);
+    } finally {
+      getCategories();
+    }
   };
+
+  const getCategories = async () => {
+    try {
+      const {data} = await getCategoryList();
+      setCategories(data);
+    } catch (e) {
+      ToastAndroid.show(e.message, ToastAndroid.LONG);
+    } finally {
+      setloading(false);
+    }
+  };
+
   useEffect(() => {
     getProduct();
-    setloading(true);
   }, []);
 
   return (
@@ -36,7 +58,7 @@ const Home = ({navigation}) => {
           />
         }>
         <Searchbar
-          placeholder="Search"
+          placeholder="Cari"
           onChangeText={(value) => setKeyword(value)}
           onSubmitEditing={() => {
             navigation.navigate('Search', {query: keyword});
@@ -44,6 +66,15 @@ const Home = ({navigation}) => {
         />
         <Text>Home</Text>
 
+        <ScrollView horizontal={true}>
+          {categories.map((category) => (
+            <Card
+              style={[styles.marginHorizontalMini, styles.container]}
+              key={'cat' + category.id}>
+              <Title>{category.category}</Title>
+            </Card>
+          ))}
+        </ScrollView>
         <View style={styles.productContainer}>
           {products.map((product) => (
             <ProductItem

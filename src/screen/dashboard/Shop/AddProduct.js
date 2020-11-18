@@ -12,16 +12,16 @@ import {
   ToastAndroid,
 } from 'react-native';
 import Button from '../../../components/Button';
-import {getCategoryList} from '../../../controller/Category';
+import {getCategoryList} from '../../../services/Category';
 import {styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
 import {
   addProduct,
   deleteProduct,
   updateProduct,
-} from '../../../controller/Product';
+} from '../../../services/Product';
 import {useSelector} from 'react-redux';
-import {hostWeb} from '../../../controller/global_var/api';
+import {hostWeb} from '../../../services/global_var/api';
 
 const AddProduct = ({route, navigation}) => {
   const prod = route.params.data;

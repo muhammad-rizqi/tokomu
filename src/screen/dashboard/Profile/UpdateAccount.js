@@ -12,9 +12,9 @@ import {colors, styles} from '../../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {Dialog, Portal, TextInput} from 'react-native-paper';
-import {deleteUser, updatePassword, updateUser} from '../../../controller/User';
+import {deleteUser, updatePassword, updateUser} from '../../../services/User';
 import {clearToken, setUser} from '../../../redux/action';
-import {removeToken} from '../../../controller/Token';
+import {removeToken} from '../../../services/Token';
 
 const UpdateAccount = ({navigation}) => {
   const {token, user} = useSelector((state) => state);

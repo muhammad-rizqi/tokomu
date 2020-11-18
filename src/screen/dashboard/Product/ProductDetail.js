@@ -14,11 +14,11 @@ import {
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Button from '../../../components/Button';
-import {addCart, cartFromUser, updateCartItem} from '../../../controller/Cart';
+import {addCart, cartFromUser, updateCartItem} from '../../../services/Cart';
 import {colors, styles} from '../../../styles/styles';
 import _ from 'lodash';
 import {setCartData} from '../../../redux/action';
-import {getProductDetail} from '../../../controller/Product';
+import {getProductDetail} from '../../../services/Product';
 import {ActivityIndicator} from 'react-native-paper';
 
 const ProductDetail = ({route, navigation}) => {

@@ -11,7 +11,7 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {getMyShop, getProductByShop} from '../../../controller/Shop';
+import {getMyShop, getProductByShop} from '../../../services/Shop';
 import {colors, styles} from '../../../styles/styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {setShopId} from '../../../redux/action';

@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import {Appbar, Searchbar} from 'react-native-paper';
 import ProductItem from '../../../components/ProductItem';
-import {searchProduct} from '../../../controller/Product';
+import {searchProduct} from '../../../services/Product';
 import {styles} from '../../../styles/styles';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 

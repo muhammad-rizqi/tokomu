@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native-gesture-handler';
 import Button from '../../../components/Button';
-import {getUserDetail, updateUserDetail} from '../../../controller/User';
+import {getUserDetail, updateUserDetail} from '../../../services/User';
 import {styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
 import {useSelector} from 'react-redux';

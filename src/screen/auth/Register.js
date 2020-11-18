@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, ToastAndroid} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {register} from '../../controller/User';
+import {register} from '../../services/User';
 import {styles} from '../../styles/styles';
 import {ScrollView} from 'react-native-gesture-handler';
 import Button from '../../components/Button';

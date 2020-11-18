@@ -6,7 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native-gesture-handler';
-import {addShop, getMyShop} from '../../../controller/Shop';
+import {addShop, getMyShop} from '../../../services/Shop';
 import {styles} from '../../../styles/styles';
 import Button from '../../../components/Button';
 import ImagePicker from 'react-native-image-picker';

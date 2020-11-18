@@ -17,7 +17,9 @@ const BottomNavigator = ({token}) => {
   const cartBadge = cartReducer.length;
 
   return (
-    <BottomTab.Navigator barStyle={{backgroundColor: colors.backgroundDark2}}>
+    <BottomTab.Navigator
+      shifting={true}
+      barStyle={{backgroundColor: colors.backgroundDark2}}>
       <BottomTab.Screen
         name="Home"
         component={ProductNavigator}

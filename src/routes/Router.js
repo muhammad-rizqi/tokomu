@@ -7,12 +7,12 @@ import {NavigationContainer} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {changeToken, clearToken, setCartData, setUser} from '../redux/action';
 //component
-import {getToken, removeToken} from '../controller/Token';
+import {getToken, removeToken} from '../services/Token';
 import BottomNavigator from './dashboard/BottomNavigator';
 import {Splash} from '../screen';
-import {getUserInfo} from '../controller/User';
+import {getUserInfo} from '../services/User';
 import {ToastAndroid} from 'react-native';
-import {cartFromUser} from '../controller/Cart';
+import {cartFromUser} from '../services/Cart';
 
 const Router = () => {
   //redux

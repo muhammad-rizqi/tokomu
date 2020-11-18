@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, TextInput, ToastAndroid} from 'react-native';
-import {getUserInfo, login} from '../../controller/User';
-import {getToken, removeToken, storeToken} from '../../controller/Token';
+import {getUserInfo, login} from '../../services/User';
+import {getToken, removeToken, storeToken} from '../../services/Token';
 import {useDispatch} from 'react-redux';
 import {changeToken, clearToken, setUser} from '../../redux/action';
 import {styles} from '../../styles/styles';
