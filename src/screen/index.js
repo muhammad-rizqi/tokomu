@@ -14,6 +14,8 @@ import ProductDetail from './dashboard/Product/ProductDetail';
 import UpdateAccount from './dashboard/Profile/UpdateAccount';
 import SearchPoduct from './dashboard/Product/SearchProduct';
 import ShopAccount from './dashboard/Shop/ShopAccount';
+import Checkout from './dashboard/Checkout/Checkout';
+import TransactionList from './dashboard/Checkout/TransactionList';
 
 export {
   Login,
@@ -32,4 +34,6 @@ export {
   UpdateAccount,
   SearchPoduct,
   ShopAccount,
+  Checkout,
+  TransactionList,
 };
