@@ -13,6 +13,7 @@ import ShopUpdate from './dashboard/Shop/ShopUpdate';
 import ProductDetail from './dashboard/Product/ProductDetail';
 import UpdateAccount from './dashboard/Profile/UpdateAccount';
 import SearchPoduct from './dashboard/Product/SearchProduct';
+import ShopAccount from './dashboard/Shop/ShopAccount';
 
 export {
   Login,
@@ -30,4 +31,5 @@ export {
   ProductDetail,
   UpdateAccount,
   SearchPoduct,
+  ShopAccount,
 };

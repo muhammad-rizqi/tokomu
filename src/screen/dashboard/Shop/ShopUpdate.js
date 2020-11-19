@@ -98,7 +98,7 @@ const ShopUpdate = ({navigation}) => {
         style={styles.centerContainer}
         onPress={() => handleChoosePhoto()}>
         <Image
-          style={styles.profileImageLarge}
+          style={[styles.profileImageLarge, styles.marginVerticalMini]}
           source={
             photo
               ? photo
