@@ -6,6 +6,7 @@ import {getAccount} from '../../../services/ShopAccount';
 import {styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
 import {payment, sendPayment} from '../../../services/Payment';
+import {toPrice} from '../../../services/global_var/api';
 
 const Payment = ({route, navigation}) => {
   console.log(route.params.data);
@@ -71,11 +72,11 @@ const Payment = ({route, navigation}) => {
               {data.product.product_name}
             </Text>
             <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Rp. {data.product.price},-
+              Rp. {toPrice(data.product.price)},-
             </Text>
             <Text>Jumlah barang : {data.qty}</Text>
             <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Total Harga : {data.qty * data.product.price}
+              Total Harga : {toPrice(data.qty * data.product.price)}
             </Text>
           </View>
         </View>

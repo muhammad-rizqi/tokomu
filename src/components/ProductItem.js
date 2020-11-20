@@ -2,7 +2,10 @@ import React from 'react';
 import {View, Text, Image, TouchableNativeFeedback} from 'react-native';
 import {Card} from 'react-native-paper';
 import {styles} from '../styles/styles';
+import _ from 'lodash';
+import {toPrice} from '../services/global_var/api';
 
+// /(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1,'
 const ProductItem = ({product, onPress}) => {
   return (
     <TouchableNativeFeedback onPress={() => onPress()}>
@@ -16,7 +19,7 @@ const ProductItem = ({product, onPress}) => {
         <View style={styles.productTextContainer}>
           <Text numberOfLines={2}>{product.product_name}</Text>
           <Text style={styles.textPrice} numberOfLines={1}>
-            Rp. {product.price},-
+            Rp. {toPrice(product.price)},-
           </Text>
         </View>
       </Card>

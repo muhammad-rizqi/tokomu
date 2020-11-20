@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Image, ToastAndroid} from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
+import {toPrice} from '../../../services/global_var/api';
 import {addTransaction} from '../../../services/Transaction';
 import {getUserDetail} from '../../../services/User';
 import {styles} from '../../../styles/styles';
@@ -62,11 +63,11 @@ const Checkout = ({route, navigation}) => {
               {data.product.product_name}
             </Text>
             <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Rp. {data.product.price},-
+              Rp. {toPrice(data.product.price)},-
             </Text>
             <Text>Jumlah barang : {data.qty}</Text>
             <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Total Harga : {data.qty * data.product.price}
+              Total Harga : {toPrice(data.qty * data.product.price)}
             </Text>
           </View>
         </View>

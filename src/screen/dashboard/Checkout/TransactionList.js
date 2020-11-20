@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import {useSelector} from 'react-redux';
+import {toPrice} from '../../../services/global_var/api';
 import {getTransactionList} from '../../../services/Transaction';
 import {styles} from '../../../styles/styles';
 
@@ -46,9 +47,9 @@ const TransactionList = ({navigation}) => {
                   />
                   <View style={[styles.flex1, styles.marginHorizontalMini]}>
                     <Text>{transact.product.product_name}</Text>
-                    <Text>Rp. {transact.product.price}</Text>
+                    <Text>Rp. {toPrice(transact.product.price)}</Text>
                     <Text>Jumlah barang: {transact.qty}</Text>
-                    <Text>Rp. {transact.total}</Text>
+                    <Text>Rp. {toPrice(transact.total)}</Text>
                     <Text>{transact.status}</Text>
                   </View>
                 </View>

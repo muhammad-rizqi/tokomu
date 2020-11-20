@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native';
+import {toPrice} from '../../../services/global_var/api';
 
 const ShopTransaction = () => {
   const [transaction, setTransaction] = useState([]);
@@ -36,9 +37,9 @@ const ShopTransaction = () => {
                   />
                   <View style={[styles.flex1, styles.marginHorizontalMini]}>
                     <Text>{transact.product.product_name}</Text>
-                    <Text>Rp. {transact.product.price}</Text>
+                    <Text>Rp. {toPrice(transact.product.price)}</Text>
                     <Text>Jumlah barang: {transact.qty}</Text>
-                    <Text>Rp. {transact.total}</Text>
+                    <Text>Rp. {toPrice(transact.total)}</Text>
                     <Text>{transact.status}</Text>
                   </View>
                 </View>

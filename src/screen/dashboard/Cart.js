@@ -16,6 +16,7 @@ import {cartFromUser, deleteCartItem} from '../../services/Cart';
 import {setCartData} from '../../redux/action';
 import {colors, styles} from '../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {toPrice} from '../../services/global_var/api';
 
 const Cart = ({navigation}) => {
   const {token, user, cartReducer} = useSelector((state) => state);
@@ -109,7 +110,7 @@ const Cart = ({navigation}) => {
                       {product.product.product_name}
                     </Text>
                     <Text style={[styles.textPrice, styles.textSmallBold]}>
-                      Rp. {product.product.price},-
+                      Rp. {toPrice(product.product.price)},-
                     </Text>
                     <Text>Jumlah barang : {product.qty}</Text>
                   </View>

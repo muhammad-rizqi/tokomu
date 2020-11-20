@@ -20,6 +20,7 @@ import _ from 'lodash';
 import {setCartData} from '../../../redux/action';
 import {getProductDetail} from '../../../services/Product';
 import {ActivityIndicator} from 'react-native-paper';
+import {toPrice} from '../../../services/global_var/api';
 
 const ProductDetail = ({route, navigation}) => {
   const [modal, setmodal] = useState(false);
@@ -118,7 +119,9 @@ const ProductDetail = ({route, navigation}) => {
             </View>
             <View style={[styles.marginHorizontalMini, styles.flex1]}>
               <Text style={styles.textMediumBold}>{product.product_name}</Text>
-              <Text style={styles.textPrice}>Rp. {product.price},-</Text>
+              <Text style={styles.textPrice}>
+                Rp. {toPrice(product.price)},-
+              </Text>
               <Text>Stok : {product.stock} pcs</Text>
               <View style={[styles.row, styles.marginVerticalMini]}>
                 <TouchableOpacity
@@ -167,7 +170,7 @@ const ProductDetail = ({route, navigation}) => {
           <View style={styles.marginVerticalMini}>
             <Text style={styles.textMediumBold}>{product.product_name}</Text>
             <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Rp. {product.price},-
+              Rp. {toPrice(product.price)},-
             </Text>
           </View>
 
