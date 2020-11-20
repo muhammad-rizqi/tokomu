@@ -14,7 +14,7 @@ const ShopAccount = ({navigation}) => {
   const [bank, setBank] = useState('');
   const [code, setCode] = useState(0);
   const [error, seterror] = useState();
-  const [account, setAccount] = useState('');
+  const [accounts, setAccounts] = useState('');
 
   const addBankAccount = () => {
     setloading(true);
@@ -34,25 +34,31 @@ const ShopAccount = ({navigation}) => {
 
   const getBankAccount = async () => {
     const {data} = await getAccount(shop.id, token);
-    setAccount(data);
+    setAccounts(data);
     console.log(data);
   };
 
   useEffect(() => {
     getBankAccount();
-  }, []);
+  }, [navigation]);
 
   return (
     <View style={styles.screen}>
-      {account ? (
-        <>
-          <Text style={styles.textMediumBold}>{account.nama_rekening}</Text>
-          <Text>{account.nama_bank}</Text>
-          <Text style={styles.textMediumBold}>{account.no_rekening}</Text>
-          <Text>{account.kode_bank}</Text>
-        </>
+      {accounts ? (
+        accounts.length > 0 ? (
+          accounts.map((account) => (
+            <View key={account.id}>
+              <Text style={styles.textMediumBold}>{account.nama_rekening}</Text>
+              <Text>{account.nama_bank}</Text>
+              <Text style={styles.textMediumBold}>{account.no_rekening}</Text>
+              <Text>{account.kode_bank}</Text>
+            </View>
+          ))
+        ) : (
+          <Text>Kosong</Text>
+        )
       ) : (
-        <>
+        <View>
           <Text style={styles.textTitle}>Tambah Rekening Bank</Text>
           <Text>{loading ? 'Loading' : ''} </Text>
           <TextInput
@@ -104,7 +110,7 @@ const ShopAccount = ({navigation}) => {
             isLoading={loading}
             onPress={() => addBankAccount()}
           />
-        </>
+        </View>
       )}
     </View>
   );

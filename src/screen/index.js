@@ -16,6 +16,8 @@ import SearchPoduct from './dashboard/Product/SearchProduct';
 import ShopAccount from './dashboard/Shop/ShopAccount';
 import Checkout from './dashboard/Checkout/Checkout';
 import TransactionList from './dashboard/Checkout/TransactionList';
+import Payment from './dashboard/Checkout/Payment';
+import ShopTransaction from './dashboard/Shop/ShopTransaction';
 
 export {
   Login,
@@ -36,4 +38,6 @@ export {
   ShopAccount,
   Checkout,
   TransactionList,
+  Payment,
+  ShopTransaction,
 };

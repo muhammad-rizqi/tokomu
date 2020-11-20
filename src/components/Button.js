@@ -1,20 +1,29 @@
 import React from 'react';
-import {ActivityIndicator, Text, TouchableOpacity} from 'react-native';
+import {
+  ActivityIndicator,
+  Text,
+  TouchableNativeFeedback,
+  View,
+} from 'react-native';
 import {styles} from '../styles/styles';
 
 const Button = ({title, onPress, disabled, isLoading}) => {
   const disable = disabled === true || isLoading === true;
   return (
-    <TouchableOpacity
+    <TouchableNativeFeedback
       disabled={disable}
-      style={disabled ? [styles.button, styles.buttonDisabled] : styles.button}
       onPress={() => (onPress ? onPress() : null)}>
-      {isLoading ? (
-        <ActivityIndicator size="small" color="white" />
-      ) : (
-        <Text style={styles.textLight}>{title}</Text>
-      )}
-    </TouchableOpacity>
+      <View
+        style={
+          disabled ? [styles.button, styles.buttonDisabled] : styles.button
+        }>
+        {isLoading ? (
+          <ActivityIndicator size="small" color="white" />
+        ) : (
+          <Text style={styles.textLight}>{title}</Text>
+        )}
+      </View>
+    </TouchableNativeFeedback>
   );
 };
 

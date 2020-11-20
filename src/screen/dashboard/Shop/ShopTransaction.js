@@ -1,17 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {
-  View,
-  Text,
-  ToastAndroid,
-  Image,
-  TouchableNativeFeedback,
-} from 'react-native';
-import {Card} from 'react-native-paper';
-import {useSelector} from 'react-redux';
-import {getTransactionList} from '../../../services/Transaction';
-import {styles} from '../../../styles/styles';
+import React from 'react';
+import {View, Text} from 'react-native';
 
-const TransactionList = ({navigation}) => {
+const ShopTransaction = () => {
   const [transaction, setTransaction] = useState([]);
   const {token, user} = useSelector((state) => state);
   const [data, setData] = useState([]);
@@ -65,4 +55,4 @@ const TransactionList = ({navigation}) => {
   );
 };
 
-export default TransactionList;
+export default ShopTransaction;
