@@ -1,18 +1,29 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  ToastAndroid,
+  Image,
+  TouchableNativeFeedback,
+} from 'react-native';
+import {Card} from 'react-native-paper';
+import {useSelector} from 'react-redux';
 import {toPrice} from '../../../services/global_var/api';
+import {getShopTransaction} from '../../../services/Shop';
+import {styles} from '../../../styles/styles';
 
-const ShopTransaction = () => {
+const ShopTransaction = ({navigation}) => {
   const [transaction, setTransaction] = useState([]);
-  const {token, user} = useSelector((state) => state);
+  const {token, shop} = useSelector((state) => state);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    getTransactionList(user.id, token)
+    getShopTransaction(shop.id, token)
       .then((res) => {
+        console.log(res.data);
         if (res.status === 'success') {
-          setTransaction(res.data.transactions);
-          console.log(res.data.transactions);
+          setTransaction(res.data);
+          console.log(res.data);
         } else {
           ToastAndroid.show(res.message, ToastAndroid.LONG);
         }
@@ -28,16 +39,18 @@ const ShopTransaction = () => {
           transaction.map((transact) => (
             <TouchableNativeFeedback
               key={transact.id}
-              onPress={() => navigation.navigate('Payment', {data: transact})}>
+              onPress={() =>
+                navigation.navigate('UpdateTransactions', {id: transact.id})
+              }>
               <Card style={[styles.cartItem]}>
                 <View style={[styles.row, styles.container]}>
                   <Image
-                    source={{uri: transact.product.image}}
+                    source={{uri: transact.buying.image}}
                     style={styles.imgSquareSmall}
                   />
                   <View style={[styles.flex1, styles.marginHorizontalMini]}>
-                    <Text>{transact.product.product_name}</Text>
-                    <Text>Rp. {toPrice(transact.product.price)}</Text>
+                    <Text>{transact.buying.product_name}</Text>
+                    <Text>Rp. {toPrice(transact.buying.price)}</Text>
                     <Text>Jumlah barang: {transact.qty}</Text>
                     <Text>Rp. {toPrice(transact.total)}</Text>
                     <Text>{transact.status}</Text>

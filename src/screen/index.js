@@ -18,6 +18,7 @@ import Checkout from './dashboard/Checkout/Checkout';
 import TransactionList from './dashboard/Checkout/TransactionList';
 import Payment from './dashboard/Checkout/Payment';
 import ShopTransaction from './dashboard/Shop/ShopTransaction';
+import UpdateTransactions from './dashboard/Shop/UpdateTransactions';
 
 export {
   Login,
@@ -40,4 +41,5 @@ export {
   TransactionList,
   Payment,
   ShopTransaction,
+  UpdateTransactions,
 };

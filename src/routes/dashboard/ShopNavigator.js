@@ -7,6 +7,7 @@ import {
   ShopDashboard,
   ShopTransaction,
   ShopUpdate,
+  UpdateTransactions,
 } from '../../screen';
 
 const Drawer = createDrawerNavigator();
@@ -19,6 +20,7 @@ const ShopNavigator = () => {
       <Drawer.Screen name="AddProduct" component={AddProduct} />
       <Drawer.Screen name="ShopAccount" component={ShopAccount} />
       <Drawer.Screen name="ShopTransaction" component={ShopTransaction} />
+      <Drawer.Screen name="UpdateTransactions" component={UpdateTransactions} />
     </Drawer.Navigator>
   );
 };

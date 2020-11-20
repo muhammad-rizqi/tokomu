@@ -33,4 +33,8 @@ const getProductByShop = (shopId, token) => {
   return api('GET', `/shop/${shopId}/products`, null, token);
 };
 
+export const getShopTransaction = (shopId, token) => {
+  return api('GET', `/shop/${shopId}/transaction`, null, token);
+};
+
 export {getShopList, getShop, getMyShop, addShop, getProductByShop};
