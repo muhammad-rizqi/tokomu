@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {Chat, Cart} from '../../screen';
+import {Chat, Cart, Checkout} from '../../screen';
 import AuthNavigator from '../auth/AuthNavigator';
 import ProfileNavigator from './ProfileNavigator';
 import ShopNavigator from './ShopNavigator';
@@ -9,8 +9,10 @@ import ProductNavigator from './ProductNavigator';
 import {colors} from '../../styles/styles';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {createStackNavigator} from '@react-navigation/stack';
 
 const BottomTab = createMaterialBottomTabNavigator();
+const Stack = createStackNavigator();
 
 const BottomNavigator = ({token}) => {
   const {user, cartReducer} = useSelector((state) => state);
@@ -42,14 +44,19 @@ const BottomNavigator = ({token}) => {
           />
           <BottomTab.Screen
             name="Cart"
-            component={Cart}
             options={{
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons name="cart" color={color} size={26} />
               ),
               tabBarBadge: cartBadge > 0 ? cartBadge : null,
-            }}
-          />
+            }}>
+            {() => (
+              <Stack.Navigator>
+                <Stack.Screen name="Cart" component={Cart} />
+                <Stack.Screen name="Checkout" component={Checkout} />
+              </Stack.Navigator>
+            )}
+          </BottomTab.Screen>
           <BottomTab.Screen
             name="Profile"
             component={ProfileNavigator}

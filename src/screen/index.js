@@ -5,7 +5,6 @@ import Register from './auth/Register';
 import Cart from './dashboard/Cart';
 import Chat from './dashboard/Chat';
 import Profile from './dashboard/Profile';
-import Transaction from './dashboard/Transaction';
 import UpdateAddress from './dashboard/Profile/UpdateAddress';
 import AddProduct from './dashboard/Shop/AddProduct';
 import ShopDashboard from './dashboard/Shop/ShopDashboard';
@@ -29,7 +28,6 @@ export {
   Cart,
   Chat,
   Profile,
-  Transaction,
   UpdateAddress,
   AddProduct,
   ShopDashboard,

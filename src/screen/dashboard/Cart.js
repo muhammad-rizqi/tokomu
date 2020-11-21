@@ -91,17 +91,7 @@ const Cart = ({navigation}) => {
           cart.map((product, index) => (
             <TouchableNativeFeedback
               key={index}
-              onPress={() =>
-                navigation.navigate('Profile', {
-                  screen: 'Transaction',
-                  initial: false,
-                  params: {
-                    screen: 'Checkout',
-                    initial: false,
-                    params: {data: product},
-                  },
-                })
-              }>
+              onPress={() => navigation.navigate('Checkout', {data: product})}>
               <View style={[styles.cartItem, styles.container]}>
                 <View style={styles.row}>
                   <Image

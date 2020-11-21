@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, ToastAndroid} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ToastAndroid,
+  TouchableNativeFeedback,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
 import {toPrice} from '../../../services/global_var/api';
@@ -30,6 +36,7 @@ const Checkout = ({route, navigation}) => {
   }, [route]);
 
   const buy = async () => {
+    setLoading(true);
     try {
       const buyData = await addTransaction(
         user.id,
@@ -38,12 +45,14 @@ const Checkout = ({route, navigation}) => {
         token,
       );
       if (buyData.status === 'success') {
-        navigation.navigate('TransactionList');
+        navigation.navigate('Profile', {screen: 'Transaction'});
       }
       ToastAndroid.show(buyData.message, ToastAndroid.LONG);
       console.log(buyData);
     } catch (e) {
       ToastAndroid.show(e.message, ToastAndroid.LONG);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -76,24 +85,36 @@ const Checkout = ({route, navigation}) => {
 
       <View>
         <Text>Alamat Pengiriman</Text>
-        {userDetail.userdetail ? (
-          <>
-            <Text>Penerima : </Text>
-            <Text>{userDetail.name}</Text>
-            <Text>Alamat Penerima : </Text>
-            <Text>{userDetail.userdetail.address}</Text>
-            <Text>Telepon :</Text>
-            <Text>{userDetail.userdetail.phone_number}</Text>
-            <Button
-              title="Lanjutkan Pembayaran"
-              isLoading={loading}
-              onPress={() => buy()}
-            />
-          </>
+        {userDetail ? (
+          userDetail.userdetail ? (
+            <TouchableNativeFeedback
+              onPress={() =>
+                navigation.navigate('Profile', {screen: 'UpdateAddress'})
+              }>
+              <View>
+                <Text>Penerima : </Text>
+                <Text>{userDetail.name}</Text>
+                <Text>Alamat Penerima : </Text>
+                <Text>{userDetail.userdetail.address}</Text>
+                <Text>Telepon :</Text>
+                <Text>{userDetail.userdetail.phone_number}</Text>
+                <Button
+                  title="Lanjutkan Pembayaran"
+                  isLoading={loading}
+                  onPress={() => buy()}
+                />
+              </View>
+            </TouchableNativeFeedback>
+          ) : (
+            <Text
+              onPress={() =>
+                navigation.navigate('Profile', {screen: 'UpdateAddress'})
+              }>
+              Harap Lengkapi Profile
+            </Text>
+          )
         ) : (
-          <Text onPress={() => navigation.navigate('UpdateAddress')}>
-            Harap Lengkapi Profile
-          </Text>
+          <Text>Error</Text>
         )}
       </View>
     </View>
