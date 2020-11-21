@@ -42,15 +42,7 @@ const Payment = ({route, navigation}) => {
     try {
       const res = await sendPayment(data.id, photo, token);
       if (res.status === 'success') {
-        updateTransaction(data.id, 'diproses', token)
-          .then((response) => {
-            if (response.status === 'success') {
-              navigation.navigate('Transaction');
-            }
-            ToastAndroid.show(response.message, ToastAndroid.LONG);
-          })
-          .catch((e) => console.log(e))
-          .finally(() => setUploading(false));
+        updatePayment('diproses');
       }
     } catch (e) {
       console.log(e);
@@ -58,6 +50,19 @@ const Payment = ({route, navigation}) => {
     } finally {
       setUploading(false);
     }
+  };
+
+  const updatePayment = (status) => {
+    setUploading(true);
+    updateTransaction(data.id, status, token)
+      .then((response) => {
+        if (response.status === 'success') {
+          navigation.navigate('Transaction');
+        }
+        ToastAndroid.show(response.message, ToastAndroid.LONG);
+      })
+      .catch((e) => console.log(e))
+      .finally(() => setUploading(false));
   };
 
   const getPayment = () => {
@@ -136,7 +141,14 @@ const Payment = ({route, navigation}) => {
         {data.status === 'belum dibayar' ? (
           pay()
         ) : (
-          <Text>Barang sedang diproses penjual </Text>
+          <View>
+            <Text>{data.status} </Text>
+            <Button
+              isLoading={uploading}
+              title="Konfirmasi terima barang"
+              onPress={() => updatePayment('selesai')}
+            />
+          </View>
         )}
       </View>
     </ScrollView>
