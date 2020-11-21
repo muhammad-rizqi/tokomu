@@ -34,13 +34,13 @@ export const updateTransaction = (transactionId, status, token) => {
 export const approveTransaction = (
   transactionId,
   receipt,
-  delieryService,
+  deliveryService,
   token,
 ) => {
   const body = {
     transaction_id: transactionId,
     receipt: receipt,
-    deliery_service: delieryService,
+    delivery_service: deliveryService,
   };
   return api('POST', '/transaction/approve', JSON.stringify(body), token);
 };

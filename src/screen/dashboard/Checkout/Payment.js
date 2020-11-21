@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {View, Text, Image, ScrollView, ToastAndroid} from 'react-native';
 import {useSelector} from 'react-redux';
