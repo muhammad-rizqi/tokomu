@@ -177,7 +177,7 @@ const AddProduct = ({route, navigation}) => {
     <ScrollView style={[styles.screen, styles.container, styles.relative]}>
       <TouchableOpacity
         style={styles.absoluteTopRight}
-        onPress={() => navigation.navigate('ShopDashboard')}>
+        onPress={() => navigation.navigate('ProductDashboard')}>
         <MaterialCommunityIcons
           name="close"
           color={colors.backgroundDark2}
@@ -188,10 +188,9 @@ const AddProduct = ({route, navigation}) => {
         onPress={() => handleChoosePhoto()}
         style={styles.alignSelfCenter}>
         {photo ? (
-          <Image
-            source={{uri: prod.image ? prod.image : photo.uri}}
-            style={styles.imgSquareMedium}
-          />
+          <Image source={photo} style={styles.imgSquareMedium} />
+        ) : prod.image ? (
+          <Image source={{uri: prod.image}} style={styles.imgSquareMedium} />
         ) : (
           <MaterialCommunityIcons
             name="image-edit"
