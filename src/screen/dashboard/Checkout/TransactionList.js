@@ -33,7 +33,9 @@ const TransactionList = ({navigation}) => {
 
   return (
     <View>
-      <Text>TransactionList</Text>
+      <Text onPress={() => navigation.navigate('Profile')}>
+        TransactionList
+      </Text>
       {transaction ? (
         transaction.length > 0 ? (
           transaction.map((transact) => (

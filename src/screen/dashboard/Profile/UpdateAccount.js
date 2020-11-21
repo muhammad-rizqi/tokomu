@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {
   Text,
   TouchableOpacity,
-  Alert,
   ScrollView,
   View,
   ToastAndroid,

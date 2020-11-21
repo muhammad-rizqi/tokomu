@@ -94,7 +94,12 @@ const Cart = ({navigation}) => {
               onPress={() =>
                 navigation.navigate('Profile', {
                   screen: 'Transaction',
-                  params: {screen: 'Checkout', params: {data: product}},
+                  initial: false,
+                  params: {
+                    screen: 'Checkout',
+                    initial: false,
+                    params: {data: product},
+                  },
                 })
               }>
               <View style={[styles.cartItem, styles.container]}>
