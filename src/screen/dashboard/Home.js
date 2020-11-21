@@ -76,13 +76,19 @@ const Home = ({navigation}) => {
           ))}
         </ScrollView>
         <View style={styles.productContainer}>
-          {products.map((product) => (
-            <ProductItem
-              onPress={() => navigation.navigate('Detail', {data: product})}
-              product={product}
-              key={product.id}
-            />
-          ))}
+          {products ? (
+            products.length > 0 ? (
+              products.map((product) => (
+                <ProductItem
+                  onPress={() => navigation.navigate('Detail', {data: product})}
+                  product={product}
+                  key={product.id}
+                />
+              ))
+            ) : (
+              <Text>Kosong</Text>
+            )
+          ) : null}
         </View>
       </ScrollView>
     </View>

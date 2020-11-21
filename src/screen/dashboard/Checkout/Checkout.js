@@ -37,7 +37,7 @@ const Checkout = ({route, navigation}) => {
         token,
       );
       if (buyData.status === 'success') {
-        navigation.navigate('Cart');
+        navigation.navigate('TransactionList');
       }
       ToastAndroid.show(buyData.message, ToastAndroid.LONG);
       console.log(buyData);

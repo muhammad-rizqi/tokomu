@@ -25,7 +25,7 @@ export const updateTransaction = (transactionId, status, token) => {
 
   return api(
     'POST',
-    '/transactiom' + transactionId,
+    '/transaction/' + transactionId,
     JSON.stringify(body),
     token,
   );

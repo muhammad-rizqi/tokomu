@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, ScrollView} from 'react-native';
+import {View, Text, Image, ScrollView, ToastAndroid} from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
 import {getAccount} from '../../../services/ShopAccount';
@@ -7,6 +7,7 @@ import {styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
 import {payment, sendPayment} from '../../../services/Payment';
 import {toPrice} from '../../../services/global_var/api';
+import {updateTransaction} from '../../../services/Transaction';
 
 const Payment = ({route, navigation}) => {
   console.log(route.params.data);
@@ -35,12 +36,27 @@ const Payment = ({route, navigation}) => {
     });
   };
 
-  const uploadPayment = () => {
+  const uploadPayment = async () => {
     setUploading(true);
-    sendPayment(data.id, photo, token)
-      .then((res) => console.log(res))
-      .catch((e) => console.log(e))
-      .finally(() => setUploading(false));
+    try {
+      const res = await sendPayment(data.id, photo, token);
+      if (res.status === 'success') {
+        updateTransaction(data.id, 'diproses', token)
+          .then((response) => {
+            if (response.status === 'success') {
+              navigation.navigate('Transaction');
+            }
+            ToastAndroid.show(response.message, ToastAndroid.LONG);
+          })
+          .catch((e) => console.log(e))
+          .finally(() => setUploading(false));
+      }
+    } catch (e) {
+      console.log(e);
+      ToastAndroid.show(e.message, ToastAndroid.LONG);
+    } finally {
+      setUploading(false);
+    }
   };
 
   const getPayment = () => {
@@ -55,6 +71,42 @@ const Payment = ({route, navigation}) => {
     getBankAccount();
     getPayment();
   }, [navigation]);
+
+  const pay = () => {
+    return (
+      <View>
+        <Text>Lakukan Pembayaran Ke Rekening : </Text>
+        {accounts ? (
+          accounts.length > 0 ? (
+            accounts.map((account) => (
+              <View key={account.id}>
+                <Text>{account.nama_rekening}</Text>
+                <Text>{account.no_rekening}</Text>
+                <Text>{account.nama_bank}</Text>
+                <Text>{account.kode_bank}</Text>
+              </View>
+            ))
+          ) : (
+            <Text>Kosong</Text>
+          )
+        ) : null}
+        {photo.uri ? (
+          <Image source={{uri: photo.uri}} style={styles.imgSquareMedium} />
+        ) : (
+          <Button
+            title="Pilih Foto Bukti Pembayaran"
+            onPress={() => handleChoosePhoto()}
+          />
+        )}
+        <Button
+          title="Unggah Bukti Pembayaran"
+          disabled={!photo.uri}
+          isLoading={uploading}
+          onPress={() => uploadPayment()}
+        />
+      </View>
+    );
+  };
 
   return (
     <ScrollView>
@@ -80,37 +132,11 @@ const Payment = ({route, navigation}) => {
             </Text>
           </View>
         </View>
-        <View>
-          <Text>Lakukan Pembayaran Ke Rekening : </Text>
-          {accounts ? (
-            accounts.length > 0 ? (
-              accounts.map((account) => (
-                <>
-                  <Text>{account.nama_rekening}</Text>
-                  <Text>{account.no_rekening}</Text>
-                  <Text>{account.nama_bank}</Text>
-                  <Text>{account.kode_bank}</Text>
-                </>
-              ))
-            ) : (
-              <Text>Kosong</Text>
-            )
-          ) : null}
-          {photo.uri ? (
-            <Image source={{uri: photo.uri}} style={styles.imgSquareMedium} />
-          ) : (
-            <Button
-              title="Pilih Foto Bukti Pembayaran"
-              onPress={() => handleChoosePhoto()}
-            />
-          )}
-          <Button
-            title="Unggah Bukti Pembayaran"
-            disabled={!photo.uri}
-            isLoading={uploading}
-            onPress={() => uploadPayment()}
-          />
-        </View>
+        {data.status === 'belum dibayar' ? (
+          pay()
+        ) : (
+          <Text>Barang sedang diproses penjual </Text>
+        )}
       </View>
     </ScrollView>
   );

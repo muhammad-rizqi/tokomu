@@ -3,6 +3,7 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {
   AddProduct,
+  ProductDashboard,
   ShopAccount,
   ShopDashboard,
   ShopTransaction,
@@ -21,6 +22,7 @@ const ShopNavigator = () => {
       <Drawer.Screen name="ShopAccount" component={ShopAccount} />
       <Drawer.Screen name="ShopTransaction" component={ShopTransaction} />
       <Drawer.Screen name="UpdateTransactions" component={UpdateTransactions} />
+      <Drawer.Screen name="ProductDashboard" component={ProductDashboard} />
     </Drawer.Navigator>
   );
 };
