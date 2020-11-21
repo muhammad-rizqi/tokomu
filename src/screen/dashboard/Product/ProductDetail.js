@@ -23,18 +23,18 @@ import {ActivityIndicator} from 'react-native-paper';
 import {toPrice} from '../../../services/global_var/api';
 
 const ProductDetail = ({route, navigation}) => {
-  const [modal, setmodal] = useState(false);
-  const [qty, setqty] = useState(1);
-  const [buy, setbuy] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [qty, setQty] = useState(1);
+  const [buy, setBuy] = useState(false);
   const {token, user, cartReducer} = useSelector((state) => state);
-  const [loading, setloading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState([]);
   const [productLoading, setproductLoading] = useState(true);
 
   const productData = route.params.data;
 
   const addOrUpdate = () => {
-    setloading(true);
+    setLoading(true);
     const data = _.find(cartReducer, {product: {id: productData.id}});
     // => true
     const updateToCart = data
@@ -51,7 +51,7 @@ const ProductDetail = ({route, navigation}) => {
         } else {
           ToastAndroid.show(res.status, ToastAndroid.LONG);
         }
-        setmodal(false);
+        setModal(false);
         // setloading(false);
         if (buy) {
           navigation.navigate('Cart');
@@ -66,7 +66,7 @@ const ProductDetail = ({route, navigation}) => {
   const dispatch = useDispatch();
 
   const getCart = () => {
-    setloading(true);
+    setLoading(true);
     cartFromUser(user.id, token)
       .then((res) => {
         dispatch(setCartData(res.data.carts));
@@ -74,13 +74,13 @@ const ProductDetail = ({route, navigation}) => {
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);
       })
-      .finally(() => setloading(false));
+      .finally(() => setLoading(false));
   };
 
   const getDetail = async () => {
     setproductLoading(true);
-    const {data} = await getProductDetail(productData.id);
     try {
+      const {data} = await getProductDetail(productData.id);
       setProduct(data);
     } catch (e) {
       ToastAndroid.show(e.message, ToastAndroid.LONG);
@@ -101,10 +101,18 @@ const ProductDetail = ({route, navigation}) => {
     );
   }
 
+  if (product.shop === undefined) {
+    return (
+      <View style={[styles.centerContainer, styles.screen]}>
+        <Text>Product Tidak Ditemukan</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.screen}>
       <Modal transparent={true} visible={modal}>
-        <TouchableWithoutFeedback onPress={() => setmodal(false)}>
+        <TouchableWithoutFeedback onPress={() => setModal(false)}>
           <View style={[styles.flex1, styles.backgroundOpacity]} />
         </TouchableWithoutFeedback>
         <View style={{backgroundColor: colors.background}}>
@@ -122,14 +130,16 @@ const ProductDetail = ({route, navigation}) => {
               <Text style={styles.textPrice}>
                 Rp. {toPrice(product.price)},-
               </Text>
-              <Text>Stok : {product.stock} pcs</Text>
+              <Text>
+                Stok : {product.stock === 0 ? 'Habis' : `${product.stock} pcs`}
+              </Text>
               <View style={[styles.row, styles.marginVerticalMini]}>
                 <TouchableOpacity
                   style={[
                     styles.buttonOutlineSmall,
                     styles.marginHorizontalNano,
                   ]}
-                  onPress={() => (qty > 1 ? setqty(qty - 1) : qty)}>
+                  onPress={() => (qty > 2 ? setQty(qty - 1) : qty)}>
                   <Text style={styles.textMediumBold}>-</Text>
                 </TouchableOpacity>
                 <TextInput
@@ -137,18 +147,21 @@ const ProductDetail = ({route, navigation}) => {
                   value={`${qty}`}
                   maxLength={10}
                   keyboardType="numeric"
-                  onChangeText={(pcs) => setqty(pcs)}
+                  onChangeText={(pcs) => setQty(_.toInteger(pcs))}
                 />
                 <TouchableOpacity
                   style={[
                     styles.buttonOutlineSmall,
                     styles.marginHorizontalNano,
                   ]}
-                  onPress={() => setqty(qty + 1)}>
+                  onPress={() =>
+                    qty < product.stock ? setQty(_.add(qty, 1)) : qty
+                  }>
                   <Text style={styles.textMediumBold}>+</Text>
                 </TouchableOpacity>
               </View>
               <Button
+                disabled={qty <= 0 || qty > product.stock || !_.isNumber(qty)}
                 isLoading={loading}
                 onPress={() => addOrUpdate()}
                 title={buy ? 'Beli Sekarang' : 'Tambah ke keranjang'}
@@ -193,7 +206,9 @@ const ProductDetail = ({route, navigation}) => {
           </View>
           <View style={styles.marginVerticalMini}>
             <Text>Kategori : {product.category.category}</Text>
-            <Text>Stok : {product.stock} pcs</Text>
+            <Text>
+              Stok : {product.stock === 0 ? 'Habis' : `${product.stock} pcs`}
+            </Text>
           </View>
           <Text>Deskripsi : </Text>
           <View style={styles.marginVerticalMini}>
@@ -212,8 +227,8 @@ const ProductDetail = ({route, navigation}) => {
         <TouchableOpacity
           onPress={() => {
             if (user) {
-              setmodal(true);
-              setbuy(false);
+              setModal(true);
+              setBuy(false);
             } else {
               navigation.navigate('Login');
             }
@@ -229,8 +244,8 @@ const ProductDetail = ({route, navigation}) => {
             title="Beli Sekarang"
             onPress={() => {
               if (user) {
-                setmodal(true);
-                setbuy(true);
+                setModal(true);
+                setBuy(true);
               } else {
                 navigation.navigate('Login');
               }
