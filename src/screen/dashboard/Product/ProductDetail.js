@@ -21,6 +21,7 @@ import {setCartData} from '../../../redux/action';
 import {getProductDetail} from '../../../services/Product';
 import {ActivityIndicator} from 'react-native-paper';
 import {toPrice} from '../../../services/global_var/api';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ProductDetail = ({route, navigation}) => {
   const [modal, setModal] = useState(false);
@@ -219,9 +220,10 @@ const ProductDetail = ({route, navigation}) => {
       <View style={styles.row}>
         <TouchableOpacity
           style={[styles.buttonOutlineMedium, styles.marginHorizontalNano]}>
-          <Image
-            source={require('../../../assets/icons/chat-bubble.png')}
-            style={styles.icon}
+          <MaterialCommunityIcons
+            name="chat-plus"
+            color={colors.backgroundDark2}
+            size={26}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -234,9 +236,10 @@ const ProductDetail = ({route, navigation}) => {
             }
           }}
           style={[styles.buttonOutlineMedium, styles.marginHorizontalNano]}>
-          <Image
-            source={require('../../../assets/icons/shopping-cart.png')}
-            style={styles.icon}
+          <MaterialCommunityIcons
+            name="cart-plus"
+            color={colors.backgroundDark2}
+            size={26}
           />
         </TouchableOpacity>
         <View style={[styles.flex1, styles.marginHorizontalMini]}>

@@ -5,20 +5,24 @@ import {
   Text,
   ToastAndroid,
   Image,
+  ScrollView,
   TouchableNativeFeedback,
+  RefreshControl,
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import {useSelector} from 'react-redux';
 import {toPrice} from '../../../services/global_var/api';
 import {getTransactionList} from '../../../services/Transaction';
-import {styles} from '../../../styles/styles';
+import {colors, styles} from '../../../styles/styles';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const TransactionList = ({navigation}) => {
   const [transaction, setTransaction] = useState([]);
   const {token, user} = useSelector((state) => state);
-  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const getTransaction = () => {
+    setLoading(true);
     getTransactionList(user.id, token)
       .then((res) => {
         if (res.status === 'success') {
@@ -28,43 +32,66 @@ const TransactionList = ({navigation}) => {
           ToastAndroid.show(res.message, ToastAndroid.LONG);
         }
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.log(e))
+      .finally(() => setLoading(false));
+  };
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getTransaction();
+    });
+    return unsubscribe;
   }, [navigation]);
 
   return (
-    <View>
-      <Text onPress={() => navigation.navigate('Profile')}>
-        TransactionList
-      </Text>
-      {transaction ? (
-        transaction.length > 0 ? (
-          transaction.map((transact) => (
-            <TouchableNativeFeedback
-              key={transact.id}
-              onPress={() => navigation.navigate('Payment', {data: transact})}>
-              <Card style={[styles.cartItem]}>
-                <View style={[styles.row, styles.container]}>
-                  <Image
-                    source={{uri: transact.product.image}}
-                    style={styles.imgSquareSmall}
-                  />
-                  <View style={[styles.flex1, styles.marginHorizontalMini]}>
-                    <Text>{transact.product.product_name}</Text>
-                    <Text>Rp. {toPrice(transact.product.price)}</Text>
-                    <Text>Jumlah barang: {transact.qty}</Text>
-                    <Text>Rp. {toPrice(transact.total)}</Text>
-                    <Text>{transact.status}</Text>
+    <View style={styles.screen}>
+      <ScrollView
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => {
+              getTransaction();
+            }}
+          />
+        }>
+        <TouchableNativeFeedback onPress={() => navigation.navigate('Profile')}>
+          <MaterialCommunityIcons
+            name="arrow-left"
+            color={colors.backgroundDark2}
+            size={32}
+          />
+        </TouchableNativeFeedback>
+        {transaction ? (
+          transaction.length > 0 ? (
+            transaction.map((transact) => (
+              <TouchableNativeFeedback
+                key={transact.id}
+                onPress={() =>
+                  navigation.navigate('Payment', {data: transact})
+                }>
+                <Card style={[styles.cartItem]}>
+                  <View style={[styles.row, styles.container]}>
+                    <Image
+                      source={{uri: transact.product.image}}
+                      style={styles.imgSquareSmall}
+                    />
+                    <View style={[styles.flex1, styles.marginHorizontalMini]}>
+                      <Text>{transact.product.product_name}</Text>
+                      <Text>Rp. {toPrice(transact.product.price)}</Text>
+                      <Text>Jumlah barang: {transact.qty}</Text>
+                      <Text>Rp. {toPrice(transact.total)}</Text>
+                      <Text>{transact.status}</Text>
+                    </View>
                   </View>
-                </View>
-              </Card>
-            </TouchableNativeFeedback>
-          ))
+                </Card>
+              </TouchableNativeFeedback>
+            ))
+          ) : (
+            <Text>Data Kosong</Text>
+          )
         ) : (
-          <Text>Data Kosong</Text>
-        )
-      ) : (
-        <Text>Error</Text>
-      )}
+          <Text>Error</Text>
+        )}
+      </ScrollView>
     </View>
   );
 };

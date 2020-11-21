@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import Button from '../../../components/Button';
 import {getCategoryList} from '../../../services/Category';
-import {styles} from '../../../styles/styles';
+import {colors, styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
 import {
   addProduct,
@@ -21,7 +21,7 @@ import {
   updateProduct,
 } from '../../../services/Product';
 import {useSelector} from 'react-redux';
-import {hostWeb} from '../../../services/global_var/api';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AddProduct = ({route, navigation}) => {
   const prod = route.params.data;
@@ -178,26 +178,27 @@ const AddProduct = ({route, navigation}) => {
       <TouchableOpacity
         style={styles.absoluteTopRight}
         onPress={() => navigation.navigate('ShopDashboard')}>
-        <Image
-          style={styles.icon}
-          source={require('../../../assets/icons/close-button.png')}
+        <MaterialCommunityIcons
+          name="close"
+          color={colors.backgroundDark2}
+          size={26}
         />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => handleChoosePhoto()}
         style={styles.alignSelfCenter}>
-        <Image
-          source={
-            photo
-              ? photo
-              : prod.image
-              ? {
-                  uri: prod.image,
-                }
-              : require('../../../assets/icons/insert-picture-button.png')
-          }
-          style={styles.imgSquareMedium}
-        />
+        {photo ? (
+          <Image
+            source={{uri: prod.image ? prod.image : photo.uri}}
+            style={styles.imgSquareMedium}
+          />
+        ) : (
+          <MaterialCommunityIcons
+            name="image-edit"
+            color={colors.backgroundDark2}
+            size={150}
+          />
+        )}
       </TouchableOpacity>
       {error.image ? <Text style={styles.textError}>{error.image}</Text> : null}
       <View style={styles.marginVerticalMini}>
@@ -267,10 +268,12 @@ const AddProduct = ({route, navigation}) => {
         <TouchableOpacity
           style={[styles.row, styles.marginVerticalMini]}
           onPress={() => deleteItem(prod.id)}>
-          <Image
-            source={require('../../../assets/icons/rubbish-bin-delete-button.png')}
-            style={styles.icon}
+          <MaterialCommunityIcons
+            name="delete"
+            color={colors.backgroundDark2}
+            size={26}
           />
+
           <View style={[styles.marginHorizontalMini, styles.justifyCenter]}>
             <Text>Hapus</Text>
           </View>
