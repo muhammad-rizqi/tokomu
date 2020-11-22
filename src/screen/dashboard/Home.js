@@ -7,6 +7,7 @@ import {
   RefreshControl,
   ToastAndroid,
 } from 'react-native';
+import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import {Card, Searchbar, Title} from 'react-native-paper';
 import ProductItem from '../../components/ProductItem';
 import {getCategoryList} from '../../services/Category';
@@ -65,14 +66,12 @@ const Home = ({navigation}) => {
             navigation.navigate('Search', {query: keyword});
           }}
         />
-        <Text>Home</Text>
-
         <ScrollView horizontal={true}>
           {categories.map((category) => (
-            <Card
-              style={[styles.marginHorizontalMini, styles.container]}
-              key={'cat' + category.id}>
-              <Title>{category.category}</Title>
+            <Card style={styles.marginHorizontalMini} key={'cat' + category.id}>
+              <TouchableNativeFeedback style={styles.containerMini}>
+                <Text style={styles.textSmallBold}>{category.category}</Text>
+              </TouchableNativeFeedback>
             </Card>
           ))}
         </ScrollView>

@@ -201,4 +201,7 @@ export const styles = StyleSheet.create({
   backgroundDark: {
     backgroundColor: colors.backgroundDark2,
   },
+  containerMini: {
+    padding: 8,
+  },
 });
