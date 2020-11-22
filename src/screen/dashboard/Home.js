@@ -17,7 +17,6 @@ import {styles} from '../../styles/styles';
 const Home = ({navigation}) => {
   const [products, setProducts] = useState([]);
   const [loading, setloading] = useState(false);
-  const [keyword, setKeyword] = useState('');
   const [categories, setCategories] = useState([]);
 
   const getProduct = async () => {
@@ -61,10 +60,7 @@ const Home = ({navigation}) => {
         }>
         <Searchbar
           placeholder="Cari"
-          onChangeText={(value) => setKeyword(value)}
-          onSubmitEditing={() => {
-            navigation.navigate('Search', {query: keyword});
-          }}
+          onFocus={() => navigation.navigate('Search')}
         />
         <ScrollView horizontal={true}>
           {categories.map((category) => (

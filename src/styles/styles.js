@@ -204,4 +204,39 @@ export const styles = StyleSheet.create({
   containerMini: {
     padding: 8,
   },
+  composeMessage: {
+    backgroundColor: colors.backgroundDark2,
+    minHeight: 40,
+    maxHeight: 150,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 8,
+  },
+
+  incomingMessage: {
+    backgroundColor: colors.primary,
+    alignSelf: 'flex-start',
+  },
+
+  messageItem: {
+    padding: 8,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: colors.border,
+    marginVertical: 4,
+    minWidth: '40%',
+    maxWidth: '80%',
+    position: 'relative',
+    paddingBottom: 12,
+  },
+  outgoingMessage: {
+    backgroundColor: colors.backgroundDark2,
+    alignSelf: 'flex-end',
+  },
+  messageTime: {
+    position: 'absolute',
+    bottom: 0,
+    right: 5,
+    fontSize: 11,
+  },
 });

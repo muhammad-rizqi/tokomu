@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Image,
+  ToastAndroid,
 } from 'react-native';
 import {Appbar, Searchbar} from 'react-native-paper';
 import ProductItem from '../../../components/ProductItem';
@@ -60,24 +61,24 @@ const ShopSearch = ({route, navigation}) => {
 const SearchPoduct = ({route, navigation}) => {
   const [products, setProducts] = useState([]);
   const [loading, setloading] = useState(false);
-  const {query} = route.params;
   const [shops, setShops] = useState({});
   const [keyword, setKeyword] = useState('');
 
-  const getProduct = () => {
-    searchProduct(query).then((data) => {
-      if (data.data) {
-        setProducts(data.data.products);
-        setShops(data.data.shops);
-      }
-      setloading(false);
-    });
+  const getProduct = (query) => {
+    searchProduct(query)
+      .then((data) => {
+        if (data.data) {
+          setProducts(data.data.products);
+          setShops(data.data.shops);
+        }
+      })
+      .catch((e) => ToastAndroid.show(e.message, ToastAndroid.SHORT))
+      .finally(() => setloading(false));
   };
 
   useEffect(() => {
-    getProduct();
     setloading(true);
-  }, [query]);
+  }, []);
 
   return (
     <View style={styles.screen}>
@@ -87,9 +88,10 @@ const SearchPoduct = ({route, navigation}) => {
           <Searchbar
             style={styles.flex1}
             placeholder="Cari"
+            autoFocus={true}
             onChangeText={(value) => setKeyword(value)}
             onSubmitEditing={() => {
-              navigation.navigate('Search', {query: keyword});
+              getProduct(keyword);
             }}
           />
           {/* <Appbar.Action icon="dots-vertical" /> */}
