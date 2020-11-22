@@ -77,7 +77,7 @@ const AddProduct = ({route, navigation}) => {
       .then((res) => {
         if (res.data) {
           ToastAndroid.show('Berhasil', ToastAndroid.LONG);
-          navigation.navigate('ShopDashboard');
+          navigation.navigate('ProductDashboard');
         } else {
           seterror(res);
           ToastAndroid.show('Gagal Tambah Product', ToastAndroid.LONG);
@@ -109,7 +109,7 @@ const AddProduct = ({route, navigation}) => {
         console.log('hahaha');
         if (res.data) {
           ToastAndroid.show('Berhasil', ToastAndroid.LONG);
-          navigation.navigate('ShopDashboard');
+          navigation.navigate('ProductDashboard');
         } else {
           seterror(res);
           ToastAndroid.show('Gagal Tambah Product', ToastAndroid.LONG);
@@ -130,7 +130,7 @@ const AddProduct = ({route, navigation}) => {
       .then((res) => {
         if (res.status === 'success') {
           ToastAndroid.show('Berhasil Dihapus', ToastAndroid.LONG);
-          navigation.navigate('ShopDashboard');
+          navigation.navigate('ProductDashboard');
         } else {
           seterror(res);
           ToastAndroid.show('Gagal Hapus Product', ToastAndroid.LONG);

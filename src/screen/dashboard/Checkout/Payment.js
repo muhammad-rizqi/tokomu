@@ -9,6 +9,7 @@ import ImagePicker from 'react-native-image-picker';
 import {payment, sendPayment} from '../../../services/Payment';
 import {toPrice} from '../../../services/global_var/api';
 import {updateTransaction} from '../../../services/Transaction';
+import {invoiceByTransaction} from '../../../services/Invoice';
 
 const Payment = ({route, navigation}) => {
   console.log(route.params.data);
@@ -17,6 +18,8 @@ const Payment = ({route, navigation}) => {
   const [accounts, setAccounts] = useState([]);
   const [photo, setPhoto] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [invoice, setInvoice] = useState('');
+  const [paymentData, setPaymentData] = useState({});
 
   const getBankAccount = async () => {
     getAccount(data.shop_id, token)
@@ -57,7 +60,7 @@ const Payment = ({route, navigation}) => {
     updateTransaction(data.id, status, token)
       .then((response) => {
         if (response.status === 'success') {
-          navigation.navigate('Transaction');
+          navigation.navigate('TransactionList');
         }
         ToastAndroid.show(response.message, ToastAndroid.LONG);
       })
@@ -68,17 +71,24 @@ const Payment = ({route, navigation}) => {
   const getPayment = () => {
     setUploading(true);
     payment(data.id, token)
-      .then((res) => console.log(res))
+      .then((res) => setPaymentData(res.data.payment[0]))
       .catch((e) => console.log(e))
       .finally(() => setUploading(false));
+  };
+
+  const getInvoice = () => {
+    invoiceByTransaction(data.id, token)
+      .then((res) => setInvoice(res.data.payment[0]))
+      .catch((e) => console.log(e));
   };
 
   useEffect(() => {
     getBankAccount();
     getPayment();
+    getInvoice();
   }, [navigation]);
 
-  const pay = () => {
+  const PayView = () => {
     return (
       <View>
         <Text>Lakukan Pembayaran Ke Rekening : </Text>
@@ -114,9 +124,75 @@ const Payment = ({route, navigation}) => {
     );
   };
 
+  const PaymentDataView = () => {
+    return (
+      <View>
+        <Text>ID Transaksi : {JSON.stringify(paymentData.transaction_id)}</Text>
+        <Text>Bukti Pembayaran</Text>
+        <Image
+          source={{uri: paymentData.image}}
+          style={styles.productImageLarge}
+        />
+      </View>
+    );
+  };
+
+  const ConfirmPay = () => {
+    return (
+      <View>
+        <Button
+          isLoading={uploading}
+          title="Konfirmasi terima barang"
+          onPress={() => updatePayment('selesai')}
+        />
+      </View>
+    );
+  };
+
+  const InvoiceView = () => {
+    return (
+      <View>
+        <Text>Jasa Pengiriman : </Text>
+        <Text>{invoice.delivery_service}</Text>
+        <Text>Nomor Resi :</Text>
+        <Text>{invoice.receipt}</Text>
+      </View>
+    );
+  };
+
+  const StatusView = () => {
+    switch (data.status) {
+      case 'belum dibayar':
+        return <PayView />;
+      case 'diproses':
+        return (
+          <>
+            <PaymentDataView />
+          </>
+        );
+      case 'dikirim':
+        return (
+          <>
+            <PaymentDataView />
+            <InvoiceView />
+            <ConfirmPay />
+          </>
+        );
+      case 'selesai':
+        return (
+          <>
+            <PaymentDataView />
+            <InvoiceView />
+            <Text>Pesanan Selesai</Text>
+          </>
+        );
+
+      default:
+        return null;
+    }
+  };
   return (
     <ScrollView>
-      <Text>Payment</Text>
       <View style={[styles.cartItem, styles.container]}>
         <View style={styles.row}>
           <Image
@@ -138,18 +214,7 @@ const Payment = ({route, navigation}) => {
             </Text>
           </View>
         </View>
-        {data.status === 'belum dibayar' ? (
-          pay()
-        ) : (
-          <View>
-            <Text>{data.status} </Text>
-            <Button
-              isLoading={uploading}
-              title="Konfirmasi terima barang"
-              onPress={() => updatePayment('selesai')}
-            />
-          </View>
-        )}
+        <StatusView />
       </View>
     </ScrollView>
   );

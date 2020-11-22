@@ -102,7 +102,7 @@ const ProductDetail = ({route, navigation}) => {
     );
   }
 
-  if (product.shop === undefined) {
+  if (product.shop === undefined || product.shop === null) {
     return (
       <View style={[styles.centerContainer, styles.screen]}>
         <Text>Product Tidak Ditemukan</Text>
@@ -140,7 +140,7 @@ const ProductDetail = ({route, navigation}) => {
                     styles.buttonOutlineSmall,
                     styles.marginHorizontalNano,
                   ]}
-                  onPress={() => (qty > 2 ? setQty(qty - 1) : qty)}>
+                  onPress={() => (qty > 1 ? setQty(qty - 1) : qty)}>
                   <Text style={styles.textMediumBold}>-</Text>
                 </TouchableOpacity>
                 <TextInput
