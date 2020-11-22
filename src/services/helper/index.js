@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export const createFormData = (photo, fieldName, body) => {
   const data = new FormData();
 
@@ -12,4 +14,8 @@ export const createFormData = (photo, fieldName, body) => {
   });
 
   return data;
+};
+
+export const toPrice = (price) => {
+  return _.replace(price, /\B(?=(\d{3})+(?!\d))/g, '.');
 };

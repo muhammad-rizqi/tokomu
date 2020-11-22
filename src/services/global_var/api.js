@@ -1,7 +1,6 @@
 import {clearToken} from '../../redux/action';
 import store from '../../redux/store';
 import {removeToken} from '../Token';
-import _ from 'lodash';
 
 export const host = 'https://tokomu.herokuapp.com/api';
 export const hostWeb = 'https://tokomu.herokuapp.com';
@@ -35,8 +34,4 @@ export const api = (method, path, body = null, token = null, file = null) => {
     });
 
   return data;
-};
-
-export const toPrice = (price) => {
-  return _.replace(price, /\B(?=(\d{3})+(?!\d))/g, '.');
 };

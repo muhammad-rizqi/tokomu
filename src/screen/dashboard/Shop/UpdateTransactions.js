@@ -4,7 +4,7 @@ import {View, Text, Image, ToastAndroid} from 'react-native';
 import {ActivityIndicator, TextInput} from 'react-native-paper';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
-import {toPrice} from '../../../services/global_var/api';
+import {toPrice} from '../../../services/helper';
 import {payment} from '../../../services/Payment';
 import {
   approveTransaction,

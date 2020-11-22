@@ -20,8 +20,8 @@ import _ from 'lodash';
 import {setCartData} from '../../../redux/action';
 import {getProductDetail} from '../../../services/Product';
 import {ActivityIndicator} from 'react-native-paper';
-import {toPrice} from '../../../services/global_var/api';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {toPrice} from '../../../services/helper';
 
 const ProductDetail = ({route, navigation}) => {
   const [modal, setModal] = useState(false);

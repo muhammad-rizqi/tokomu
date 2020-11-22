@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import {useSelector} from 'react-redux';
-import {toPrice} from '../../../services/global_var/api';
+import {toPrice} from '../../../services/helper';
 import {getShopTransaction} from '../../../services/Shop';
 import {styles} from '../../../styles/styles';
 

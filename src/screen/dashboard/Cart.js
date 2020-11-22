@@ -16,7 +16,7 @@ import {cartFromUser, deleteCartItem} from '../../services/Cart';
 import {setCartData} from '../../redux/action';
 import {colors, styles} from '../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {toPrice} from '../../services/global_var/api';
+import {toPrice} from '../../services/helper';
 
 const Cart = ({navigation}) => {
   const {token, user, cartReducer} = useSelector((state) => state);

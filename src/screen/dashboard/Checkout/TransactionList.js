@@ -11,10 +11,10 @@ import {
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import {useSelector} from 'react-redux';
-import {toPrice} from '../../../services/global_var/api';
 import {getTransactionList} from '../../../services/Transaction';
 import {colors, styles} from '../../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {toPrice} from '../../../services/helper';
 
 const TransactionList = ({navigation}) => {
   const [transaction, setTransaction] = useState([]);

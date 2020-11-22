@@ -7,9 +7,9 @@ import {getAccount} from '../../../services/ShopAccount';
 import {styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
 import {payment, sendPayment} from '../../../services/Payment';
-import {toPrice} from '../../../services/global_var/api';
 import {updateTransaction} from '../../../services/Transaction';
 import {invoiceByTransaction} from '../../../services/Invoice';
+import {toPrice} from '../../../services/helper';
 
 const Payment = ({route, navigation}) => {
   console.log(route.params.data);

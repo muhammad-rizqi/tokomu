@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
-import {toPrice} from '../../../services/global_var/api';
+import {toPrice} from '../../../services/helper';
 import {addTransaction} from '../../../services/Transaction';
 import {getUserDetail} from '../../../services/User';
 import {styles} from '../../../styles/styles';

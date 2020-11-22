@@ -1,9 +1,8 @@
 import React from 'react';
 import {View, Text, Image, TouchableNativeFeedback} from 'react-native';
 import {Card} from 'react-native-paper';
+import {toPrice} from '../services/helper';
 import {styles} from '../styles/styles';
-import _ from 'lodash';
-import {toPrice} from '../services/global_var/api';
 
 // /(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, '$1,'
 const ProductItem = ({product, onPress}) => {
