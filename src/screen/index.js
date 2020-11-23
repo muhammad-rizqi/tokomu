@@ -20,6 +20,7 @@ import ShopTransaction from './dashboard/Shop/ShopTransaction';
 import UpdateTransactions from './dashboard/Shop/UpdateTransactions';
 import ProductDashboard from './dashboard/Shop/ProductDashboard';
 import ShopProduct from './dashboard/Product/ShopProduct';
+import CustomDrawerContent from './dashboard/CustomDrawerContent';
 
 export {
   Login,
@@ -44,4 +45,5 @@ export {
   UpdateTransactions,
   ProductDashboard,
   ShopProduct,
+  CustomDrawerContent,
 };

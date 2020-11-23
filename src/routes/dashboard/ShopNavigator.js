@@ -3,6 +3,7 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {
   AddProduct,
+  CustomDrawerContent,
   ProductDashboard,
   ShopAccount,
   ShopDashboard,
@@ -15,7 +16,8 @@ const Drawer = createDrawerNavigator();
 
 const ShopNavigator = () => {
   return (
-    <Drawer.Navigator>
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawerContent {...props} />}>
       <Drawer.Screen name="ShopDashboard" component={ShopDashboard} />
       <Drawer.Screen name="ShopUpdate" component={ShopUpdate} />
       <Drawer.Screen name="AddProduct" component={AddProduct} />
