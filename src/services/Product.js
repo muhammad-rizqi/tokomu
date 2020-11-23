@@ -75,3 +75,7 @@ export const searchProduct = (keyword) => {
   };
   return api('POST', '/search', JSON.stringify(body));
 };
+
+export const getProductByCategory = (categoryId) => {
+  return api('GET', `/product/category/${categoryId}`);
+};

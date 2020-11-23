@@ -11,7 +11,7 @@ import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import {Card, Searchbar, Title} from 'react-native-paper';
 import ProductItem from '../../components/ProductItem';
 import {getCategoryList} from '../../services/Category';
-import {getProductList} from '../../services/Product';
+import {getProductByCategory, getProductList} from '../../services/Product';
 import {styles} from '../../styles/styles';
 
 const Home = ({navigation}) => {
@@ -42,6 +42,19 @@ const Home = ({navigation}) => {
     }
   };
 
+  const getProductCategory = async (categoryId) => {
+    setloading(true);
+    try {
+      const {data} = await getProductByCategory(categoryId);
+      setProducts(data);
+      console.log(data);
+    } catch (e) {
+      ToastAndroid.show(e.message, ToastAndroid.LONG);
+    } finally {
+      getCategories();
+    }
+  };
+
   useEffect(() => {
     getProduct();
   }, []);
@@ -65,7 +78,9 @@ const Home = ({navigation}) => {
         <ScrollView horizontal={true}>
           {categories.map((category) => (
             <Card style={styles.marginHorizontalMini} key={'cat' + category.id}>
-              <TouchableNativeFeedback style={styles.containerMini}>
+              <TouchableNativeFeedback
+                style={styles.containerMini}
+                onPress={() => getProductCategory(category.id)}>
                 <Text style={styles.textSmallBold}>{category.category}</Text>
               </TouchableNativeFeedback>
             </Card>
