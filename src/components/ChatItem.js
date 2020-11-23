@@ -9,16 +9,12 @@ const ChatItem = ({outgoing, message, time}) => {
   const textStyle = outgoing ? {color: '#fff'} : {color: '#000'};
 
   return (
-    <View>
-      <View style={[messageStyle, styles.messageItem]}>
-        <TouchableNativeFeedback>
-          <View>
-            <Text style={textStyle}>{message}</Text>
-            <Text style={[styles.messageTime, textStyle]}>{time}</Text>
-          </View>
-        </TouchableNativeFeedback>
+    <TouchableNativeFeedback>
+      <View style={[styles.messageItem, messageStyle]}>
+        <Text style={textStyle}>{message}</Text>
+        <Text style={[styles.messageTime, textStyle]}>{time}</Text>
       </View>
-    </View>
+    </TouchableNativeFeedback>
   );
 };
 
