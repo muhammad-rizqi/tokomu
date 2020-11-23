@@ -56,6 +56,7 @@ const Chat = () => {
             time={msg.created_at.slice(11, 16)}
           />
         ))}
+        <View style={styles.marginVerticalLarge} />
       </ScrollView>
       <View style={styles.composeMessage}>
         <TextInput
