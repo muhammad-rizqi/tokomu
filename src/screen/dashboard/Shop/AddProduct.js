@@ -22,6 +22,7 @@ import {
 } from '../../../services/Product';
 import {useSelector} from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import _ from 'lodash';
 
 const AddProduct = ({route, navigation}) => {
   const prod = route.params.data;
@@ -231,7 +232,7 @@ const AddProduct = ({route, navigation}) => {
               keyboardType="numeric"
               placeholder="Harga"
               value={`${price}`}
-              onChangeText={(inputPrice) => setprice(inputPrice)}
+              onChangeText={(inputPrice) => setprice(_.toInteger(inputPrice))}
             />
             {error.price ? (
               <Text style={styles.textError}>{error.price}</Text>
@@ -243,7 +244,7 @@ const AddProduct = ({route, navigation}) => {
               keyboardType="numeric"
               placeholder="Stock"
               value={`${stock}`}
-              onChangeText={(inputStock) => setstock(inputStock)}
+              onChangeText={(inputStock) => setstock(_.toInteger(inputStock))}
             />
             {error.stock ? (
               <Text style={styles.textError}>{error.stock}</Text>
