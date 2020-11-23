@@ -19,6 +19,7 @@ import Payment from './dashboard/Checkout/Payment';
 import ShopTransaction from './dashboard/Shop/ShopTransaction';
 import UpdateTransactions from './dashboard/Shop/UpdateTransactions';
 import ProductDashboard from './dashboard/Shop/ProductDashboard';
+import ShopProduct from './dashboard/Product/ShopProduct';
 
 export {
   Login,
@@ -42,4 +43,5 @@ export {
   ShopTransaction,
   UpdateTransactions,
   ProductDashboard,
+  ShopProduct,
 };

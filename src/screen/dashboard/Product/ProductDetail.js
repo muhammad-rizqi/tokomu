@@ -190,7 +190,9 @@ const ProductDetail = ({route, navigation}) => {
 
           <View style={styles.marginVerticalMini}>
             <TouchableOpacity
-              onPress={() => Alert.alert('ShopUpdate')}
+              onPress={() =>
+                navigation.navigate('ShopProduct', {data: product.shop})
+              }
               style={styles.row}>
               <Image
                 style={styles.profileImageSmall}
