@@ -5,7 +5,6 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  Alert,
   ScrollView,
   Modal,
   TouchableWithoutFeedback,
@@ -221,7 +220,17 @@ const ProductDetail = ({route, navigation}) => {
       </ScrollView>
       <View style={styles.row}>
         <TouchableOpacity
-          style={[styles.buttonOutlineMedium, styles.marginHorizontalNano]}>
+          style={[styles.buttonOutlineMedium, styles.marginHorizontalNano]}
+          onPress={() => {
+            if (user) {
+              navigation.navigate('Chat', {
+                screen: 'ChatMessage',
+                params: {to: product.shop.owner.id},
+              });
+            } else {
+              navigation.navigate('Login');
+            }
+          }}>
           <MaterialCommunityIcons
             name="chat-plus"
             color={colors.backgroundDark2}

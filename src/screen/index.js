@@ -21,6 +21,7 @@ import UpdateTransactions from './dashboard/Shop/UpdateTransactions';
 import ProductDashboard from './dashboard/Shop/ProductDashboard';
 import ShopProduct from './dashboard/Product/ShopProduct';
 import CustomDrawerContent from './dashboard/CustomDrawerContent';
+import ChatMessages from './dashboard/Chat/ChatMessages';
 
 export {
   Login,
@@ -46,4 +47,5 @@ export {
   ProductDashboard,
   ShopProduct,
   CustomDrawerContent,
+  ChatMessages,
 };

@@ -1,77 +1,62 @@
 import React, {useEffect, useState} from 'react';
-import {
-  View,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
-import {colors, styles} from '../../styles/styles';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import ChatItem from '../../components/ChatItem';
-import {getChatMessages, sendMessage} from '../../services/Chat';
+import {View, Text, TouchableNativeFeedback, Image} from 'react-native';
 import {useSelector} from 'react-redux';
-import _ from 'lodash';
+import {getChatList} from '../../services/Chat';
+import {styles} from '../../styles/styles';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const Chat = () => {
-  const [chatMessages, setChatMessages] = useState([
-    {username: 'Jono', message: 'Halo', time: '20.00'},
-  ]);
-  const [message, setMessage] = useState('');
+const Chat = ({navigation}) => {
   const {token, user} = useSelector((state) => state);
+  const [chatList, setChatList] = useState({});
 
-  const getMessages = () => {
-    getChatMessages(user.id, 3, token)
-      .then((res) => {
-        setChatMessages(
-          _.sortBy(res.data, [
-            function (o) {
-              return o.id;
-            },
-          ]),
-        );
-        console.log(res.data);
-      })
+  const getList = () => {
+    getChatList(user.id, token)
+      .then((res) => setChatList(res.data))
       .catch((e) => console.log(e));
   };
 
   useEffect(() => {
-    getMessages();
-  }, []);
-
-  const sendChat = () => {
-    sendMessage(user.id, 3, message, token)
-      .then((res) => getMessages())
-      .catch((e) => console.log(e));
-  };
+    getList();
+  }, [navigation]);
 
   return (
-    <View style={styles.screen}>
-      <ScrollView style={[styles.container, styles.flex1]}>
-        {chatMessages.map((msg, index) => (
-          <ChatItem
-            key={index}
-            outgoing={msg.from === user.id}
-            message={msg.chat}
-            time={msg.created_at.slice(11, 16)}
-          />
-        ))}
-        <View style={styles.marginVerticalLarge} />
-      </ScrollView>
-      <View style={styles.composeMessage}>
-        <TextInput
-          placeholderTextColor="#4b4d5a"
-          placeholder="Tulis Pesan ..."
-          value={message}
-          style={[styles.textInput, styles.flex1]}
-          onChangeText={(messageText) => setMessage(messageText)}
-          multiline={true}
-        />
-        <TouchableOpacity
-          onPress={() => sendChat()}
-          style={styles.marginHorizontalMini}>
-          <MaterialCommunityIcons name="send" color={colors.white} size={26} />
-        </TouchableOpacity>
+    <View>
+      <View>
+        {chatList ? (
+          chatList.chats ? (
+            chatList.chats.map((chat) => (
+              <TouchableNativeFeedback
+                key={chat.id}
+                onPress={() =>
+                  navigation.navigate('ChatMessage', {to: chat.id})
+                }>
+                <View style={[styles.row, styles.containerMini]}>
+                  <View style={styles.marginHorizontalMini}>
+                    {chat.userdetail ? (
+                      <Image
+                        source={{
+                          uri: chat.shop
+                            ? chat.shop.image
+                            : chat.userdetail.avatar,
+                        }}
+                        style={styles.profileImageSmall}
+                      />
+                    ) : (
+                      <MaterialCommunityIcons name="account-circle" size={52} />
+                    )}
+                  </View>
+                  <View style={styles.centerContainer}>
+                    <Text style={styles.textMediumBold}>
+                      {chat.shop ? chat.shop.shop_name : chat.name}
+                    </Text>
+                  </View>
+                </View>
+              </TouchableNativeFeedback>
+            ))
+          ) : (
+            <Text>Kosong</Text>
+          )
+        ) : null}
       </View>
     </View>
   );

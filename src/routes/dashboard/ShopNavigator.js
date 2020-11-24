@@ -16,8 +16,7 @@ const Drawer = createDrawerNavigator();
 
 const ShopNavigator = () => {
   return (
-    <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawerContent {...props} />}>
+    <Drawer.Navigator>
       <Drawer.Screen name="ShopDashboard" component={ShopDashboard} />
       <Drawer.Screen name="ShopUpdate" component={ShopUpdate} />
       <Drawer.Screen name="AddProduct" component={AddProduct} />

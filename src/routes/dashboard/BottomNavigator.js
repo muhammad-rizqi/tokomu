@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import {Chat, Cart, Checkout} from '../../screen';
+import {Chat, Cart, Checkout, ChatMessages} from '../../screen';
 import AuthNavigator from '../auth/AuthNavigator';
 import ProfileNavigator from './ProfileNavigator';
 import ShopNavigator from './ShopNavigator';
@@ -35,13 +35,18 @@ const BottomNavigator = ({token}) => {
         <>
           <BottomTab.Screen
             name="Chat"
-            component={Chat}
             options={{
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons name="chat" color={color} size={26} />
               ),
-            }}
-          />
+            }}>
+            {() => (
+              <Stack.Navigator>
+                <Stack.Screen name="ChatList" component={Chat} />
+                <Stack.Screen name="ChatMessage" component={ChatMessages} />
+              </Stack.Navigator>
+            )}
+          </BottomTab.Screen>
           <BottomTab.Screen
             name="Cart"
             options={{
