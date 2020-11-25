@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   ScrollView,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
+  LogBox,
 } from 'react-native';
 import {colors, styles} from '../../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,18 +13,36 @@ import ChatItem from '../../../components/ChatItem';
 import {getChatMessages, sendMessage} from '../../../services/Chat';
 import {useSelector} from 'react-redux';
 import _ from 'lodash';
+import Pusher from 'pusher-js/react-native';
 
-const ChatMessages = ({route}) => {
-  const [chatMessages, setChatMessages] = useState([
-    {username: 'Jono', message: 'Halo', time: '20.00'},
-  ]);
+const ChatMessages = ({route, navigation}) => {
+  LogBox.ignoreAllLogs();
+  const [chatMessages, setChatMessages] = useState(null);
   const [message, setMessage] = useState('');
   const {token, user} = useSelector((state) => state);
   const {to} = route.params;
   const [loading, setLoading] = useState(true);
+  const scrollViewRef = useRef();
+
+  useEffect(() => {
+    var pusher = new Pusher('279a0700b81b07fb497f', {
+      cluster: 'ap1',
+    });
+
+    var channel = pusher.subscribe('my-channel');
+
+    channel.bind('my-event', function (data) {
+      if (`${data.from}` === `${to}` && `${data.to}` === `${user.id}`) {
+        getMessages();
+      }
+    });
+  }, [route]);
+
+  useEffect(() => {
+    getMessages();
+  }, [to]);
 
   const getMessages = () => {
-    setLoading(true);
     getChatMessages(user.id, to, token)
       .then((res) => {
         setChatMessages(
@@ -33,15 +52,10 @@ const ChatMessages = ({route}) => {
             },
           ]),
         );
-        console.log(res.data);
       })
       .catch((e) => console.log(e))
       .finally(() => setLoading(false));
   };
-
-  useEffect(() => {
-    getMessages();
-  }, []);
 
   if (loading) {
     return <ActivityIndicator color="blue" size="small" />;
@@ -49,12 +63,18 @@ const ChatMessages = ({route}) => {
   const sendChat = () => {
     sendMessage(user.id, to, message, token)
       .then((res) => getMessages())
-      .catch((e) => console.log(e));
+      .catch((e) => console.log(e))
+      .finally(() => getMessages());
   };
 
   return (
     <View style={styles.screen}>
-      <ScrollView style={[styles.container, styles.flex1]}>
+      <ScrollView
+        ref={scrollViewRef}
+        onContentSizeChange={() =>
+          scrollViewRef.current.scrollToEnd({animated: false})
+        }
+        style={[styles.container, styles.flex1]}>
         {chatMessages.map((msg, index) => (
           <ChatItem
             key={index}
