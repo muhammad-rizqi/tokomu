@@ -6,7 +6,7 @@ import ProfileNavigator from './ProfileNavigator';
 import ShopNavigator from './ShopNavigator';
 import {useSelector} from 'react-redux';
 import ProductNavigator from './ProductNavigator';
-import {colors} from '../../styles/styles';
+import {styles} from '../../styles/styles';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -21,7 +21,8 @@ const BottomNavigator = ({token}) => {
   return (
     <BottomTab.Navigator
       shifting={true}
-      barStyle={{backgroundColor: colors.backgroundDark2}}>
+      barStyle={styles.backgroundDark}
+      sceneAnimationEnabled={true}>
       <BottomTab.Screen
         name="Home"
         component={ProductNavigator}
