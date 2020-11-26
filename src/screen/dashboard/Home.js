@@ -90,6 +90,7 @@ const Home = ({navigation}) => {
                 styles.flex1,
                 styles.marginHorizontalMini,
               ]}
+              onFocus={() => navigation.navigate('Search')}
             />
           </View>
           <TouchableNativeFeedback>
