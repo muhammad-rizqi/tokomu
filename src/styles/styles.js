@@ -4,7 +4,7 @@ const windowWidth = Dimensions.get('window').width;
 // const windowHeight = Dimensions.get('window').height;
 
 export const colors = {
-  background: '#fafafa',
+  background: '#f1f1f1',
   white: 'white',
   backgroundDark: '#020C53',
   backgroundDark2: '#1A237E',
@@ -88,6 +88,9 @@ export const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  textMedium: {
+    fontSize: 18,
+  },
   row: {
     flexDirection: 'row',
   },
@@ -98,15 +101,11 @@ export const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 75,
-    borderWidth: 1,
-    borderColor: colors.border,
   },
   profileImageSmall: {
     width: 50,
     height: 50,
     borderRadius: 25,
-    borderWidth: 1,
-    borderColor: colors.border,
   },
   menuList: {
     paddingVertical: 16,
@@ -253,5 +252,23 @@ export const styles = StyleSheet.create({
   searchInput: {
     padding: 0,
     margin: 0,
+  },
+  productDetailName: {
+    fontSize: 18,
+  },
+  productDetailPrice: {
+    fontSize: 18,
+    color: colors.primaryDark,
+  },
+  backgroundLight: {
+    backgroundColor: colors.white,
+  },
+  alphaBgIcon: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: 'rgba(26, 35, 126, 0.25)',
   },
 });

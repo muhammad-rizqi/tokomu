@@ -5,7 +5,7 @@ const Stack = createStackNavigator();
 
 const ProductNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator headerMode={false}>
       <Stack.Screen
         name="Home"
         component={Home}

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {
@@ -18,10 +19,13 @@ import {colors, styles} from '../../../styles/styles';
 import _ from 'lodash';
 import {setCartData} from '../../../redux/action';
 import {getProductDetail} from '../../../services/Product';
-import {ActivityIndicator} from 'react-native-paper';
+import {ActivityIndicator, DataTable} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {toPrice} from '../../../services/helper';
+import {TouchableNativeFeedback} from 'react-native-gesture-handler';
+const {Dimensions} = require('react-native');
 
+const windowWidth = Dimensions.get('window').width;
 const ProductDetail = ({route, navigation}) => {
   const [modal, setModal] = useState(false);
   const [qty, setQty] = useState(1);
@@ -30,6 +34,7 @@ const ProductDetail = ({route, navigation}) => {
   const [loading, setLoading] = useState(false);
   const [product, setProduct] = useState([]);
   const [productLoading, setproductLoading] = useState(true);
+  const [alpha, setAlpha] = useState(0);
 
   const productData = route.params.data;
 
@@ -170,23 +175,25 @@ const ProductDetail = ({route, navigation}) => {
           </View>
         </View>
       </Modal>
-      <ScrollView>
-        <View>
-          <Image
-            source={{
-              uri: product.image,
-            }}
-            style={styles.productImageLarge}
-          />
-        </View>
-        <View style={styles.container}>
+      <ScrollView
+        onScroll={(e) => {
+          e.nativeEvent.contentOffset.y >= windowWidth * 0.8
+            ? setAlpha(1)
+            : setAlpha(0);
+        }}>
+        <Image
+          source={{
+            uri: product.image,
+          }}
+          style={styles.productImageLarge}
+        />
+        <View style={[styles.backgroundLight, styles.container]}>
           <View style={styles.marginVerticalMini}>
-            <Text style={styles.textMediumBold}>{product.product_name}</Text>
-            <Text style={[styles.textPrice, styles.textSmallBold]}>
+            <Text style={styles.productDetailName}>{product.product_name}</Text>
+            <Text style={[styles.productDetailPrice]}>
               Rp. {toPrice(product.price)},-
             </Text>
           </View>
-
           <View style={styles.marginVerticalMini}>
             <TouchableOpacity
               onPress={() =>
@@ -200,24 +207,83 @@ const ProductDetail = ({route, navigation}) => {
                 }}
               />
               <View style={[styles.marginHorizontalMini, styles.justifyCenter]}>
-                <Text style={styles.textMediumBold}>
-                  {product.shop.shop_name}
-                </Text>
+                <Text style={styles.textMedium}>{product.shop.shop_name}</Text>
               </View>
             </TouchableOpacity>
           </View>
+        </View>
+        <View
+          style={[
+            styles.container,
+            styles.backgroundLight,
+            styles.marginVerticalMini,
+          ]}>
           <View style={styles.marginVerticalMini}>
-            <Text>Kategori : {product.category.category}</Text>
-            <Text>
-              Stok : {product.stock === 0 ? 'Habis' : `${product.stock} pcs`}
-            </Text>
+            <Text style={styles.textMedium}>Informasi Barang</Text>
+            <DataTable>
+              <DataTable.Row>
+                <DataTable.Cell>Kategori</DataTable.Cell>
+                <DataTable.Cell>{product.category.category}</DataTable.Cell>
+              </DataTable.Row>
+              <DataTable.Row>
+                <DataTable.Cell>Stock</DataTable.Cell>
+                <DataTable.Cell>
+                  {product.stock === 0 ? 'Habis' : `${product.stock} pcs`}
+                </DataTable.Cell>
+              </DataTable.Row>
+            </DataTable>
           </View>
-          <Text>Deskripsi : </Text>
+        </View>
+        <View
+          style={[
+            styles.container,
+            styles.backgroundLight,
+            styles.marginVerticalMini,
+          ]}>
+          <Text style={styles.textMedium}>Deskripsi</Text>
           <View style={styles.marginVerticalMini}>
             <Text>{product.description}</Text>
           </View>
         </View>
       </ScrollView>
+      <View
+        style={[
+          {width: windowWidth, backgroundColor: `rgba(26, 35, 126, ${alpha})`},
+          styles.absoluteTopRight,
+        ]}>
+        <View style={[styles.row, styles.centerContainer]}>
+          <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+            <View style={[styles.marginHorizontalMini, styles.alphaBgIcon]}>
+              <MaterialCommunityIcons
+                name="arrow-left"
+                color={colors.white}
+                size={26}
+              />
+            </View>
+          </TouchableWithoutFeedback>
+          <View
+            style={[
+              styles.container,
+              styles.marginHorizontalMini,
+              styles.flex1,
+            ]}>
+            <Text
+              style={[styles.textLight, styles.textMedium]}
+              numberOfLines={1}>
+              {alpha === 1 ? product.product_name : ''}
+            </Text>
+          </View>
+          <TouchableNativeFeedback>
+            <View style={[styles.marginHorizontalMini, styles.alphaBgIcon]}>
+              <MaterialCommunityIcons
+                name="cart"
+                color={colors.white}
+                size={26}
+              />
+            </View>
+          </TouchableNativeFeedback>
+        </View>
+      </View>
       <View style={styles.row}>
         <TouchableOpacity
           style={[styles.buttonOutlineMedium, styles.marginHorizontalNano]}
