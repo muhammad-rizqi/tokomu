@@ -87,7 +87,8 @@ const Cart = ({navigation}) => {
           .catch((e) => console.log(e))
           .finally(() => getCart());
       } else {
-        deleteCartItem(cartId, token);
+        setloading(true);
+        deleteCartItem(cartId, token).finally(() => getCart());
       }
     } else {
       ToastAndroid.show('Angka yang anda masukkan salah !', ToastAndroid.LONG);
