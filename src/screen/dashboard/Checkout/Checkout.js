@@ -6,13 +6,16 @@ import {
   Image,
   ToastAndroid,
   TouchableNativeFeedback,
+  ScrollView,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
 import {toPrice} from '../../../services/helper';
 import {addTransaction} from '../../../services/Transaction';
 import {getUserDetail} from '../../../services/User';
-import {styles} from '../../../styles/styles';
+import {colors, styles} from '../../../styles/styles';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {DataTable} from 'react-native-paper';
 
 const Checkout = ({route, navigation}) => {
   const [loading, setLoading] = useState(false);
@@ -57,34 +60,8 @@ const Checkout = ({route, navigation}) => {
   };
 
   return (
-    <View style={[styles.screen, styles.container]}>
-      <Text style={styles.textTitle}>Checkout</Text>
-
-      <View style={[styles.cartItem, styles.container]}>
-        <View style={styles.row}>
-          <Image
-            source={{
-              uri: data.product.image,
-            }}
-            style={styles.imgSquareMini}
-          />
-          <View style={[styles.marginHorizontalMini, styles.flex1]}>
-            <Text style={styles.textMediumBold}>
-              {data.product.product_name}
-            </Text>
-            <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Rp. {toPrice(data.product.price)},-
-            </Text>
-            <Text>Jumlah barang : {data.qty}</Text>
-            <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Total Harga : {toPrice(data.qty * data.product.price)}
-            </Text>
-          </View>
-        </View>
-      </View>
-
-      <View>
-        <Text>Alamat Pengiriman</Text>
+    <ScrollView style={styles.screen}>
+      <View style={[styles.backgroundLight, styles.container]}>
         {userDetail ? (
           userDetail.userdetail ? (
             <TouchableNativeFeedback
@@ -92,21 +69,18 @@ const Checkout = ({route, navigation}) => {
                 navigation.navigate('Profile', {screen: 'UpdateAddress'})
               }>
               <View>
-                <Text>Penerima : </Text>
-                <Text>{userDetail.name}</Text>
-                <Text>Alamat Penerima : </Text>
+                <Text style={[styles.textMedium, styles.marginVerticalMini]}>
+                  Alamat Pengiriman :
+                </Text>
+                <Text style={styles.textSmallBold}>
+                  {userDetail.name} {`(${userDetail.userdetail.phone_number})`}
+                </Text>
                 <Text>{userDetail.userdetail.address}</Text>
-                <Text>Telepon :</Text>
-                <Text>{userDetail.userdetail.phone_number}</Text>
-                <Button
-                  title="Lanjutkan Pembayaran"
-                  isLoading={loading}
-                  onPress={() => buy()}
-                />
               </View>
             </TouchableNativeFeedback>
           ) : (
             <Text
+              style={styles.textMediumBold}
               onPress={() =>
                 navigation.navigate('Profile', {screen: 'UpdateAddress'})
               }>
@@ -117,7 +91,84 @@ const Checkout = ({route, navigation}) => {
           <Text>Error</Text>
         )}
       </View>
-    </View>
+      <View style={[styles.cartItem, styles.container]}>
+        <Text style={styles.textMedium}>Daftar Belanja</Text>
+        <View style={[styles.row, styles.marginVerticalMini]}>
+          <MaterialCommunityIcons
+            name="store"
+            color={colors.backgroundDark2}
+            size={18}
+          />
+          <Text style={[styles.marginHorizontalMini, styles.textSmallBold]}>
+            {data.product.shop.shop_name}
+          </Text>
+        </View>
+        <View style={styles.row}>
+          <Image
+            source={{
+              uri: data.product.image,
+            }}
+            style={styles.imgSquareMini}
+          />
+          <View style={[styles.marginHorizontalMini, styles.flex1]}>
+            <Text style={styles.textSmallBold}>
+              {data.product.product_name}
+            </Text>
+            <Text style={styles.textPrice}>
+              Rp. {toPrice(data.product.price)},-
+            </Text>
+            <Text>Jumlah barang : {data.qty}</Text>
+          </View>
+        </View>
+        <DataTable>
+          <DataTable.Row>
+            <DataTable.Cell>Total Harga</DataTable.Cell>
+            <DataTable.Cell numeric>
+              <Text style={[styles.textPrice, styles.textMediumBold]}>
+                Rp. {toPrice(data.qty * data.product.price)},-
+              </Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+        </DataTable>
+      </View>
+      <View style={[styles.cartItem, styles.container]}>
+        <Text style={styles.textMedium}>Rincian Harga</Text>
+        <DataTable>
+          <DataTable.Row>
+            <DataTable.Cell>Total Harga</DataTable.Cell>
+            <DataTable.Cell numeric>
+              <Text style={[styles.textPrice]}>
+                Rp. {toPrice(data.qty * data.product.price)},-
+              </Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row>
+            <DataTable.Cell>Ongkos Kirim</DataTable.Cell>
+            <DataTable.Cell numeric>
+              <Text style={[styles.textPrice]}>Rp. 0,-</Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+          <DataTable.Row>
+            <DataTable.Cell>
+              <Text style={styles.textMedium}>Total Pembayaran</Text>
+            </DataTable.Cell>
+            <DataTable.Cell numeric>
+              <Text style={[styles.textPrice, styles.textMediumBold]}>
+                Rp. {toPrice(data.qty * data.product.price)},-
+              </Text>
+            </DataTable.Cell>
+          </DataTable.Row>
+        </DataTable>
+      </View>
+      <View style={styles.container}>
+        <Button
+          title="Lanjutkan Pembayaran"
+          isLoading={loading}
+          disabled={userDetail ? (userDetail.userdetail ? false : true) : true}
+          onPress={() => buy()}
+        />
+      </View>
+    </ScrollView>
   );
 };
 
