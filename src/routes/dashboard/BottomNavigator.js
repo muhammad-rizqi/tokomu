@@ -7,11 +7,11 @@ import ShopNavigator from './ShopNavigator';
 import {useSelector} from 'react-redux';
 import ProductNavigator from './ProductNavigator';
 import {styles} from '../../styles/styles';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {createStackNavigator} from '@react-navigation/stack';
 
-const BottomTab = createMaterialBottomTabNavigator();
+const BottomTab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 const BottomNavigator = ({token}) => {
@@ -19,10 +19,7 @@ const BottomNavigator = ({token}) => {
   const cartBadge = cartReducer.length;
 
   return (
-    <BottomTab.Navigator
-      shifting={true}
-      barStyle={styles.backgroundDark}
-      sceneAnimationEnabled={true}>
+    <BottomTab.Navigator detachInactiveScreens={true}>
       <BottomTab.Screen
         name="Home"
         component={ProductNavigator}
@@ -37,6 +34,7 @@ const BottomNavigator = ({token}) => {
           <BottomTab.Screen
             name="Chat"
             options={{
+              unmountOnBlur: true,
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons name="chat" color={color} size={26} />
               ),
@@ -51,6 +49,7 @@ const BottomNavigator = ({token}) => {
           <BottomTab.Screen
             name="Cart"
             options={{
+              unmountOnBlur: true,
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons name="cart" color={color} size={26} />
               ),
