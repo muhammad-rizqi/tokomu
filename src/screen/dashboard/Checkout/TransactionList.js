@@ -69,17 +69,49 @@ const TransactionList = ({navigation}) => {
                   navigation.navigate('Payment', {data: transact})
                 }>
                 <Card style={[styles.cartItem]}>
+                  <View
+                    style={[
+                      styles.row,
+                      styles.marginVerticalMini,
+                      styles.marginHorizontalMini,
+                    ]}>
+                    <MaterialCommunityIcons
+                      name="store"
+                      color={colors.backgroundDark2}
+                      size={18}
+                    />
+                    <Text
+                      style={[
+                        styles.flex1,
+                        styles.marginHorizontalMini,
+                        styles.textSmallBold,
+                      ]}
+                      // numberOfLines={1}
+                    >
+                      {transact.product.shop.shop_name}
+                    </Text>
+                    <Text>{transact.status}</Text>
+                  </View>
                   <View style={[styles.row, styles.container]}>
                     <Image
                       source={{uri: transact.product.image}}
-                      style={styles.imgSquareSmall}
+                      style={styles.imgSquareMini}
                     />
                     <View style={[styles.flex1, styles.marginHorizontalMini]}>
                       <Text>{transact.product.product_name}</Text>
-                      <Text>Rp. {toPrice(transact.product.price)}</Text>
-                      <Text>Jumlah barang: {transact.qty}</Text>
-                      <Text>Rp. {toPrice(transact.total)}</Text>
-                      <Text>{transact.status}</Text>
+                      <Text style={styles.textRight}>
+                        Rp. {toPrice(transact.product.price)}
+                      </Text>
+                      <Text style={styles.textRight}>{transact.qty} x</Text>
+                      <Text
+                        style={[
+                          styles.textRight,
+                          styles.textPrice,
+                          styles,
+                          styles.textSmallBold,
+                        ]}>
+                        Total: Rp. {toPrice(transact.total)}
+                      </Text>
                     </View>
                   </View>
                 </Card>

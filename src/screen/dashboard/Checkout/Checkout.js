@@ -114,7 +114,7 @@ const Checkout = ({route, navigation}) => {
             <Text style={styles.textSmallBold}>
               {data.product.product_name}
             </Text>
-            <Text style={styles.textPrice}>
+            <Text style={[styles.textPrice, styles.textRight]}>
               Rp. {toPrice(data.product.price)},-
             </Text>
             <Text>Jumlah barang : {data.qty}</Text>
@@ -145,7 +145,7 @@ const Checkout = ({route, navigation}) => {
           <DataTable.Row>
             <DataTable.Cell>Ongkos Kirim</DataTable.Cell>
             <DataTable.Cell numeric>
-              <Text style={[styles.textPrice]}>Rp. 0,-</Text>
+              <Text style={[styles.textError]}>{'Rp. 0,- (Black Friday)'}</Text>
             </DataTable.Cell>
           </DataTable.Row>
           <DataTable.Row>

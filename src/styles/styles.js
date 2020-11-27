@@ -81,6 +81,9 @@ export const styles = StyleSheet.create({
   textCenter: {
     textAlign: 'center',
   },
+  textRight: {
+    textAlign: 'right',
+  },
   textError: {
     color: colors.error,
   },
