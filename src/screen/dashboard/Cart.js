@@ -7,16 +7,22 @@ import {
   TouchableOpacity,
   Image,
   ActivityIndicator,
-  TouchableNativeFeedback,
+  TouchableWithoutFeedback,
   ToastAndroid,
   RefreshControl,
+  TextInput,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {cartFromUser, deleteCartItem} from '../../services/Cart';
+import {
+  cartFromUser,
+  deleteCartItem,
+  updateCartItem,
+} from '../../services/Cart';
 import {setCartData} from '../../redux/action';
 import {colors, styles} from '../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {toPrice} from '../../services/helper';
+import _ from 'lodash';
 
 const Cart = ({navigation}) => {
   const {token, user, cartReducer} = useSelector((state) => state);
@@ -33,6 +39,7 @@ const Cart = ({navigation}) => {
         if (res.data) {
           setcart(res.data.carts);
           dispatch(setCartData(res.data.carts));
+          console.log(res.data.carts);
         } else {
           setcart([]);
           dispatch(setCartData([]));
@@ -61,7 +68,7 @@ const Cart = ({navigation}) => {
       getCart();
     });
     return unsubscribe;
-  }, [cartReducer]);
+  }, [cartReducer, user]);
 
   if (loading === true) {
     return (
@@ -71,6 +78,21 @@ const Cart = ({navigation}) => {
     );
   }
 
+  const setQty = (qty, cartId) => {
+    if (_.isNumber(qty)) {
+      if (qty > 0) {
+        setloading(true);
+        updateCartItem(cartId, qty, token)
+          .then((res) => ToastAndroid.show(res.message, ToastAndroid.LONG))
+          .catch((e) => console.log(e))
+          .finally(() => getCart());
+      } else {
+        deleteCartItem(cartId, token);
+      }
+    } else {
+      ToastAndroid.show('Angka yang anda masukkan salah !', ToastAndroid.LONG);
+    }
+  };
   return (
     <View style={styles.screen}>
       <ScrollView
@@ -89,36 +111,91 @@ const Cart = ({navigation}) => {
           </View>
         ) : (
           cart.map((product, index) => (
-            <TouchableNativeFeedback
-              key={index}
-              onPress={() => navigation.navigate('Checkout', {data: product})}>
+            <View key={index}>
               <View style={[styles.cartItem, styles.container]}>
-                <View style={styles.row}>
-                  <Image
-                    source={{
-                      uri: product.product.image,
-                    }}
-                    style={styles.imgSquareMini}
-                  />
-                  <View style={[styles.marginHorizontalMini, styles.flex1]}>
-                    <Text style={styles.textMediumBold}>
-                      {product.product.product_name}
-                    </Text>
-                    <Text style={[styles.textPrice, styles.textSmallBold]}>
-                      Rp. {toPrice(product.product.price)},-
-                    </Text>
-                    <Text>Jumlah barang : {product.qty}</Text>
-                  </View>
-                  <TouchableOpacity onPress={() => deleteCart(product.id)}>
+                <TouchableWithoutFeedback
+                  onPress={() =>
+                    navigation.navigate('ShopProduct', {
+                      data: product.product.shop,
+                    })
+                  }>
+                  <View style={[styles.row, styles.marginVerticalMini]}>
                     <MaterialCommunityIcons
-                      name="delete"
+                      name="store"
                       color={colors.backgroundDark2}
-                      size={26}
+                      size={18}
                     />
-                  </TouchableOpacity>
-                </View>
+                    <Text
+                      style={[
+                        styles.marginHorizontalMini,
+                        styles.textSmallBold,
+                      ]}>
+                      {product.product.shop.shop_name}
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback
+                  onPress={() =>
+                    navigation.navigate('Checkout', {data: product})
+                  }>
+                  <View style={styles.row}>
+                    <TouchableWithoutFeedback
+                      onPress={() =>
+                        navigation.navigate('Detail', {data: product.product})
+                      }>
+                      <Image
+                        source={{
+                          uri: product.product.image,
+                        }}
+                        style={styles.imgSquareSmall}
+                      />
+                    </TouchableWithoutFeedback>
+                    <View style={[styles.marginHorizontalMini, styles.flex1]}>
+                      <Text style={styles.textMedium} numberOfLines={2}>
+                        {product.product.product_name}
+                      </Text>
+                      <Text style={[styles.textPrice, styles.textMedium]}>
+                        Rp. {toPrice(product.product.price)},-
+                      </Text>
+                      <View>
+                        <View
+                          style={[
+                            styles.row,
+                            styles.marginVerticalMini,
+                            styles.centerContainer,
+                          ]}>
+                          <Text>Jumlah Pesanan : </Text>
+                          <TextInput
+                            style={styles.textInputMini}
+                            placeholder={`${product.qty}`}
+                            maxLength={10}
+                            keyboardType="numeric"
+                            onSubmitEditing={(pcs) => {
+                              pcs.nativeEvent.text <= product.product.stock
+                                ? setQty(
+                                    _.toInteger(pcs.nativeEvent.text),
+                                    product.id,
+                                  )
+                                : ToastAndroid.show(
+                                    'Stok tidak cukup',
+                                    ToastAndroid.LONG,
+                                  );
+                            }}
+                          />
+                        </View>
+                      </View>
+                    </View>
+                    <TouchableOpacity onPress={() => deleteCart(product.id)}>
+                      <MaterialCommunityIcons
+                        name="delete"
+                        color={colors.backgroundDark2}
+                        size={26}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </TouchableWithoutFeedback>
               </View>
-            </TouchableNativeFeedback>
+            </View>
           ))
         )}
       </ScrollView>

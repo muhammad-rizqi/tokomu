@@ -60,11 +60,12 @@ const ShopSearch = ({route, navigation}) => {
 
 const SearchPoduct = ({route, navigation}) => {
   const [products, setProducts] = useState([]);
-  const [loading, setloading] = useState(false);
+  const [loading, setloading] = useState(true);
   const [shops, setShops] = useState({});
   const [keyword, setKeyword] = useState('');
 
   const getProduct = (query) => {
+    setloading(true);
     searchProduct(query)
       .then((data) => {
         if (data.data) {
@@ -75,10 +76,6 @@ const SearchPoduct = ({route, navigation}) => {
       .catch((e) => ToastAndroid.show(e.message, ToastAndroid.SHORT))
       .finally(() => setloading(false));
   };
-
-  useEffect(() => {
-    setloading(true);
-  }, []);
 
   return (
     <View style={styles.screen}>
@@ -94,7 +91,6 @@ const SearchPoduct = ({route, navigation}) => {
               getProduct(keyword);
             }}
           />
-          {/* <Appbar.Action icon="dots-vertical" /> */}
         </Appbar.Header>
         {loading ? (
           <View style={[styles.screen]}>

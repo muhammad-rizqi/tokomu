@@ -158,7 +158,7 @@ export const styles = StyleSheet.create({
   alignSelfCenter: {alignSelf: 'center'},
   imgSquareMedium: {width: 150, height: 150, borderRadius: 10},
   imgSquareMini: {width: 50, height: 50, borderRadius: 5},
-  imgSquareSmall: {width: 75, height: 75, borderRadius: 5},
+  imgSquareSmall: {width: 100, height: 100, borderRadius: 5},
   justifyCenter: {justifyContent: 'center'},
   productImageLarge: {width: windowWidth, height: windowWidth},
   flex1: {flex: 1},

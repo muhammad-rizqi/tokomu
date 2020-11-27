@@ -291,7 +291,7 @@ const ProductDetail = ({route, navigation}) => {
             if (user) {
               navigation.navigate('Chat', {
                 screen: 'ChatMessage',
-                params: {to: product.shop.owner.id},
+                params: {to: product.shop.owner.id, initial: false},
               });
             } else {
               navigation.navigate('Login');

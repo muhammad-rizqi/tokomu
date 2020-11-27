@@ -11,7 +11,7 @@ import {
   Image,
 } from 'react-native';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
-import {Card, Searchbar, Appbar} from 'react-native-paper';
+import {Card} from 'react-native-paper';
 import ProductItem from '../../components/ProductItem';
 import {getCategoryList} from '../../services/Category';
 import {getProductByCategory, getProductList} from '../../services/Product';
@@ -103,10 +103,6 @@ const Home = ({navigation}) => {
             </View>
           </TouchableNativeFeedback>
         </View>
-        {/* <Searchbar
-          placeholder="Cari"
-          onFocus={() => navigation.navigate('Search')}
-        /> */}
       </View>
       <View style={styles.containerMini}>
         <ScrollView horizontal={true}>
