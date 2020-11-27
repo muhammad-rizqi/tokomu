@@ -86,7 +86,7 @@ const Payment = ({route, navigation}) => {
     getBankAccount();
     getPayment();
     getInvoice();
-  }, [navigation]);
+  }, [navigation, route]);
 
   const PayView = () => {
     return (

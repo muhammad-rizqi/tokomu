@@ -117,7 +117,7 @@ const Checkout = ({route, navigation}) => {
             <Text style={[styles.textPrice, styles.textRight]}>
               Rp. {toPrice(data.product.price)},-
             </Text>
-            <Text>Jumlah barang : {data.qty}</Text>
+            <Text style={styles.textRight}>{data.qty} x</Text>
           </View>
         </View>
         <DataTable>
