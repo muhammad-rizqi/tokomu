@@ -18,6 +18,7 @@ import ImagePicker from 'react-native-image-picker';
 import {
   addProduct,
   deleteProduct,
+  getProductDetail,
   updateProduct,
 } from '../../../services/Product';
 import {useSelector} from 'react-redux';
@@ -33,17 +34,12 @@ const AddProduct = ({route, navigation}) => {
   const shopReducer = useSelector((state) => state.shop);
 
   //data to send
-  const [productName, setproductName] = useState(
-    prod.product_name ? prod.product_name : '',
-  );
-  const [description, setdescription] = useState(
-    prod.description ? prod.description : '',
-  );
-  const [price, setprice] = useState(prod.price ? prod.price : 0);
-  const [stock, setstock] = useState(prod.stock ? prod.stock : 0);
-  const [category, setcategory] = useState(
-    prod.category_id ? prod.category_id : 1,
-  );
+  const [productName, setproductName] = useState(null);
+  const [description, setdescription] = useState(null);
+  const [price, setprice] = useState(1);
+  const [stock, setstock] = useState(1);
+  const [category, setcategory] = useState(1);
+  const [image, setimage] = useState(null);
   const [categories, setcategories] = useState([]);
   const [error, seterror] = useState({});
 
@@ -59,7 +55,22 @@ const AddProduct = ({route, navigation}) => {
       },
     );
   };
-
+  const getDetail = async () => {
+    try {
+      setuploading(true);
+      const {data} = await getProductDetail(prod.id);
+      setimage(data.image);
+      setproductName(data.product_name);
+      setdescription(data.description);
+      setprice(data.price);
+      setstock(data.stock);
+      setcategory(data.category.id);
+    } catch (e) {
+      // ToastAndroid.show(e.message, ToastAndroid.LONG);
+    } finally {
+      setuploading(false);
+    }
+  };
   const addProductToShop = () => {
     console.log('hahaha');
     console.log(photo);
@@ -160,16 +171,11 @@ const AddProduct = ({route, navigation}) => {
 
   useEffect(() => {
     getCategories();
-
+    getDetail();
     const unsubscribe = navigation.addListener('focus', () => {
       seterror([]);
       setuploading(false);
       setPhoto(null);
-      setproductName(prod.product_name ? prod.product_name : '');
-      setdescription(prod.description ? prod.description : '');
-      setprice(prod.price ? prod.price : 1);
-      setstock(prod.stock ? prod.stock : 1);
-      setcategory(prod.category_id ? prod.category_id : 1);
     });
     return unsubscribe;
   }, [prod]);
@@ -181,8 +187,8 @@ const AddProduct = ({route, navigation}) => {
         style={styles.alignSelfCenter}>
         {photo ? (
           <Image source={photo} style={styles.imgSquareMedium} />
-        ) : prod.image ? (
-          <Image source={{uri: prod.image}} style={styles.imgSquareMedium} />
+        ) : image ? (
+          <Image source={{uri: image}} style={styles.imgSquareMedium} />
         ) : (
           <MaterialCommunityIcons
             name="image-edit"
