@@ -238,9 +238,6 @@ export const styles = StyleSheet.create({
     alignSelf: 'flex-end',
   },
   messageTime: {
-    position: 'absolute',
-    bottom: 0,
-    right: 5,
     fontSize: 11,
   },
   searchBar: {

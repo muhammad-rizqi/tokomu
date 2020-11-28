@@ -29,9 +29,6 @@ import {colors, styles} from '../styles/styles';
 const Stack = createStackNavigator();
 
 const RootNavigator = ({token}) => {
-  const {user, cartReducer} = useSelector((state) => state);
-  const cartBadge = cartReducer.length;
-
   return (
     <Stack.Navigator
       screenOptions={{
@@ -62,7 +59,11 @@ const RootNavigator = ({token}) => {
           <Stack.Screen name="Checkout" component={Checkout} />
           <Stack.Screen name="Payment" component={Payment} />
           <Stack.Screen name="ChatList" component={Chat} />
-          <Stack.Screen name="ChatMessage" component={ChatMessages} />
+          <Stack.Screen
+            name="ChatMessage"
+            component={ChatMessages}
+            options={{headerShown: false}}
+          />
           <Stack.Screen name="ShopDashboard" component={ShopDashboard} />
           <Stack.Screen name="ShopUpdate" component={ShopUpdate} />
           <Stack.Screen name="AddProduct" component={AddProduct} />

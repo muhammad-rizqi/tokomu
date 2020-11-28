@@ -98,14 +98,16 @@ const Profile = ({navigation}) => {
       </View>
       <TouchableNativeFeedback
         style={styles.menuList}
-        onPress={() => navigation.navigate('TransactionList')}>
-        <Text>Transaksi</Text>
-      </TouchableNativeFeedback>
-      <TouchableNativeFeedback
-        style={styles.menuList}
         onPress={() => navigation.navigate('UpdateAddress')}>
         <Text>Update Profile</Text>
       </TouchableNativeFeedback>
+      {userData.role !== 2 ? (
+        <TouchableNativeFeedback
+          style={styles.menuList}
+          onPress={() => navigation.navigate('TransactionList')}>
+          <Text>Transaksi</Text>
+        </TouchableNativeFeedback>
+      ) : null}
       <TouchableNativeFeedback
         style={styles.menuList}
         onPress={() => navigation.navigate('UpdateAccount')}>

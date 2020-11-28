@@ -1,6 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, ScrollView, ToastAndroid} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  ToastAndroid,
+  ActivityIndicator,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
 import {getAccount} from '../../../services/ShopAccount';
@@ -11,9 +18,10 @@ import {updateTransaction} from '../../../services/Transaction';
 import {invoiceByTransaction} from '../../../services/Invoice';
 import {toPrice} from '../../../services/helper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {getUserDetail} from '../../../services/User';
+import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 
 const Payment = ({route, navigation}) => {
-  console.log(route.params.data);
   const {data} = route.params;
   const {token, user} = useSelector((state) => state);
   const [accounts, setAccounts] = useState([]);
@@ -21,6 +29,16 @@ const Payment = ({route, navigation}) => {
   const [uploading, setUploading] = useState(false);
   const [invoice, setInvoice] = useState('');
   const [paymentData, setPaymentData] = useState({});
+  const [userDetail, setUserDetail] = useState(null);
+
+  const getUser = async () => {
+    try {
+      const userData = await getUserDetail(user.id, token);
+      setUserDetail(userData.data.user);
+    } catch (e) {
+      ToastAndroid.show(e.message, ToastAndroid.LONG);
+    }
+  };
 
   const getBankAccount = async () => {
     getAccount(data.shop_id, token)
@@ -87,6 +105,7 @@ const Payment = ({route, navigation}) => {
     getBankAccount();
     getPayment();
     getInvoice();
+    getUser();
   }, [navigation, route]);
 
   const PayView = () => {
@@ -149,7 +168,7 @@ const Payment = ({route, navigation}) => {
 
   const ConfirmPay = () => {
     return (
-      <View>
+      <View style={styles.container}>
         <Button
           isLoading={uploading}
           title="Konfirmasi terima barang"
@@ -161,11 +180,12 @@ const Payment = ({route, navigation}) => {
 
   const InvoiceView = () => {
     return (
-      <View>
-        <Text>Jasa Pengiriman : </Text>
-        <Text>{invoice.delivery_service}</Text>
-        <Text>Nomor Resi :</Text>
-        <Text>{invoice.receipt}</Text>
+      <View style={[styles.cartItem, styles.container]}>
+        <Text style={[styles.textMedium, styles.marginVerticalLarge]}>
+          Informasi Pengiriman Barang :
+        </Text>
+        <Text>Jasa Pengiriman :{invoice.delivery_service}</Text>
+        <Text>Nomor Resi : {invoice.receipt}</Text>
       </View>
     );
   };
@@ -193,7 +213,14 @@ const Payment = ({route, navigation}) => {
           <>
             <PaymentDataView />
             <InvoiceView />
-            <Text>Pesanan Selesai</Text>
+            <Text
+              style={[
+                styles.textMedium,
+                styles.textCenter,
+                styles.marginVerticalLarge,
+              ]}>
+              Pesanan Selesai
+            </Text>
           </>
         );
 
@@ -252,6 +279,32 @@ const Payment = ({route, navigation}) => {
             </Text>
           </View>
         </View>
+      </View>
+      <View style={[styles.backgroundLight, styles.container]}>
+        {userDetail ? (
+          userDetail.userdetail ? (
+            <TouchableNativeFeedback
+              onPress={() => navigation.navigate('UpdateAddress')}>
+              <View>
+                <Text style={[styles.textMedium, styles.marginVerticalMini]}>
+                  Alamat Pengiriman :
+                </Text>
+                <Text style={styles.textSmallBold}>
+                  {userDetail.name} {`(${userDetail.userdetail.phone_number})`}
+                </Text>
+                <Text>{userDetail.userdetail.address}</Text>
+              </View>
+            </TouchableNativeFeedback>
+          ) : (
+            <Text
+              style={[styles.textMediumBold, styles.textError]}
+              onPress={() => navigation.navigate('UpdateAddress')}>
+              Harap Lengkapi Profile
+            </Text>
+          )
+        ) : (
+          <ActivityIndicator size="small" color={colors.primary} />
+        )}
       </View>
       <StatusView />
     </ScrollView>

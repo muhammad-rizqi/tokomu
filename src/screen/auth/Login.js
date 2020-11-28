@@ -44,6 +44,7 @@ const Login = ({navigation}) => {
               );
           });
         } else {
+          setLoading(false);
           dispatch(clearToken());
           ToastAndroid.show(response.error, ToastAndroid.SHORT);
         }

@@ -60,6 +60,7 @@ const Register = ({navigation}) => {
         <Text>Daftar Sebagai</Text>
         <View style={styles.textInput}>
           <Picker
+            mode="dropdown"
             selectedValue={role}
             onValueChange={(value) => setRole(value)}>
             <Picker.Item label="Pembeli" value={3} />
