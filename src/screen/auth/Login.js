@@ -26,13 +26,14 @@ const Login = ({navigation}) => {
         if (response.token) {
           storeToken(response.token);
           getToken().then((data) => {
-            ToastAndroid.show('Login Berhasil', ToastAndroid.SHORT);
             getUserInfo(data)
               .then((res) => {
+                setLoading(false);
                 if (res.data) {
                   const {id, name, role} = res.data.user;
                   dispatch(setUser(id, res.data.user.email, name, role));
                   dispatch(changeToken(data));
+                  ToastAndroid.show('Login Berhasil', ToastAndroid.SHORT);
                 } else if (res.status !== 'success') {
                   dispatch(clearToken());
                   removeToken();
@@ -46,7 +47,6 @@ const Login = ({navigation}) => {
           dispatch(clearToken());
           ToastAndroid.show(response.error, ToastAndroid.SHORT);
         }
-        setLoading(false);
       })
       .catch((err) => {
         dispatch(clearToken());

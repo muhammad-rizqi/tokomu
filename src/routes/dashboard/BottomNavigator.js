@@ -10,18 +10,26 @@ import {
   Home,
 } from '../../screen';
 import {useSelector} from 'react-redux';
+import {colors} from '../../styles/styles';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import {styles} from '../../styles/styles';
 
-const BottomTab = createMaterialBottomTabNavigator();
+const BottomTab = createBottomTabNavigator();
 
 const BottomNavigator = () => {
   const {user, cartReducer, token} = useSelector((state) => state);
   const cartBadge = cartReducer.length;
 
   return (
-    <BottomTab.Navigator shifting={true} barStyle={styles.backgroundDark}>
+    <BottomTab.Navigator
+      tabBarOptions={{
+        activeBackgroundColor: colors.backgroundDark2,
+        inactiveBackgroundColor: colors.backgroundDark2,
+        activeTintColor: colors.white,
+        inactiveTintColor: colors.backgroundGrey,
+        adaptive: true,
+        showLabel: false,
+      }}>
       {token !== null && user.role === 2 ? (
         <>
           <BottomTab.Screen
