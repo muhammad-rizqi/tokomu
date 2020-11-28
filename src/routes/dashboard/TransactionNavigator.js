@@ -6,13 +6,17 @@ const Stack = createStackNavigator();
 
 const TransactionNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{detachPreviousScreen: true}}>
       <Stack.Screen
         name="TransactionList"
         component={TransactionList}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="Payment" component={Payment} />
+      <Stack.Screen
+        name="Payment"
+        component={Payment}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };

@@ -13,6 +13,7 @@ import {Splash} from '../screen';
 import {getUserInfo} from '../services/User';
 import {ToastAndroid} from 'react-native';
 import {cartFromUser} from '../services/Cart';
+import RootNavigator from './RootNavigator';
 
 const Router = () => {
   //redux
@@ -74,7 +75,8 @@ const Router = () => {
 
   return (
     <NavigationContainer>
-      <BottomNavigator token={token} />
+      {/* <BottomNavigator token={token} /> */}
+      <RootNavigator token={token} />
     </NavigationContainer>
   );
 };

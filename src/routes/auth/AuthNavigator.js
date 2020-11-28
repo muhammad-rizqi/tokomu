@@ -7,10 +7,10 @@ const Stack = createStackNavigator();
 
 const AuthNavigator = () => {
   return (
-    <Stack.Navigator headerMode={false}>
+    <>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
-    </Stack.Navigator>
+    </>
   );
 };
 

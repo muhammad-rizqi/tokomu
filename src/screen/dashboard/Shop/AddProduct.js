@@ -78,7 +78,7 @@ const AddProduct = ({route, navigation}) => {
       .then((res) => {
         if (res.data) {
           ToastAndroid.show('Berhasil', ToastAndroid.LONG);
-          navigation.navigate('ProductDashboard');
+          navigation.goBack();
         } else {
           seterror(res);
           ToastAndroid.show('Gagal Tambah Product', ToastAndroid.LONG);
@@ -131,7 +131,7 @@ const AddProduct = ({route, navigation}) => {
       .then((res) => {
         if (res.status === 'success') {
           ToastAndroid.show('Berhasil Dihapus', ToastAndroid.LONG);
-          navigation.navigate('ProductDashboard');
+          navigation.goBack();
         } else {
           seterror(res);
           ToastAndroid.show('Gagal Hapus Product', ToastAndroid.LONG);
@@ -177,15 +177,6 @@ const AddProduct = ({route, navigation}) => {
   return (
     <ScrollView style={[styles.screen, styles.container, styles.relative]}>
       <TouchableOpacity
-        style={styles.absoluteTopRight}
-        onPress={() => navigation.navigate('ProductDashboard')}>
-        <MaterialCommunityIcons
-          name="close"
-          color={colors.backgroundDark2}
-          size={26}
-        />
-      </TouchableOpacity>
-      <TouchableOpacity
         onPress={() => handleChoosePhoto()}
         style={styles.alignSelfCenter}>
         {photo ? (
@@ -216,6 +207,7 @@ const AddProduct = ({route, navigation}) => {
         <TextInput
           style={[styles.textInput, styles.textInputMultiline]}
           multiline={true}
+          numberOfLines={3}
           placeholder="Deskripsi"
           value={description}
           onChangeText={(inputDesc) => setdescription(inputDesc)}

@@ -61,6 +61,7 @@ const ChatMessages = ({route, navigation}) => {
     return <ActivityIndicator color="blue" size="small" />;
   }
   const sendChat = () => {
+    setMessage(null);
     sendMessage(user.id, to, message, token)
       .then((res) => getMessages())
       .catch((e) => console.log(e))

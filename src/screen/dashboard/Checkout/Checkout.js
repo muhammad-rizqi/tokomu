@@ -23,8 +23,6 @@ const Checkout = ({route, navigation}) => {
   const [userDetail, setUserDetail] = useState({});
   const {token, user} = useSelector((state) => state);
 
-  console.log(userDetail);
-
   const getUser = async () => {
     try {
       const userData = await getUserDetail(user.id, token);
@@ -48,7 +46,7 @@ const Checkout = ({route, navigation}) => {
         token,
       );
       if (buyData.status === 'success') {
-        navigation.navigate('Profile', {screen: 'Transaction'});
+        navigation.navigate('TransactionList');
       }
       ToastAndroid.show(buyData.message, ToastAndroid.LONG);
       console.log(buyData);
@@ -65,9 +63,7 @@ const Checkout = ({route, navigation}) => {
         {userDetail ? (
           userDetail.userdetail ? (
             <TouchableNativeFeedback
-              onPress={() =>
-                navigation.navigate('Profile', {screen: 'UpdateAddress'})
-              }>
+              onPress={() => navigation.navigate('UpdateAddress')}>
               <View>
                 <Text style={[styles.textMedium, styles.marginVerticalMini]}>
                   Alamat Pengiriman :
@@ -80,10 +76,8 @@ const Checkout = ({route, navigation}) => {
             </TouchableNativeFeedback>
           ) : (
             <Text
-              style={styles.textMediumBold}
-              onPress={() =>
-                navigation.navigate('Profile', {screen: 'UpdateAddress'})
-              }>
+              style={[styles.textMediumBold, styles.textError]}
+              onPress={() => navigation.navigate('UpdateAddress')}>
               Harap Lengkapi Profile
             </Text>
           )
@@ -93,7 +87,7 @@ const Checkout = ({route, navigation}) => {
       </View>
       <View style={[styles.cartItem, styles.container]}>
         <Text style={styles.textMedium}>Daftar Belanja</Text>
-        <View style={[styles.row, styles.marginVerticalMini]}>
+        <View style={[styles.row, styles.marginVerticalLarge]}>
           <MaterialCommunityIcons
             name="store"
             color={colors.backgroundDark2}

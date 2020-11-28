@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 
 const ProfileNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator detachInactiveScreens={true} initialRouteName="Profile">
       <Stack.Screen
         name="Profile"
         component={Profile}
@@ -19,7 +19,7 @@ const ProfileNavigator = () => {
       <Stack.Screen
         name="Transaction"
         component={TransactionNavigator}
-        options={{headerShown: false}}
+        // options={{headerShown: false}}
       />
     </Stack.Navigator>
   );

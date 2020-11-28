@@ -289,10 +289,7 @@ const ProductDetail = ({route, navigation}) => {
           style={[styles.buttonOutlineMedium, styles.marginHorizontalNano]}
           onPress={() => {
             if (user) {
-              navigation.navigate('Chat', {
-                screen: 'ChatMessage',
-                params: {to: product.shop.owner.id, initial: false},
-              });
+              navigation.navigate('ChatMessage', {to: product.shop.owner.id});
             } else {
               navigation.navigate('Login');
             }

@@ -53,13 +53,6 @@ const TransactionList = ({navigation}) => {
             }}
           />
         }>
-        <TouchableNativeFeedback onPress={() => navigation.navigate('Profile')}>
-          <MaterialCommunityIcons
-            name="arrow-left"
-            color={colors.backgroundDark2}
-            size={32}
-          />
-        </TouchableNativeFeedback>
         {transaction ? (
           transaction.length > 0 ? (
             transaction.map((transact) => (

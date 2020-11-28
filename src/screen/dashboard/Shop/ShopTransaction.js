@@ -6,6 +6,8 @@ import {
   ToastAndroid,
   Image,
   TouchableNativeFeedback,
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 import {Card} from 'react-native-paper';
 import {useSelector} from 'react-redux';
@@ -17,8 +19,15 @@ const ShopTransaction = ({navigation}) => {
   const [transaction, setTransaction] = useState([]);
   const {token, shop} = useSelector((state) => state);
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    getList();
+  }, [navigation]);
+
+  const getList = () => {
+    setLoading(true);
+
     getShopTransaction(shop.id, token)
       .then((res) => {
         console.log(res.data);
@@ -29,12 +38,15 @@ const ShopTransaction = ({navigation}) => {
           ToastAndroid.show(res.message, ToastAndroid.LONG);
         }
       })
-      .catch((e) => console.log(e));
-  }, [navigation]);
+      .catch((e) => console.log(e))
+      .finally(() => setLoading(false));
+  };
 
   return (
-    <View>
-      <Text>TransactionList</Text>
+    <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={loading} onRefresh={() => getList()} />
+      }>
       {transaction ? (
         transaction.length > 0 ? (
           transaction.map((transact) => (
@@ -66,7 +78,7 @@ const ShopTransaction = ({navigation}) => {
       ) : (
         <Text>Error</Text>
       )}
-    </View>
+    </ScrollView>
   );
 };
 

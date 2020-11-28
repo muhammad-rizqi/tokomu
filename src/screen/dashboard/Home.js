@@ -67,10 +67,6 @@ const Home = ({navigation}) => {
     <View style={styles.screen}>
       <View style={[styles.backgroundDark, styles.containerMini]}>
         <View style={[styles.row, styles.centerContainer]}>
-          <Image
-            source={require('../../assets/img/smallLogo.png')}
-            style={{height: 40, width: 40}}
-          />
           <View
             style={[
               styles.searchBar,
@@ -90,7 +86,10 @@ const Home = ({navigation}) => {
                 styles.flex1,
                 styles.marginHorizontalMini,
               ]}
-              onFocus={() => navigation.navigate('Search')}
+              autoFocus={false}
+              focusable={false}
+              value={null}
+              onTouchStart={() => navigation.navigate('Search')}
             />
           </View>
           <TouchableNativeFeedback>
