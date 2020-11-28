@@ -98,9 +98,7 @@ const Profile = ({navigation}) => {
       </View>
       <TouchableNativeFeedback
         style={styles.menuList}
-        onPress={() =>
-          navigation.navigate('Transaction', {screen: 'Transaction'})
-        }>
+        onPress={() => navigation.navigate('TransactionList')}>
         <Text>Transaksi</Text>
       </TouchableNativeFeedback>
       <TouchableNativeFeedback

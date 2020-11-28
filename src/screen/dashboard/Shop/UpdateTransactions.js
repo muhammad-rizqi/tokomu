@@ -1,10 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, ToastAndroid} from 'react-native';
-import {ActivityIndicator, TextInput} from 'react-native-paper';
+import {
+  ActivityIndicator,
+  View,
+  Text,
+  Image,
+  ToastAndroid,
+  ScrollView,
+  TextInput,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
 import {toPrice} from '../../../services/helper';
+import {invoiceByTransaction} from '../../../services/Invoice';
 import {payment} from '../../../services/Payment';
 import {
   approveTransaction,
@@ -12,7 +20,7 @@ import {
   updateTransaction,
 } from '../../../services/Transaction';
 import {getUserDetail} from '../../../services/User';
-import {styles} from '../../../styles/styles';
+import {colors, styles} from '../../../styles/styles';
 
 const UpdateTransactions = ({route, navigation}) => {
   const {token} = useSelector((state) => state);
@@ -21,7 +29,7 @@ const UpdateTransactions = ({route, navigation}) => {
   const [buyer, setBuyer] = useState({});
   const [paymentData, setPaymentData] = useState({});
   const [loading, setLoading] = useState(false);
-
+  const [invoice, setInvoice] = useState([]);
   const [receipt, setReceipt] = useState('');
   const [delivery, setDelivery] = useState('');
   const [confLoading, setConfLoading] = useState(false);
@@ -39,6 +47,7 @@ const UpdateTransactions = ({route, navigation}) => {
       setData(transaction.data.transaction);
       setBuyer(userDetail.data.user);
       setPaymentData(getPayment.data.payment);
+      getInvoice();
     } catch (e) {
       console.log(e.message);
     } finally {
@@ -60,87 +69,171 @@ const UpdateTransactions = ({route, navigation}) => {
             })
             .catch((e) => console.log(e));
         }
-        ToastAndroid.show(JSON.stringify(res), ToastAndroid.LONG);
       })
       .catch((e) => console.log(e))
       .finally(() => setConfLoading(false));
   };
 
+  const getInvoice = () => {
+    invoiceByTransaction(data.id, token)
+      .then((res) => setInvoice(res.data.payment[0]))
+      .catch((e) => console.log(e));
+  };
+
   useEffect(() => {
     getInfo();
-  }, [id]);
+  }, [navigation]);
 
   if (loading) {
     return (
-      <View>
-        <ActivityIndicator />
+      <View style={styles.screen}>
+        <ActivityIndicator color={colors.primary} size="large" />
       </View>
     );
   }
+
   if (data === '') {
     return <Text>Kosong</Text>;
   }
 
-  return (
-    <View>
+  const PaymentImage = () => {
+    return (
       <View style={[styles.cartItem, styles.container]}>
-        <View style={styles.row}>
-          <Image
-            source={{
-              uri: data.product.image,
-            }}
-            style={styles.imgSquareMini}
+        <Text style={styles.textMedium}>Bukti Pembayaran</Text>
+        <Image
+          source={{uri: paymentData[0].image}}
+          style={[styles.productImageLarge, styles.marginVerticalLarge]}
+          resizeMode="contain"
+        />
+      </View>
+    );
+  };
+
+  const InvoiceView = () => {
+    return (
+      <View style={[styles.cartItem, styles.container]}>
+        <Text style={[styles.textMedium, styles.marginVerticalLarge]}>
+          Informasi Pengiriman Barang :
+        </Text>
+        <Text>Jasa Pengiriman :{invoice.delivery_service}</Text>
+        <Text>Nomor Resi : {invoice.receipt}</Text>
+      </View>
+    );
+  };
+  const SendConfirm = () => {
+    return (
+      <View style={[styles.cartItem, styles.container]}>
+        <Text style={[styles.textMedium, styles.marginVerticalMini]}>
+          Konfirmasi Pengiriman Pesanan
+        </Text>
+        <View style={styles.marginVerticalMini}>
+          <Text>Jasa Pengiriman</Text>
+          <TextInput
+            style={styles.textInput}
+            value={delivery}
+            placeholder="Jasa Pengiriman"
+            onChangeText={(iDelivery) => setDelivery(iDelivery)}
           />
-          <View style={[styles.marginHorizontalMini, styles.flex1]}>
-            <Text style={styles.textMediumBold}>
-              {data.product.product_name}
-            </Text>
-            <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Rp. {toPrice(data.product.price)},-
-            </Text>
-            <Text>Jumlah barang : {data.qty}</Text>
-            <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Total Harga : {toPrice(data.qty * data.product.price)}
-            </Text>
-          </View>
         </View>
-        <View>
-          {data.status === 'diproses' ? (
-            <View>
-              <Text>Nama Penerima</Text>
-              <Text>{buyer.name}</Text>
-              <Text>Alamat</Text>
-              <Text>{buyer.userdetail.address}</Text>
-              <Text>Nomor Telepon</Text>
-              <Text>{buyer.userdetail.phone_number}</Text>
-              <Text>Bukti Pembayaran</Text>
-              <Image
-                source={{uri: paymentData[0].image}}
-                style={styles.imgSquareMedium}
-              />
-              <View>
-                <TextInput
-                  mode="outlined"
-                  placeholder="Jasa Pengiriman"
-                  onChangeText={(iDelivery) => setDelivery(iDelivery)}
-                />
-                <TextInput
-                  mode="outlined"
-                  placeholder="Nomor Resi"
-                  onChangeText={(iReceipt) => setReceipt(iReceipt)}
-                />
-                <Button
-                  title="Konfirmasi Kirim Barang"
-                  onPress={() => confirm()}
-                  isLoading={confLoading}
-                />
+        <View style={styles.marginVerticalMini}>
+          <Text>Nomor Resi</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Nomor Resi"
+            onChangeText={(iReceipt) => setReceipt(iReceipt)}
+          />
+        </View>
+        <Button
+          title="Konfirmasi Kirim Barang"
+          onPress={() => confirm()}
+          isLoading={confLoading}
+        />
+      </View>
+    );
+  };
+
+  const cancelTransaction = () => {
+    updateTransaction(id, 'dibatalkan', token)
+      .then((response) => {
+        if (response.status === 'success') {
+          navigation.goBack();
+        }
+        ToastAndroid.show(response.message, ToastAndroid.LONG);
+      })
+      .catch((e) => console.log(e));
+  };
+
+  const CancelTransaction = () => {
+    return (
+      <View style={styles.container}>
+        <Button
+          title="Batalkan Transaksi"
+          onPress={() => cancelTransaction()}
+          isLoading={confLoading}
+        />
+      </View>
+    );
+  };
+
+  return (
+    <View style={styles.screen}>
+      <ScrollView>
+        <View style={[styles.cartItem, styles.container]}>
+          <View style={styles.row}>
+            <Image
+              source={{
+                uri: data.product.image,
+              }}
+              style={styles.imgSquareMini}
+            />
+            <View style={[styles.marginHorizontalMini, styles.flex1]}>
+              <Text style={styles.textMediumBold}>
+                {data.product.product_name}
+              </Text>
+              <View style={styles.marginVerticalMini}>
+                <Text style={[styles.textPrice, styles.textRight]}>
+                  Rp. {toPrice(data.product.price)},-
+                </Text>
+                <Text style={styles.textRight}>{data.qty} x</Text>
+                <Text
+                  style={[
+                    styles.textPrice,
+                    styles.textSmallBold,
+                    styles.textRight,
+                  ]}>
+                  Total: {toPrice(data.qty * data.product.price)}
+                </Text>
               </View>
             </View>
-          ) : (
-            <Text>Selesai</Text>
-          )}
+          </View>
         </View>
-      </View>
+        <View style={[styles.cartItem, styles.container]}>
+          <Text style={[styles.textMedium, styles.marginVerticalMini]}>
+            Alamat Penerima
+          </Text>
+          <Text style={styles.textSmallBold}>
+            {buyer.name + ' (' + buyer.userdetail.phone_number + ')'}{' '}
+          </Text>
+          <Text>{buyer.userdetail.address}</Text>
+        </View>
+        <View>
+          {data.status !== 'belum dibayar'
+            ? data.status !== 'dibatalkan'
+              ? PaymentImage()
+              : null
+            : null}
+
+          {data.status === 'belum dibayar'
+            ? CancelTransaction()
+            : data.status === 'diproses'
+            ? SendConfirm()
+            : data.status === 'dikirim'
+            ? InvoiceView()
+            : data.status === 'selesai'
+            ? InvoiceView()
+            : null}
+        </View>
+      </ScrollView>
     </View>
   );
 };

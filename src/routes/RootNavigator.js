@@ -62,7 +62,11 @@ const RootNavigator = ({token}) => {
           <Stack.Screen name="ShopUpdate" component={ShopUpdate} />
           <Stack.Screen name="AddProduct" component={AddProduct} />
           <Stack.Screen name="ShopAccount" component={ShopAccount} />
-          <Stack.Screen name="ShopTransaction" component={ShopTransaction} />
+          <Stack.Screen
+            name="ShopTransaction"
+            component={ShopTransaction}
+            options={{detachPreviousScreen: true}}
+          />
           <Stack.Screen
             name="UpdateTransactions"
             component={UpdateTransactions}

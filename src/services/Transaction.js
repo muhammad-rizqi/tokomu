@@ -44,3 +44,7 @@ export const approveTransaction = (
   };
   return api('POST', '/transaction/approve', JSON.stringify(body), token);
 };
+
+export const removeTransaction = (transactionId, token) => {
+  return api('DELETE', `/transaction/${transactionId}`, null, token);
+};

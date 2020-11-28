@@ -13,16 +13,20 @@ import {Card} from 'react-native-paper';
 import {useSelector} from 'react-redux';
 import {toPrice} from '../../../services/helper';
 import {getShopTransaction} from '../../../services/Shop';
-import {styles} from '../../../styles/styles';
+import {removeTransaction} from '../../../services/Transaction';
+import {colors, styles} from '../../../styles/styles';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ShopTransaction = ({navigation}) => {
   const [transaction, setTransaction] = useState([]);
   const {token, shop} = useSelector((state) => state);
-  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getList();
+    const unsubscribe = navigation.addListener('focus', () => {
+      getList();
+    });
+    return unsubscribe;
   }, [navigation]);
 
   const getList = () => {
@@ -33,13 +37,38 @@ const ShopTransaction = ({navigation}) => {
         console.log(res.data);
         if (res.status === 'success') {
           setTransaction(res.data);
-          console.log(res.data);
         } else {
           ToastAndroid.show(res.message, ToastAndroid.LONG);
         }
       })
       .catch((e) => console.log(e))
       .finally(() => setLoading(false));
+  };
+
+  const deleteTransaction = (id) => {
+    removeTransaction(id, token)
+      .then((res) => ToastAndroid.show(res.message, ToastAndroid.LONG))
+      .catch((err) => console.log(err))
+      .finally(() => getList());
+  };
+
+  const DeleteView = ({transact}) => {
+    switch (transact.status) {
+      case 'selesai':
+      case 'dibatalkan':
+        return (
+          <TouchableNativeFeedback
+            onPress={() => deleteTransaction(transact.id)}>
+            <MaterialCommunityIcons
+              name="delete"
+              color={colors.backgroundDark2}
+              size={26}
+            />
+          </TouchableNativeFeedback>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -62,19 +91,35 @@ const ShopTransaction = ({navigation}) => {
                     style={styles.imgSquareSmall}
                   />
                   <View style={[styles.flex1, styles.marginHorizontalMini]}>
-                    <Text>{transact.buying.product_name}</Text>
-                    <Text>Rp. {toPrice(transact.buying.price)}</Text>
-                    <Text>Jumlah barang: {transact.qty}</Text>
-                    <Text>Rp. {toPrice(transact.total)}</Text>
-                    <Text>{transact.status}</Text>
+                    <Text style={styles.textMedium} numberOfLines={2}>
+                      {transact.buying.product_name}
+                    </Text>
+                    <View style={styles.marginVerticalMini}>
+                      <Text style={styles.textRight}>
+                        Rp. {toPrice(transact.buying.price)}
+                      </Text>
+                      <Text style={styles.textRight}>{transact.qty} x</Text>
+                      <Text
+                        style={[
+                          styles.textRight,
+                          styles.textMedium,
+                          styles.textPrice,
+                        ]}>
+                        Rp. {toPrice(transact.total)}
+                      </Text>
+                    </View>
+                    <Text style={[styles.textRight, styles.textSmallBold]}>
+                      {transact.status}
+                    </Text>
                   </View>
+                  <DeleteView transact={transact} />
                 </View>
               </Card>
             </TouchableNativeFeedback>
           ))
-        ) : (
+        ) : loading === false ? (
           <Text>Data Kosong</Text>
-        )
+        ) : null
       ) : (
         <Text>Error</Text>
       )}
