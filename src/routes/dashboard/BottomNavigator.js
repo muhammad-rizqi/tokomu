@@ -3,45 +3,25 @@ import React from 'react';
 import {
   Chat,
   Cart,
-  Checkout,
-  ChatMessages,
   Login,
-  ShopProduct,
   ProductDashboard,
   ShopTransaction,
   Profile,
   Home,
 } from '../../screen';
-import AuthNavigator from '../auth/AuthNavigator';
-import ProfileNavigator from './ProfileNavigator';
-import ShopNavigator from './ShopNavigator';
 import {useSelector} from 'react-redux';
-import ProductNavigator from './ProductNavigator';
-import {colors} from '../../styles/styles';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+import {styles} from '../../styles/styles';
 
-const BottomTab = createBottomTabNavigator();
-const Stack = createStackNavigator();
+const BottomTab = createMaterialBottomTabNavigator();
 
 const BottomNavigator = () => {
   const {user, cartReducer, token} = useSelector((state) => state);
   const cartBadge = cartReducer.length;
 
   return (
-    <BottomTab.Navigator
-      detachInactiveScreens={true}
-      screenOptions={{unmountOnBlur: true}}
-      tabBarOptions={{
-        activeBackgroundColor: colors.backgroundDark2,
-        inactiveBackgroundColor: colors.backgroundDark2,
-        activeTintColor: colors.white,
-        inactiveTintColor: colors.backgroundGrey,
-        adaptive: true,
-        showLabel: false,
-        allowFontScaling: true,
-      }}>
+    <BottomTab.Navigator shifting={true} barStyle={styles.backgroundDark}>
       {token !== null && user.role === 2 ? (
         <>
           <BottomTab.Screen
@@ -83,7 +63,6 @@ const BottomNavigator = () => {
             <BottomTab.Screen
               name="Cart"
               options={{
-                unmountOnBlur: true,
                 tabBarIcon: ({color}) => (
                   <MaterialCommunityIcons name="cart" color={color} size={26} />
                 ),
@@ -110,7 +89,6 @@ const BottomNavigator = () => {
           <BottomTab.Screen
             name="Chat"
             options={{
-              unmountOnBlur: true,
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons name="chat" color={color} size={26} />
               ),
@@ -122,7 +100,6 @@ const BottomNavigator = () => {
             name="Profile"
             component={Profile}
             options={{
-              unmountOnBlur: true,
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons
                   name="account-circle"

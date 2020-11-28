@@ -245,13 +245,16 @@ const AddProduct = ({route, navigation}) => {
         </View>
       </View>
       <View style={styles.marginVerticalMini}>
-        <Picker
-          selectedValue={category}
-          onValueChange={(value) => setcategory(value)}>
-          {categories.map((cat) => (
-            <Picker.Item label={cat.category} value={cat.id} key={cat.id} />
-          ))}
-        </Picker>
+        <View style={styles.textInput}>
+          <Picker
+            mode="dropdown"
+            selectedValue={category}
+            onValueChange={(value) => setcategory(value)}>
+            {categories.map((cat) => (
+              <Picker.Item label={cat.category} value={cat.id} key={cat.id} />
+            ))}
+          </Picker>
+        </View>
         {error.category ? (
           <Text style={styles.textError}>{error.category}</Text>
         ) : null}

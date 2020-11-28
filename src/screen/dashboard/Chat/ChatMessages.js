@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
@@ -32,7 +33,10 @@ const ChatMessages = ({route, navigation}) => {
     var channel = pusher.subscribe('my-channel');
 
     channel.bind('my-event', function (data) {
-      if (`${data.from}` === `${to}` && `${data.to}` === `${user.id}`) {
+      if (
+        (`${data.from}` === `${to}` && `${data.to}` === `${user.id}`) ||
+        (`${data.to}` === `${to}` && `${data.from}` === `${user.id}`)
+      ) {
         getMessages();
       }
     });

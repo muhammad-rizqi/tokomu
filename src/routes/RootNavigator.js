@@ -24,6 +24,7 @@ import {
   UpdateTransactions,
 } from '../screen';
 import {useSelector} from 'react-redux';
+import {colors, styles} from '../styles/styles';
 
 const Stack = createStackNavigator();
 
@@ -32,7 +33,11 @@ const RootNavigator = ({token}) => {
   const cartBadge = cartReducer.length;
 
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: styles.backgroundDark,
+        headerTintColor: colors.white,
+      }}>
       <Stack.Screen
         name="Home"
         component={BottomNavigator}
