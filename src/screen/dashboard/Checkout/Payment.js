@@ -4,12 +4,13 @@ import {View, Text, Image, ScrollView, ToastAndroid} from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
 import {getAccount} from '../../../services/ShopAccount';
-import {styles} from '../../../styles/styles';
+import {colors, styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
 import {payment, sendPayment} from '../../../services/Payment';
 import {updateTransaction} from '../../../services/Transaction';
 import {invoiceByTransaction} from '../../../services/Invoice';
 import {toPrice} from '../../../services/helper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Payment = ({route, navigation}) => {
   console.log(route.params.data);
@@ -90,12 +91,21 @@ const Payment = ({route, navigation}) => {
 
   const PayView = () => {
     return (
-      <View>
-        <Text>Lakukan Pembayaran Ke Rekening : </Text>
+      <View style={[styles.cartItem, styles.container]}>
+        <Text style={styles.textMedium}>Petunjuk Pembayaran </Text>
+        <Text
+          style={[
+            styles.textMedium,
+            styles.marginVerticalLarge,
+            styles.textRight,
+          ]}>
+          Rp. {toPrice(data.qty * data.product.price)},-
+        </Text>
+        <Text>Transfer dapat dilakukan ke salah satu rekening berikut</Text>
         {accounts ? (
           accounts.length > 0 ? (
             accounts.map((account) => (
-              <View key={account.id}>
+              <View key={account.id} style={styles.marginVerticalMini}>
                 <Text>{account.nama_rekening}</Text>
                 <Text>{account.no_rekening}</Text>
                 <Text>{account.nama_bank}</Text>
@@ -193,7 +203,24 @@ const Payment = ({route, navigation}) => {
   };
   return (
     <ScrollView>
+      <View style={styles.containerMini}>
+        <Text style={styles.textMedium}>Informasi Pembelian</Text>
+        <View style={styles.row}>
+          <Text style={styles.flex1}>No Transaksi:</Text>
+          <Text>ID: {data.id}</Text>
+        </View>
+      </View>
       <View style={[styles.cartItem, styles.container]}>
+        <View style={[styles.row, styles.marginVerticalMini]}>
+          <MaterialCommunityIcons
+            name="store"
+            color={colors.backgroundDark2}
+            size={18}
+          />
+          <Text style={[styles.marginHorizontalMini, styles.textSmallBold]}>
+            {data.product.shop.shop_name}
+          </Text>
+        </View>
         <View style={styles.row}>
           <Image
             source={{
@@ -202,20 +229,25 @@ const Payment = ({route, navigation}) => {
             style={styles.imgSquareMini}
           />
           <View style={[styles.marginHorizontalMini, styles.flex1]}>
-            <Text style={styles.textMediumBold}>
+            <Text style={styles.textSmallBold}>
               {data.product.product_name}
             </Text>
-            <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Rp. {toPrice(data.product.price)},-
+            <Text style={[styles.textPrice, styles.textRight]}>
+              Rp. {toPrice(data.product.price)}
             </Text>
-            <Text>Jumlah barang : {data.qty}</Text>
-            <Text style={[styles.textPrice, styles.textSmallBold]}>
-              Total Harga : {toPrice(data.qty * data.product.price)}
+            <Text style={styles.textRight}>{data.qty} x</Text>
+            <Text
+              style={[
+                styles.textPrice,
+                styles.textSmallBold,
+                styles.textRight,
+              ]}>
+              Total : {toPrice(data.qty * data.product.price)}
             </Text>
           </View>
         </View>
-        <StatusView />
       </View>
+      <StatusView />
     </ScrollView>
   );
 };

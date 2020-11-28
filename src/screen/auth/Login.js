@@ -66,6 +66,7 @@ const Login = ({navigation}) => {
           placeholder="Email"
           onChangeText={(inputEmail) => setEmail(inputEmail)}
           textContentType="emailAddress"
+          keyboardType="email-address"
           style={styles.textInput}
         />
       </View>

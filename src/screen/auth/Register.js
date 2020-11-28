@@ -9,7 +9,7 @@ import Button from '../../components/Button';
 const Register = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState(2);
+  const [role, setRole] = useState(3);
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
   const [error, setError] = useState({});
@@ -35,9 +35,6 @@ const Register = ({navigation}) => {
 
   return (
     <ScrollView style={[styles.screen, styles.container]}>
-      <View style={styles.marginVerticalLarge}>
-        <Text style={styles.textTitle}>Register</Text>
-      </View>
       <View style={styles.marginVerticalMini}>
         <Text>Nama Pengguna</Text>
         <TextInput
@@ -51,6 +48,7 @@ const Register = ({navigation}) => {
         <Text>Email</Text>
         <TextInput
           placeholder="Email"
+          keyboardType="email-address"
           onChangeText={(inputEmail) => setEmail(inputEmail)}
           style={styles.textInput}
         />
@@ -60,10 +58,14 @@ const Register = ({navigation}) => {
       </View>
       <View style={styles.marginVerticalMini}>
         <Text>Daftar Sebagai</Text>
-        <Picker selectedValue={role} onValueChange={(value) => setRole(value)}>
-          <Picker.Item label="Pembeli" value={3} />
-          <Picker.Item label="Penjual" value={2} />
-        </Picker>
+        <View style={styles.textInput}>
+          <Picker
+            selectedValue={role}
+            onValueChange={(value) => setRole(value)}>
+            <Picker.Item label="Pembeli" value={3} />
+            <Picker.Item label="Penjual" value={2} />
+          </Picker>
+        </View>
       </View>
       <View style={styles.marginVerticalMini}>
         <Text>Password</Text>
