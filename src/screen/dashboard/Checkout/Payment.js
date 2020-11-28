@@ -136,12 +136,12 @@ const Payment = ({route, navigation}) => {
 
   const PaymentDataView = () => {
     return (
-      <View>
-        <Text>ID Transaksi : {JSON.stringify(paymentData.transaction_id)}</Text>
-        <Text>Bukti Pembayaran</Text>
+      <View style={[styles.cartItem, styles.container]}>
+        <Text style={styles.textMedium}>Bukti Pembayaran</Text>
         <Image
           source={{uri: paymentData.image}}
-          style={styles.productImageLarge}
+          style={[styles.productImageLarge, styles.marginVerticalLarge]}
+          resizeMode="contain"
         />
       </View>
     );
@@ -205,9 +205,15 @@ const Payment = ({route, navigation}) => {
     <ScrollView>
       <View style={styles.containerMini}>
         <Text style={styles.textMedium}>Informasi Pembelian</Text>
-        <View style={styles.row}>
-          <Text style={styles.flex1}>No Transaksi:</Text>
-          <Text>ID: {data.id}</Text>
+        <View style={styles.marginVerticalMini}>
+          <View style={styles.row}>
+            <Text style={styles.flex1}>No Transaksi :</Text>
+            <Text>ID: {data.id}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.flex1}>Status :</Text>
+            <Text>{data.status}</Text>
+          </View>
         </View>
       </View>
       <View style={[styles.cartItem, styles.container]}>

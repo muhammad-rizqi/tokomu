@@ -43,11 +43,12 @@ const UpdateTransactions = ({route, navigation}) => {
         token,
       );
       const getPayment = await payment(id, token);
+      const dataInvoice = await invoiceByTransaction(id, token);
 
+      setInvoice(dataInvoice.data.payment[0]);
       setData(transaction.data.transaction);
       setBuyer(userDetail.data.user);
       setPaymentData(getPayment.data.payment);
-      getInvoice();
     } catch (e) {
       console.log(e.message);
     } finally {
@@ -72,12 +73,6 @@ const UpdateTransactions = ({route, navigation}) => {
       })
       .catch((e) => console.log(e))
       .finally(() => setConfLoading(false));
-  };
-
-  const getInvoice = () => {
-    invoiceByTransaction(data.id, token)
-      .then((res) => setInvoice(res.data.payment[0]))
-      .catch((e) => console.log(e));
   };
 
   useEffect(() => {

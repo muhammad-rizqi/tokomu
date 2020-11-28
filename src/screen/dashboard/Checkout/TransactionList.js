@@ -100,7 +100,6 @@ const TransactionList = ({navigation}) => {
                         style={[
                           styles.textRight,
                           styles.textPrice,
-                          styles,
                           styles.textSmallBold,
                         ]}>
                         Total: Rp. {toPrice(transact.total)}

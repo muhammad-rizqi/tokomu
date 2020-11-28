@@ -91,7 +91,7 @@ const ShopTransaction = ({navigation}) => {
                     style={styles.imgSquareSmall}
                   />
                   <View style={[styles.flex1, styles.marginHorizontalMini]}>
-                    <Text style={styles.textMedium} numberOfLines={2}>
+                    <Text style={styles.textSmallBold}>
                       {transact.buying.product_name}
                     </Text>
                     <View style={styles.marginVerticalMini}>
