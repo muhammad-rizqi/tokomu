@@ -5,7 +5,12 @@ import {useSelector} from 'react-redux';
 import {getChatList} from '../../services/Chat';
 import {colors, styles} from '../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {TouchableNativeFeedback} from 'react-native-gesture-handler';
+import {
+  ScrollView,
+  TouchableNativeFeedback,
+} from 'react-native-gesture-handler';
+import _ from 'lodash';
+import {Appbar} from 'react-native-paper';
 
 const Chat = ({navigation}) => {
   const {token, user} = useSelector((state) => state);
@@ -16,15 +21,25 @@ const Chat = ({navigation}) => {
     setLoading(true);
     getChatList(user.id, token)
       .then((res) => {
-        console.log(res);
-        setChatList(res.data);
+        let chatTemp = [];
+        if (_.isArray(res.data.chats)) {
+          setChatList(res.data);
+        } else {
+          Object.keys(res.data.chats).forEach((key) => {
+            chatTemp = [...chatTemp, res.data.chats[key]];
+          });
+          setChatList({chats: chatTemp});
+        }
       })
       .catch((e) => console.log(e))
       .finally(() => setLoading(false));
   };
 
   useEffect(() => {
-    getList();
+    const unsubscribe = navigation.addListener('focus', () => {
+      getList();
+    });
+    return unsubscribe;
   }, [navigation]);
 
   if (loading) {
@@ -36,18 +51,23 @@ const Chat = ({navigation}) => {
   }
 
   return (
-    <View>
-      <Text>{JSON.stringify(chatList)}</Text>
-      <View>
-        {/* {chatList ? (
+    <View style={styles.screen}>
+      <Appbar.Header style={styles.backgroundDark}>
+        <Appbar.Content title="Pesan" />
+      </Appbar.Header>
+      <ScrollView>
+        {chatList ? (
           chatList.chats ? (
             chatList.chats.map((chat) => (
               <TouchableNativeFeedback
                 key={chat.id}
                 onPress={() =>
-                  navigation.navigate('ChatMessage', {to: chat.id})
+                  navigation.navigate('ChatMessage', {
+                    to: chat.id,
+                    chatName: chat.shop ? chat.shop.shop_name : chat.name,
+                  })
                 }>
-                <View style={[styles.row, styles.containerMini]}>
+                <View style={[styles.row, styles.menuList]}>
                   <View style={styles.marginHorizontalMini}>
                     {chat.shop ? (
                       <Image
@@ -82,8 +102,8 @@ const Chat = ({navigation}) => {
           <View style={styles.centerContainer}>
             <Text>Riwayat Chat Kosong</Text>
           </View>
-        )} */}
-      </View>
+        )}
+      </ScrollView>
     </View>
   );
 };

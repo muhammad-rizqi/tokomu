@@ -25,3 +25,12 @@ export const sendMessage = (userId, toId, chat, token) => {
 export const deleteMessage = (chatId, token) => {
   return api('DELETE', `/chat/${chatId}`, null, token);
 };
+
+export const deleteChatMessages = (userId, fromId, token) => {
+  return api(
+    'POST',
+    '/chat/user',
+    JSON.stringify({from: fromId, to: userId}),
+    token,
+  );
+};
