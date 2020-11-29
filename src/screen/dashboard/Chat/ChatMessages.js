@@ -85,9 +85,9 @@ const ChatMessages = ({route, navigation}) => {
   };
 
   const deleteAllMessages = () => {
+    setLoading(true);
     deleteChatMessages(user.id, to, token)
       .then((res) => {
-        setLoading(true);
         navigation.goBack();
         ToastAndroid.show(res.message, ToastAndroid.LONG);
       })
@@ -122,7 +122,9 @@ const ChatMessages = ({route, navigation}) => {
         <Appbar.Action
           icon="dots-vertical"
           onPress={() => {
-            deleteMessageDialog();
+            if (chatMessages.length > 0) {
+              deleteMessageDialog();
+            }
           }}
         />
       </Appbar.Header>

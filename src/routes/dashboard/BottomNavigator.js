@@ -98,6 +98,7 @@ const BottomNavigator = () => {
           <BottomTab.Screen
             name="Chat"
             options={{
+              unmountOnBlur: true,
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons name="chat" color={color} size={26} />
               ),

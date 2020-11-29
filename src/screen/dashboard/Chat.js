@@ -19,16 +19,21 @@ const Chat = ({navigation}) => {
 
   const getList = () => {
     setLoading(true);
+    setChatList([]);
     getChatList(user.id, token)
       .then((res) => {
         let chatTemp = [];
-        if (_.isArray(res.data.chats)) {
-          setChatList(res.data);
+        if (res.data.chats !== null) {
+          if (_.isArray(res.data.chats)) {
+            setChatList(res.data);
+          } else {
+            Object.keys(res.data.chats).forEach((key) => {
+              chatTemp = [...chatTemp, res.data.chats[key]];
+            });
+            setChatList({chats: chatTemp});
+          }
         } else {
-          Object.keys(res.data.chats).forEach((key) => {
-            chatTemp = [...chatTemp, res.data.chats[key]];
-          });
-          setChatList({chats: chatTemp});
+          setChatList([]);
         }
       })
       .catch((e) => console.log(e))
@@ -36,11 +41,12 @@ const Chat = ({navigation}) => {
   };
 
   useEffect(() => {
+    setChatList([]);
     const unsubscribe = navigation.addListener('focus', () => {
       getList();
     });
     return unsubscribe;
-  }, [navigation]);
+  }, []);
 
   if (loading) {
     return (
@@ -96,7 +102,7 @@ const Chat = ({navigation}) => {
               </TouchableNativeFeedback>
             ))
           ) : (
-            <Text>Kosong</Text>
+            <Text>Riwayat Chat Kosong</Text>
           )
         ) : (
           <View style={styles.centerContainer}>

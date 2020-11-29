@@ -29,6 +29,7 @@ const RootNavigator = ({token}) => {
   return (
     <Stack.Navigator
       screenOptions={{
+        animationEnabled: false,
         headerStyle: styles.backgroundDark,
         headerTintColor: colors.white,
       }}>
