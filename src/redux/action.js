@@ -37,4 +37,10 @@ const setCartData = (data) => {
   };
 };
 
-export {changeToken, clearToken, setUser, setShopId, setCartData};
+const setChatBadge = (data) => {
+  return {
+    type: 'SET_CHAT_BADGE',
+    data: data,
+  };
+};
+export {changeToken, clearToken, setUser, setShopId, setCartData, setChatBadge};

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import {
@@ -9,29 +10,30 @@ import {
   Home,
   ShopDashboard,
 } from '../../screen';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {colors} from '../../styles/styles';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Pusher from 'pusher-js/react-native';
 import {LogBox} from 'react-native';
 import {getChatList} from '../../services/Chat';
+import {setChatBadge} from '../../redux/action';
 
 const BottomTab = createBottomTabNavigator();
 
 const BottomNavigator = () => {
-  const {user, cartReducer, token} = useSelector((state) => state);
+  const {user, cartReducer, token, chatBadge} = useSelector((state) => state);
   const cartBadge = cartReducer.length;
-  const [unread, setUnread] = useState(0);
-
   LogBox.ignoreAllLogs();
+
+  const dispatch = useDispatch();
 
   const getList = () => {
     getChatList(user.id, token)
       .then((res) => {
         console.log(res);
         if (res.data.unread.unread) {
-          setUnread(res.data.unread.unread);
+          dispatch(setChatBadge(res.data.unread.unread));
         }
       })
       .catch((e) => console.log(e));
@@ -51,7 +53,7 @@ const BottomNavigator = () => {
         }
       });
     }
-  }, [user]);
+  }, [chatBadge]);
 
   return (
     <BottomTab.Navigator
@@ -130,7 +132,11 @@ const BottomNavigator = () => {
           <BottomTab.Screen
             name="Chat"
             options={{
-              tabBarBadge: unread > 0 ? unread : null,
+              tabBarBadge: chatBadge
+                ? chatBadge > 0
+                  ? chatBadge
+                  : null
+                : null,
               unmountOnBlur: true,
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons name="chat" color={color} size={26} />

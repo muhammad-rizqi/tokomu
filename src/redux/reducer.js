@@ -57,9 +57,19 @@ const cartReducer = (state = {}, action) => {
   }
 };
 
+const chatBadge = (state = 0, action) => {
+  switch (action.type) {
+    case 'SET_CHAT_BADGE':
+      return action.data;
+    default:
+      return state;
+  }
+};
+
 export default combineReducers({
   user: userReducer,
   token: tokenReducer,
   shop: shopReducer,
   cartReducer: cartReducer,
+  chatBadge: chatBadge,
 });

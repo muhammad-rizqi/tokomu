@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {View, Text, ActivityIndicator, Image} from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {getChatList} from '../../services/Chat';
 import {colors, styles} from '../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -11,11 +11,13 @@ import {
 } from 'react-native-gesture-handler';
 import _ from 'lodash';
 import {Appbar} from 'react-native-paper';
+import {setChatBadge} from '../../redux/action';
 
 const Chat = ({navigation}) => {
   const {token, user} = useSelector((state) => state);
   const [chatList, setChatList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   const getList = () => {
     setLoading(true);
@@ -23,7 +25,9 @@ const Chat = ({navigation}) => {
     getChatList(user.id, token)
       .then((res) => {
         let chatTemp = [];
+        console.log(res.data.unread);
         if (res.data.chats !== null) {
+          dispatch(setChatBadge(res.data.unread.unread));
           if (_.isArray(res.data.chats)) {
             setChatList(res.data);
           } else {
