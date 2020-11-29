@@ -1,10 +1,9 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Chat,
   Cart,
   Login,
-  ProductDashboard,
   ShopTransaction,
   Profile,
   Home,
@@ -14,12 +13,45 @@ import {useSelector} from 'react-redux';
 import {colors} from '../../styles/styles';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Pusher from 'pusher-js/react-native';
+import {LogBox} from 'react-native';
+import {getChatList} from '../../services/Chat';
 
 const BottomTab = createBottomTabNavigator();
 
 const BottomNavigator = () => {
   const {user, cartReducer, token} = useSelector((state) => state);
   const cartBadge = cartReducer.length;
+  const [unread, setUnread] = useState(0);
+
+  LogBox.ignoreAllLogs();
+
+  const getList = () => {
+    getChatList(user.id, token)
+      .then((res) => {
+        console.log(res);
+        if (res.data.unread.unread) {
+          setUnread(res.data.unread.unread);
+        }
+      })
+      .catch((e) => console.log(e));
+  };
+
+  useEffect(() => {
+    if (user) {
+      var pusher = new Pusher('279a0700b81b07fb497f', {
+        cluster: 'ap1',
+      });
+
+      var channel = pusher.subscribe('my-channel');
+
+      channel.bind('my-event', function (data) {
+        if (`${data.to}` === `${user.id}`) {
+          getList();
+        }
+      });
+    }
+  }, [user]);
 
   return (
     <BottomTab.Navigator
@@ -98,6 +130,7 @@ const BottomNavigator = () => {
           <BottomTab.Screen
             name="Chat"
             options={{
+              tabBarBadge: unread > 0 ? unread : null,
               unmountOnBlur: true,
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons name="chat" color={color} size={26} />
