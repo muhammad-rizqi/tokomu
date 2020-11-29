@@ -9,6 +9,7 @@ import {
   ToastAndroid,
   TextInput,
   Image,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import {Card} from 'react-native-paper';
@@ -67,40 +68,35 @@ const Home = ({navigation}) => {
     <View style={styles.screen}>
       <View style={[styles.backgroundDark, styles.containerMini]}>
         <View style={[styles.row, styles.centerContainer]}>
-          <View
-            style={[
-              styles.searchBar,
-              styles.centerContainer,
-              styles.marginHorizontalMini,
-            ]}>
-            <MaterialCommunityIcons
-              name="magnify"
-              color={colors.border}
-              size={26}
-              style={styles.marginHorizontalMini}
-            />
-            <TextInput
-              placeholder="Cari Barang Bagus ...."
+          <Image
+            source={require('../../assets/img/logo.png')}
+            style={[{height: 36, width: 180}, styles.marginHorizontalMini]}
+          />
+          <TouchableWithoutFeedback
+            onPress={() => navigation.navigate('Search')}>
+            <View
               style={[
-                styles.searchInput,
-                styles.flex1,
+                styles.searchBar,
+                styles.centerContainer,
                 styles.marginHorizontalMini,
-              ]}
-              autoFocus={false}
-              focusable={false}
-              value={null}
-              onTouchStart={() => navigation.navigate('Search')}
-            />
-          </View>
-          <TouchableNativeFeedback>
-            <View style={styles.marginHorizontalMini}>
+              ]}>
               <MaterialCommunityIcons
-                name="cart"
-                color={colors.white}
+                name="magnify"
+                color={colors.border}
                 size={26}
+                style={styles.marginHorizontalMini}
+              />
+              <TextInput
+                placeholder="Pencarian"
+                style={[
+                  styles.searchInput,
+                  styles.flex1,
+                  styles.marginHorizontalMini,
+                ]}
+                editable={false}
               />
             </View>
-          </TouchableNativeFeedback>
+          </TouchableWithoutFeedback>
         </View>
       </View>
       <View style={styles.containerMini}>

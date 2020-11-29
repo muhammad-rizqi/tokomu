@@ -273,15 +273,6 @@ const ProductDetail = ({route, navigation}) => {
               {alpha === 1 ? product.product_name : ''}
             </Text>
           </View>
-          <TouchableNativeFeedback>
-            <View style={[styles.marginHorizontalMini, styles.alphaBgIcon]}>
-              <MaterialCommunityIcons
-                name="cart"
-                color={colors.white}
-                size={26}
-              />
-            </View>
-          </TouchableNativeFeedback>
         </View>
       </View>
       <View style={styles.row}>
