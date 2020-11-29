@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
@@ -19,7 +20,6 @@ import {
   getAccount,
 } from '../../../services/ShopAccount';
 import {colors, styles} from '../../../styles/styles';
-import _ from 'lodash';
 import FloatingActionBar from '../../../components/FloatingActionBar';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
@@ -128,7 +128,6 @@ const ShopAccount = ({navigation}) => {
     });
     return unsubscribe;
   }, [navigation]);
-
   if (loading) {
     return (
       <View>

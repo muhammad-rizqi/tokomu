@@ -15,7 +15,10 @@ const Chat = ({navigation}) => {
   const getList = () => {
     setLoading(true);
     getChatList(user.id, token)
-      .then((res) => setChatList(res.data))
+      .then((res) => {
+        console.log(res);
+        setChatList(res.data);
+      })
       .catch((e) => console.log(e))
       .finally(() => setLoading(false));
   };
@@ -34,8 +37,9 @@ const Chat = ({navigation}) => {
 
   return (
     <View>
+      <Text>{JSON.stringify(chatList)}</Text>
       <View>
-        {chatList ? (
+        {/* {chatList ? (
           chatList.chats ? (
             chatList.chats.map((chat) => (
               <TouchableNativeFeedback
@@ -78,7 +82,7 @@ const Chat = ({navigation}) => {
           <View style={styles.centerContainer}>
             <Text>Riwayat Chat Kosong</Text>
           </View>
-        )}
+        )} */}
       </View>
     </View>
   );

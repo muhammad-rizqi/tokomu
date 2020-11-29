@@ -72,9 +72,6 @@ const AddProduct = ({route, navigation}) => {
     }
   };
   const addProductToShop = () => {
-    console.log('hahaha');
-    console.log(photo);
-
     setuploading(true);
     addProduct(
       productName,
@@ -95,7 +92,6 @@ const AddProduct = ({route, navigation}) => {
           ToastAndroid.show('Gagal Tambah Product', ToastAndroid.LONG);
         }
         setuploading(false);
-        console.log(res);
       })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);
@@ -105,7 +101,6 @@ const AddProduct = ({route, navigation}) => {
 
   const updateProductToShop = () => {
     setuploading(true);
-    console.log(photo);
 
     updateProduct(
       prod.id,
@@ -118,7 +113,6 @@ const AddProduct = ({route, navigation}) => {
       token,
     )
       .then((res) => {
-        console.log('hahaha');
         if (res.data) {
           ToastAndroid.show('Berhasil', ToastAndroid.LONG);
           navigation.navigate('ProductDashboard');
@@ -127,10 +121,8 @@ const AddProduct = ({route, navigation}) => {
           ToastAndroid.show('Gagal Tambah Product', ToastAndroid.LONG);
         }
         setuploading(false);
-        console.log(res);
       })
       .catch((err) => {
-        console.log(err);
         ToastAndroid.show(err.message, ToastAndroid.LONG);
         setuploading(false);
       });
@@ -148,12 +140,10 @@ const AddProduct = ({route, navigation}) => {
           ToastAndroid.show('Gagal Hapus Product', ToastAndroid.LONG);
         }
         setuploading(false);
-        console.log(res);
       })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);
         setuploading(false);
-        console.log(err);
       });
   };
 

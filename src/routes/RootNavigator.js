@@ -1,13 +1,11 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import AuthNavigator from './auth/AuthNavigator';
 import BottomNavigator from './dashboard/BottomNavigator';
 import {
   AddProduct,
   Chat,
   ChatMessages,
   Checkout,
-  Login,
   Payment,
   ProductDashboard,
   ProductDetail,
@@ -23,7 +21,6 @@ import {
   UpdateAddress,
   UpdateTransactions,
 } from '../screen';
-import {useSelector} from 'react-redux';
 import {colors, styles} from '../styles/styles';
 
 const Stack = createStackNavigator();

@@ -17,6 +17,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setShopId} from '../../../redux/action';
 import Button from '../../../components/Button';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ShopDashboard = ({navigation}) => {
   const [shop, setShop] = useState('');
@@ -61,7 +62,14 @@ const ShopDashboard = ({navigation}) => {
   if (shop === '' || shop == null) {
     return (
       <View style={[styles.centerContainer, styles.screen]}>
-        <Text>Anda belum punya toko </Text>
+        <MaterialCommunityIcons
+          name="storefront-outline"
+          color={colors.backgroundDark2}
+          size={150}
+        />
+        <Text style={[styles.textMedium, styles.marginVerticalLarge]}>
+          Anda belum punya toko
+        </Text>
         <Button
           title="Buat toko?"
           onPress={() => navigation.navigate('ShopUpdate')}

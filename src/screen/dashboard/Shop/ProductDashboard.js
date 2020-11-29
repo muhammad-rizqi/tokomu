@@ -4,54 +4,40 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  ToastAndroid,
-  Image,
   ActivityIndicator,
   RefreshControl,
   ScrollView,
-  TouchableOpacity,
+  ToastAndroid,
 } from 'react-native';
-import {getMyShop, getProductByShop} from '../../../services/Shop';
+import {getProductByShop} from '../../../services/Shop';
 import {colors, styles} from '../../../styles/styles';
-import {useDispatch, useSelector} from 'react-redux';
-import {setShopId} from '../../../redux/action';
-import Button from '../../../components/Button';
+import {useSelector} from 'react-redux';
 import ProductItem from '../../../components/ProductItem';
 import FloatingActionBar from '../../../components/FloatingActionBar';
+import {getAccount} from '../../../services/ShopAccount';
 
 const ProductDashboard = ({navigation}) => {
-  const [shop, setShop] = useState('');
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
-
+  const [accounts, setAccounts] = useState(null);
   //redux
-  const {token, user} = useSelector((state) => state);
-  // const shopReducer = useSelector((state) => state.shop);
-  const dispatch = useDispatch();
-  //
+  const {token, shop} = useSelector((state) => state);
 
-  const getShop = () => {
+  const getProductList = () => {
     setLoading(true);
-    getMyShop(user.id, token)
-      .then((res) => {
-        if (res.data) {
-          setShop(res.data);
-          dispatch(setShopId(res.data.id));
-          getProductList(res.data.id);
-        } else {
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        ToastAndroid.show(`${err}`, ToastAndroid.LONG);
+    getProductByShop(shop.id, token)
+      .then((data) => {
+        console.log(data);
+        setProducts(data.data);
         setLoading(false);
-      });
+      })
+      .catch((e) => console.log(e.message));
   };
 
-  const getProductList = (shopId) => {
-    getProductByShop(shopId, token)
+  const getBankAccount = async () => {
+    getAccount(shop.id, token)
       .then((data) => {
-        setProducts(data.data);
+        setAccounts(data.data);
         setLoading(false);
       })
       .catch((e) => console.log(e.message));
@@ -59,7 +45,8 @@ const ProductDashboard = ({navigation}) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      getShop();
+      getProductList();
+      getBankAccount();
     });
     return unsubscribe;
   }, [navigation]);
@@ -72,18 +59,17 @@ const ProductDashboard = ({navigation}) => {
     );
   }
 
-  if (shop === '' || shop == null) {
-    return (
-      <View style={[styles.centerContainer, styles.screen]}>
-        <Text>Anda belum punya toko </Text>
-        <Button
-          title="Buat toko?"
-          onPress={() => navigation.navigate('ShopUpdate')}
-        />
-      </View>
-    );
-  }
-
+  const addOrNavigate = () => {
+    if (accounts) {
+      navigation.navigate('AddProduct', {data: {}});
+    } else {
+      ToastAndroid.show(
+        'Harap Menambah Akun Rekening Terlebih Dahulu',
+        ToastAndroid.LONG,
+      );
+      navigation.navigate('ShopAccount');
+    }
+  };
   return (
     <View style={styles.screen}>
       <ScrollView
@@ -91,28 +77,10 @@ const ProductDashboard = ({navigation}) => {
           <RefreshControl
             refreshing={loading}
             onRefresh={() => {
-              setLoading(true);
-              getShop();
+              getProductList();
             }}
           />
         }>
-        <View style={styles.container}>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('ShopUpdate')}
-            style={styles.row}>
-            <Image
-              style={styles.profileImageSmall}
-              source={{
-                uri: shop.image,
-              }}
-            />
-            <View
-              style={[styles.marginHorizontalMini, {justifyContent: 'center'}]}>
-              <Text style={styles.textMediumBold}>{shop.shop_name}</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-
         <View style={styles.productContainer}>
           {products ? (
             products.map((product) => (
@@ -130,9 +98,7 @@ const ProductDashboard = ({navigation}) => {
         </View>
       </ScrollView>
       <View style={{position: 'absolute', bottom: 16, right: 16}}>
-        <FloatingActionBar
-          onPress={() => navigation.navigate('AddProduct', {data: {}})}
-        />
+        <FloatingActionBar onPress={() => addOrNavigate()} />
       </View>
     </View>
   );

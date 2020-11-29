@@ -126,22 +126,30 @@ const Payment = ({route, navigation}) => {
             accounts.map((account) => (
               <View key={account.id} style={styles.marginVerticalMini}>
                 <Text>{account.nama_rekening}</Text>
-                <Text>{account.no_rekening}</Text>
-                <Text>{account.nama_bank}</Text>
-                <Text>{account.kode_bank}</Text>
+                <Text style={styles.textSmallBold}>{account.nama_bank}</Text>
+                <Text style={styles.textMediumBold}>{account.no_rekening}</Text>
+                <Text>Kode Bank : {account.kode_bank}</Text>
               </View>
             ))
           ) : (
-            <Text>Kosong</Text>
+            <ActivityIndicator size="large" color={colors.primary} />
           )
         ) : null}
         {photo.uri ? (
-          <Image source={{uri: photo.uri}} style={styles.imgSquareMedium} />
+          <TouchableNativeFeedback onPress={() => handleChoosePhoto()}>
+            <Image
+              source={{uri: photo.uri}}
+              style={styles.productImageLarge}
+              resizeMode="contain"
+            />
+          </TouchableNativeFeedback>
         ) : (
-          <Button
-            title="Pilih Foto Bukti Pembayaran"
-            onPress={() => handleChoosePhoto()}
-          />
+          <View style={styles.marginVerticalLarge}>
+            <Button
+              title="Pilih Foto Bukti Pembayaran"
+              onPress={() => handleChoosePhoto()}
+            />
+          </View>
         )}
         <Button
           title="Unggah Bukti Pembayaran"
