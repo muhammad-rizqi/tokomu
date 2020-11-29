@@ -31,14 +31,15 @@ export const updateAccount = (
   token,
 ) => {
   const body = {
+    _method: 'PATCH',
     nama_rekening: accountName,
     no_rekening: accountNumber,
     nama_bank: bankName,
     kode_bank: bankCode,
   };
-  return api('POST', '/shop/account/' + shopId, JSON.stringify(body), token);
+  return api('POST', '/account/' + shopId, JSON.stringify(body), token);
 };
 
-export const deleteAccount = (shopId, token) => {
-  return api('DELETE', '/shop/account/' + shopId, null, token);
+export const deleteAccount = (accountId, token) => {
+  return api('DELETE', '/account/' + accountId, null, token);
 };

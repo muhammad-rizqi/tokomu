@@ -74,7 +74,11 @@ const Chat = ({navigation}) => {
           ) : (
             <Text>Kosong</Text>
           )
-        ) : null}
+        ) : (
+          <View style={styles.centerContainer}>
+            <Text>Riwayat Chat Kosong</Text>
+          </View>
+        )}
       </View>
     </View>
   );

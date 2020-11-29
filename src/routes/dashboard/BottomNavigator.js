@@ -8,6 +8,7 @@ import {
   ShopTransaction,
   Profile,
   Home,
+  ShopDashboard,
 } from '../../screen';
 import {useSelector} from 'react-redux';
 import {colors} from '../../styles/styles';
@@ -34,7 +35,7 @@ const BottomNavigator = () => {
         <>
           <BottomTab.Screen
             name="Shop"
-            component={ProductDashboard}
+            component={ShopDashboard}
             options={{
               tabBarIcon: ({color}) => (
                 <MaterialCommunityIcons name="store" color={color} size={26} />

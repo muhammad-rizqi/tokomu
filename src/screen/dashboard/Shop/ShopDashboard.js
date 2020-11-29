@@ -16,6 +16,7 @@ import {colors, styles} from '../../../styles/styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {setShopId} from '../../../redux/action';
 import Button from '../../../components/Button';
+import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 
 const ShopDashboard = ({navigation}) => {
   const [shop, setShop] = useState('');
@@ -96,6 +97,24 @@ const ShopDashboard = ({navigation}) => {
               <Text style={styles.textMediumBold}>{shop.shop_name}</Text>
             </View>
           </TouchableOpacity>
+        </View>
+
+        <View style={styles.container}>
+          <TouchableNativeFeedback
+            onPress={() => navigation.navigate('ProductDashboard')}
+            style={styles.menuList}>
+            <Text>Beranda Produk</Text>
+          </TouchableNativeFeedback>
+          <TouchableNativeFeedback
+            onPress={() => navigation.navigate('ShopAccount')}
+            style={styles.menuList}>
+            <Text>Pengaturan Rekening</Text>
+          </TouchableNativeFeedback>
+          <TouchableNativeFeedback
+            onPress={() => navigation.navigate('ShopUpdate')}
+            style={styles.menuList}>
+            <Text>Pengaturan Toko</Text>
+          </TouchableNativeFeedback>
         </View>
       </ScrollView>
     </View>

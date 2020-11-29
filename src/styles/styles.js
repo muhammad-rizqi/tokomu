@@ -218,14 +218,13 @@ export const styles = StyleSheet.create({
   },
 
   incomingMessage: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.backgroundGrey,
     alignSelf: 'flex-start',
   },
 
   messageItem: {
     padding: 8,
     borderRadius: 10,
-    borderWidth: 1,
     borderColor: colors.border,
     marginVertical: 4,
     minWidth: '40%',

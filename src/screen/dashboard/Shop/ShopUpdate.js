@@ -31,7 +31,7 @@ const ShopUpdate = ({navigation}) => {
       .then((res) => {
         ToastAndroid.show(res.message, ToastAndroid.LONG);
         setLoading(false);
-        navigation.navigate('ShopDashboard', {initial: false});
+        navigation.goBack();
       })
       .catch((err) => {
         ToastAndroid.show(err.message, ToastAndroid.LONG);
@@ -110,7 +110,12 @@ const ShopUpdate = ({navigation}) => {
           }
         />
       </TouchableOpacity>
-      <Button title="Simpan" onPress={() => updateShop()} isLoading={loading} />
+      <Button
+        title="Simpan"
+        onPress={() => updateShop()}
+        isLoading={loading}
+        disabled={shopName === '' || description === ''}
+      />
     </ScrollView>
   );
 };
