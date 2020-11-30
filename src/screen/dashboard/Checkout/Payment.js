@@ -22,7 +22,10 @@ import {invoiceByTransaction} from '../../../services/Invoice';
 import {toPrice} from '../../../services/helper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {getUserDetail} from '../../../services/User';
-import {TouchableNativeFeedback} from 'react-native-gesture-handler';
+import {
+  TouchableNativeFeedback,
+  TouchableOpacity,
+} from 'react-native-gesture-handler';
 
 const Payment = ({route, navigation}) => {
   const {data} = route.params;
@@ -303,9 +306,28 @@ const Payment = ({route, navigation}) => {
             color={colors.backgroundDark2}
             size={18}
           />
-          <Text style={[styles.marginHorizontalMini, styles.textSmallBold]}>
+          <Text
+            style={[
+              styles.marginHorizontalMini,
+              styles.flex1,
+              styles.textSmallBold,
+            ]}>
             {data.product.shop.shop_name}
           </Text>
+          <TouchableOpacity
+            style={[styles.buttonOutlineSmall]}
+            onPress={() => {
+              navigation.navigate('ChatMessage', {
+                to: data.product.shop.id,
+                chatName: data.product.shop.shop_name,
+              });
+            }}>
+            <MaterialCommunityIcons
+              name="chat-outline"
+              color={colors.backgroundDark2}
+              size={15}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.row}>
           <Image

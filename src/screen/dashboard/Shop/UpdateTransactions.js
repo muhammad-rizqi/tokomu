@@ -8,6 +8,7 @@ import {
   ToastAndroid,
   ScrollView,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import {useSelector} from 'react-redux';
 import Button from '../../../components/Button';
@@ -21,6 +22,7 @@ import {
 } from '../../../services/Transaction';
 import {getUserDetail} from '../../../services/User';
 import {colors, styles} from '../../../styles/styles';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const UpdateTransactions = ({route, navigation}) => {
   const {token} = useSelector((state) => state);
@@ -202,14 +204,30 @@ const UpdateTransactions = ({route, navigation}) => {
             </View>
           </View>
         </View>
-        <View style={[styles.cartItem, styles.container]}>
-          <Text style={[styles.textMedium, styles.marginVerticalMini]}>
-            Alamat Penerima
-          </Text>
-          <Text style={styles.textSmallBold}>
-            {buyer.name + ' (' + buyer.userdetail.phone_number + ')'}{' '}
-          </Text>
-          <Text>{buyer.userdetail.address}</Text>
+        <View style={[styles.cartItem, styles.container, styles.row]}>
+          <View style={styles.flex1}>
+            <Text style={[styles.textMedium, styles.marginVerticalMini]}>
+              Alamat Penerima
+            </Text>
+            <Text style={styles.textSmallBold}>
+              {buyer.name + ' (' + buyer.userdetail.phone_number + ')'}{' '}
+            </Text>
+            <Text>{buyer.userdetail.address}</Text>
+          </View>
+          <TouchableOpacity
+            style={[styles.buttonOutlineSmall]}
+            onPress={() => {
+              navigation.navigate('ChatMessage', {
+                to: buyer.id,
+                chatName: buyer.name,
+              });
+            }}>
+            <MaterialCommunityIcons
+              name="chat-outline"
+              color={colors.backgroundDark2}
+              size={15}
+            />
+          </TouchableOpacity>
         </View>
         <View>
           {data.status !== 'belum dibayar'
