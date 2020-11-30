@@ -111,6 +111,7 @@ const SearchPoduct = ({navigation}) => {
             ]}
             onChangeText={(value) => {
               setKeyword(value);
+              getProduct(value);
             }}
             onSubmitEditing={() => {
               getProduct(keyword);
@@ -146,9 +147,13 @@ const SearchPoduct = ({navigation}) => {
             ) : null}
           </TabSearch.Navigator>
         ) : keyword ? (
-          <Text>Tidak Ditemukan</Text>
+          <View style={[styles.centerContainer, styles.marginVerticalLarge]}>
+            <Text>Tidak Ditemukan</Text>
+          </View>
         ) : (
-          <Text>Cari Barang Bagus</Text>
+          <View style={[styles.centerContainer, styles.marginVerticalLarge]}>
+            <Text>Cari Barang Bagus</Text>
+          </View>
         )}
       </ScrollView>
     </View>
