@@ -14,7 +14,10 @@ import {getAccount} from '../../../services/ShopAccount';
 import {colors, styles} from '../../../styles/styles';
 import ImagePicker from 'react-native-image-picker';
 import {payment, sendPayment} from '../../../services/Payment';
-import {updateTransaction} from '../../../services/Transaction';
+import {
+  removeTransaction,
+  updateTransaction,
+} from '../../../services/Transaction';
 import {invoiceByTransaction} from '../../../services/Invoice';
 import {toPrice} from '../../../services/helper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -40,6 +43,14 @@ const Payment = ({route, navigation}) => {
     }
   };
 
+  const deleteTransaction = () => {
+    setUploading(true);
+
+    removeTransaction(data.id, token)
+      .then((res) => ToastAndroid.show(res.message, ToastAndroid.LONG))
+      .catch((err) => console.log(err))
+      .finally(() => navigation.goBack());
+  };
   const getBankAccount = async () => {
     getAccount(data.shop_id, token)
       .then((dataAccount) => {
@@ -186,6 +197,29 @@ const Payment = ({route, navigation}) => {
     );
   };
 
+  const CancelPay = () => {
+    return (
+      <View style={styles.container}>
+        <Button
+          isLoading={uploading}
+          title="Batalkan Transaksi"
+          onPress={() => updatePayment('dibatalkan')}
+        />
+      </View>
+    );
+  };
+
+  const DeletePay = () => {
+    return (
+      <View style={styles.container}>
+        <Button
+          isLoading={uploading}
+          title="Hapus"
+          onPress={() => deleteTransaction()}
+        />
+      </View>
+    );
+  };
   const InvoiceView = () => {
     return (
       <View style={[styles.cartItem, styles.container]}>
@@ -201,7 +235,12 @@ const Payment = ({route, navigation}) => {
   const StatusView = () => {
     switch (data.status) {
       case 'belum dibayar':
-        return <PayView />;
+        return (
+          <>
+            <PayView />
+            <CancelPay />
+          </>
+        );
       case 'diproses':
         return (
           <>
@@ -229,9 +268,15 @@ const Payment = ({route, navigation}) => {
               ]}>
               Pesanan Selesai
             </Text>
+            <DeletePay />
           </>
         );
-
+      case 'dibatalkan':
+        return (
+          <>
+            <DeletePay />
+          </>
+        );
       default:
         return null;
     }
