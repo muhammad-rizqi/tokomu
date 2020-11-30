@@ -98,19 +98,21 @@ const ShopDashboard = ({navigation}) => {
             }}
           />
         }>
-        <View style={styles.container}>
+        <View style={[styles.container, styles.backgroundDark]}>
           <TouchableOpacity
             onPress={() => navigation.navigate('ShopUpdate')}
             style={styles.row}>
             <Image
-              style={styles.profileImageSmall}
+              style={[styles.profileImageSmall, styles.marginHorizontalMini]}
               source={{
                 uri: shop.image,
               }}
             />
             <View
               style={[styles.marginHorizontalMini, {justifyContent: 'center'}]}>
-              <Text style={styles.textMedium}>{shop.shop_name}</Text>
+              <Text style={[styles.textLight, styles.textMediumBold]}>
+                {shop.shop_name}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
