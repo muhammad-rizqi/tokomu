@@ -26,7 +26,6 @@ const UpdateAccount = ({navigation}) => {
   const [passLoading, setpassLoading] = useState(false);
   const [dialog, setdialog] = useState(false);
   const [deletePass, setDeletePass] = useState('');
-
   const dispatch = useDispatch();
 
   const logout = () => {
@@ -63,8 +62,10 @@ const UpdateAccount = ({navigation}) => {
       .then((res) => {
         if (res.status === 'success') {
           logout();
+          ToastAndroid.show(res.message, ToastAndroid.LONG);
+        } else {
+          ToastAndroid.show('Kata Sandi Salah', ToastAndroid.LONG);
         }
-        ToastAndroid.show(res.message, ToastAndroid.LONG);
         console.log(res);
       })
       .catch((err) => ToastAndroid.show(err.message, ToastAndroid.LONG))
