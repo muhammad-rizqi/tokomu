@@ -69,28 +69,29 @@ const Register = ({navigation}) => {
         </View>
       </View>
       <View style={styles.marginVerticalMini}>
-        <Text>Password</Text>
+        <Text>Kata Sandi</Text>
         <TextInput
           secureTextEntry
-          placeholder="Password"
+          placeholder="Kata Sandi"
           onChangeText={(inputPassword) => setPassword(inputPassword)}
           style={styles.textInput}
         />
       </View>
       <View style={styles.marginVerticalMini}>
-        <Text>Confirm Password</Text>
+        <Text>Konfirmasi Kata Sandi</Text>
         <TextInput
           secureTextEntry
-          placeholder="Confirm Password"
+          placeholder="Konfirmasi Kata Sandi"
           onChangeText={(inputConfirm) => setConfirm(inputConfirm)}
           style={styles.textInput}
+          onSubmitEditing={() => registerUser()}
         />
         {error.password ? (
           <Text style={styles.textError}>{error.password}</Text>
         ) : null}
       </View>
       <Button
-        title="Register"
+        title="Mendaftar"
         isLoading={loading}
         onPress={() => registerUser()}
       />
@@ -98,7 +99,12 @@ const Register = ({navigation}) => {
         <Text
           onPress={() => navigation.navigate('Login')}
           style={styles.textCenter}>
-          Already have an account? {'\n'} Login
+          Sudah punya akun? {'\n'} Masuk
+        </Text>
+      </View>
+      <View style={[styles.centerContainer, styles.marginVerticalLarge]}>
+        <Text style={styles.textCenter}>
+          Dengan mendaftar anda berarti menerima kebijakan layanan kami
         </Text>
       </View>
     </ScrollView>

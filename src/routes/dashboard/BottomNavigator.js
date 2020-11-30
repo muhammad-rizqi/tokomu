@@ -58,6 +58,7 @@ const BottomNavigator = () => {
   return (
     <BottomTab.Navigator
       tabBarOptions={{
+        keyboardHidesTabBar: true,
         activeBackgroundColor: colors.backgroundDark2,
         inactiveBackgroundColor: colors.backgroundDark2,
         activeTintColor: colors.white,

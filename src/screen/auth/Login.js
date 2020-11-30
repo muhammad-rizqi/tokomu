@@ -59,7 +59,7 @@ const Login = ({navigation}) => {
   return (
     <ScrollView style={[styles.screen, styles.container]}>
       <View style={styles.marginVerticalLarge}>
-        <Text style={styles.textTitle}>Login</Text>
+        <Text style={styles.textTitle}>Masuk</Text>
       </View>
       <View style={styles.marginVerticalMini}>
         <Text>Email</Text>
@@ -72,21 +72,22 @@ const Login = ({navigation}) => {
         />
       </View>
       <View style={styles.marginVerticalMini}>
-        <Text>Password</Text>
+        <Text>Kata Sandi</Text>
         <TextInput
           secureTextEntry
-          placeholder="Password"
+          placeholder="Kata Sandi"
           onChangeText={(inputPassword) => setPassword(inputPassword)}
           textContentType="password"
           style={styles.textInput}
+          onSubmitEditing={() => loginUser()}
         />
       </View>
-      <Button title="Login" isLoading={loading} onPress={() => loginUser()} />
+      <Button title="Masuk" isLoading={loading} onPress={() => loginUser()} />
       <View style={[styles.centerContainer, styles.marginVerticalLarge]}>
         <Text
           onPress={() => navigation.navigate('Register')}
           style={styles.textCenter}>
-          Don't have an account? {'\n'} Register
+          Belum punya akun? {'\n\n'} Daftar gratis!
         </Text>
       </View>
     </ScrollView>
