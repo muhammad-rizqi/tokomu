@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import 'react-native-gesture-handler';
 import React, {useState} from 'react';
 import {

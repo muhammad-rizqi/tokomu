@@ -15,6 +15,7 @@ import {getProductByShop, getShop} from '../../../services/Shop';
 import {colors, styles} from '../../../styles/styles';
 import {useSelector} from 'react-redux';
 import ProductItem from '../../../components/ProductItem';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ShopProduct = ({route, navigation}) => {
   const [shop, setShop] = useState('');
@@ -22,7 +23,7 @@ const ShopProduct = ({route, navigation}) => {
   const [products, setProducts] = useState([]);
   const shopId = route.params.data.id;
   //redux
-  const {token} = useSelector((state) => state);
+  const {token, user} = useSelector((state) => state);
   // const shopReducer = useSelector((state) => state.shop);
   //
 
@@ -79,7 +80,7 @@ const ShopProduct = ({route, navigation}) => {
             }}
           />
         }>
-        <View style={styles.container}>
+        <View style={[styles.backgroundLight, styles.container]}>
           <TouchableOpacity
             onPress={() => navigation.navigate('ShopUpdate')}
             style={styles.row}>
@@ -90,11 +91,33 @@ const ShopProduct = ({route, navigation}) => {
               }}
             />
             <View
-              style={[styles.marginHorizontalMini, {justifyContent: 'center'}]}>
+              style={[
+                styles.marginHorizontalMini,
+                styles.flex1,
+                {justifyContent: 'center'},
+              ]}>
               <Text style={styles.textMediumBold}>{shop.shop_name}</Text>
             </View>
+            <TouchableOpacity
+              style={[styles.buttonOutlineSmall]}
+              onPress={() => {
+                if (user) {
+                  navigation.navigate('ChatMessage', {
+                    to: shop.id,
+                    chatName: shop.shop_name,
+                  });
+                } else {
+                  navigation.navigate('Login');
+                }
+              }}>
+              <MaterialCommunityIcons
+                name="chat-outline"
+                color={colors.backgroundDark2}
+                size={15}
+              />
+            </TouchableOpacity>
           </TouchableOpacity>
-          <Text>{shop.description}</Text>
+          <Text style={styles.marginVerticalMini}>{shop.description}</Text>
         </View>
         <View style={styles.productContainer}>
           {products ? (
