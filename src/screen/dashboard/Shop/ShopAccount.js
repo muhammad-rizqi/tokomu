@@ -138,7 +138,7 @@ const ShopAccount = ({navigation}) => {
   return (
     <View style={styles.screen}>
       <Modal visible={modal}>
-        <ScrollView style={(styles.screen, styles.container)}>
+        <ScrollView style={styles.container}>
           <Text style={styles.textTitle}>Tambah Rekening Bank</Text>
           <Text>{loading ? 'Loading' : ''} </Text>
           <View style={styles.marginVerticalMini}>

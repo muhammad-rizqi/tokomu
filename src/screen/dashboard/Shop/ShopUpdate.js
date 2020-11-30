@@ -1,11 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
-import {View, Text, ToastAndroid, Image} from 'react-native';
-import {
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native-gesture-handler';
+import {ScrollView, View, Text, ToastAndroid, Image} from 'react-native';
+import {TextInput, TouchableOpacity} from 'react-native-gesture-handler';
 import {addShop, getMyShop} from '../../../services/Shop';
 import {styles} from '../../../styles/styles';
 import Button from '../../../components/Button';
@@ -73,50 +69,54 @@ const ShopUpdate = ({navigation}) => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, styles.screen]}>
-      <Text style={styles.textTitle}>Edit Nama Toko</Text>
-      <View style={styles.marginVerticalMini}>
-        <Text>Nama Toko</Text>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Edit Nama Toko"
-          onChangeText={(inputShopName) => setShopName(inputShopName)}
-          value={shopName}
+    <View style={styles.screen}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.textTitle}>Edit Nama Toko</Text>
+        <View style={styles.marginVerticalMini}>
+          <Text>Nama Toko</Text>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Edit Nama Toko"
+            onChangeText={(inputShopName) => setShopName(inputShopName)}
+            value={shopName}
+          />
+        </View>
+        <View style={styles.marginVerticalMini}>
+          <Text>Deskripsi Toko</Text>
+          <TextInput
+            style={[styles.textInput, styles.textInputMultiline]}
+            placeholder="Edit Deskripsi"
+            onChangeText={(inputDescription) =>
+              setDescription(inputDescription)
+            }
+            value={description}
+            multiline={true}
+          />
+        </View>
+        <TouchableOpacity
+          style={styles.centerContainer}
+          onPress={() => handleChoosePhoto()}>
+          <Image
+            style={[styles.profileImageLarge, styles.marginVerticalMini]}
+            source={
+              photo
+                ? photo
+                : shop
+                ? {
+                    uri: shop.image,
+                  }
+                : require('../../../assets/img/user-shape.png')
+            }
+          />
+        </TouchableOpacity>
+        <Button
+          title="Simpan"
+          onPress={() => updateShop()}
+          isLoading={loading}
+          disabled={shopName === '' || description === ''}
         />
-      </View>
-      <View style={styles.marginVerticalMini}>
-        <Text>Deskripsi Toko</Text>
-        <TextInput
-          style={[styles.textInput, styles.textInputMultiline]}
-          placeholder="Edit Deskripsi"
-          onChangeText={(inputDescription) => setDescription(inputDescription)}
-          value={description}
-          multiline={true}
-        />
-      </View>
-      <TouchableOpacity
-        style={styles.centerContainer}
-        onPress={() => handleChoosePhoto()}>
-        <Image
-          style={[styles.profileImageLarge, styles.marginVerticalMini]}
-          source={
-            photo
-              ? photo
-              : shop
-              ? {
-                  uri: shop.image,
-                }
-              : require('../../../assets/img/user-shape.png')
-          }
-        />
-      </TouchableOpacity>
-      <Button
-        title="Simpan"
-        onPress={() => updateShop()}
-        isLoading={loading}
-        disabled={shopName === '' || description === ''}
-      />
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 

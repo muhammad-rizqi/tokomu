@@ -16,8 +16,8 @@ import {colors, styles} from '../../../styles/styles';
 import {useDispatch, useSelector} from 'react-redux';
 import {setShopId} from '../../../redux/action';
 import Button from '../../../components/Button';
-import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import DashboardMenu from '../../../components/DashboardMenu';
 
 const ShopDashboard = ({navigation}) => {
   const [shop, setShop] = useState('');
@@ -80,6 +80,14 @@ const ShopDashboard = ({navigation}) => {
 
   return (
     <View style={styles.screen}>
+      <View style={[styles.backgroundDark, styles.containerMini]}>
+        <View style={[styles.row, styles.centerContainer]}>
+          <Image
+            source={require('../../../assets/img/logo.png')}
+            style={[{height: 36, width: 180}, styles.marginHorizontalMini]}
+          />
+        </View>
+      </View>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -102,27 +110,49 @@ const ShopDashboard = ({navigation}) => {
             />
             <View
               style={[styles.marginHorizontalMini, {justifyContent: 'center'}]}>
-              <Text style={styles.textMediumBold}>{shop.shop_name}</Text>
+              <Text style={styles.textMedium}>{shop.shop_name}</Text>
             </View>
           </TouchableOpacity>
         </View>
-
-        <View style={styles.container}>
-          <TouchableNativeFeedback
+        <View
+          style={[
+            styles.container,
+            styles.row,
+            {
+              flexWrap: 'wrap',
+              justifyContent: 'space-between',
+            },
+          ]}>
+          <DashboardMenu
+            icon="storefront-outline"
             onPress={() => navigation.navigate('ProductDashboard')}
-            style={styles.menuList}>
-            <Text>Beranda Produk</Text>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
+            title="Produk"
+          />
+          <DashboardMenu
+            icon="credit-card-check-outline"
             onPress={() => navigation.navigate('ShopAccount')}
-            style={styles.menuList}>
-            <Text>Pengaturan Rekening</Text>
-          </TouchableNativeFeedback>
-          <TouchableNativeFeedback
+            title="Rekening"
+          />
+          <DashboardMenu
+            icon="chat-outline"
+            onPress={() => navigation.navigate('Chat')}
+            title="Pesan"
+          />
+          <DashboardMenu
+            icon="currency-usd-circle-outline"
+            onPress={() => navigation.navigate('ShopTransaction')}
+            title="Transaksi"
+          />
+          <DashboardMenu
+            icon="store-outline"
             onPress={() => navigation.navigate('ShopUpdate')}
-            style={styles.menuList}>
-            <Text>Pengaturan Toko</Text>
-          </TouchableNativeFeedback>
+            title="Pengaturan Toko"
+          />
+          <DashboardMenu
+            icon="account-cog-outline"
+            onPress={() => navigation.navigate('Profile')}
+            title="Pengaturan Akun"
+          />
         </View>
       </ScrollView>
     </View>

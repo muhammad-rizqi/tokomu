@@ -9,7 +9,7 @@ import {
   ScrollView,
   RefreshControl,
 } from 'react-native';
-import {Card} from 'react-native-paper';
+import {Appbar, Card} from 'react-native-paper';
 import {useSelector} from 'react-redux';
 import {toPrice} from '../../../services/helper';
 import {getShopTransaction} from '../../../services/Shop';
@@ -72,58 +72,63 @@ const ShopTransaction = ({navigation}) => {
   };
 
   return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={loading} onRefresh={() => getList()} />
-      }>
-      {transaction ? (
-        transaction.length > 0 ? (
-          transaction.map((transact) => (
-            <TouchableNativeFeedback
-              key={transact.id}
-              onPress={() =>
-                navigation.navigate('UpdateTransactions', {id: transact.id})
-              }>
-              <Card style={[styles.cartItem]}>
-                <View style={[styles.row, styles.container]}>
-                  <Image
-                    source={{uri: transact.buying.image}}
-                    style={styles.imgSquareSmall}
-                  />
-                  <View style={[styles.flex1, styles.marginHorizontalMini]}>
-                    <Text style={styles.textSmallBold}>
-                      {transact.buying.product_name}
-                    </Text>
-                    <View style={styles.marginVerticalMini}>
-                      <Text style={styles.textRight}>
-                        Rp. {toPrice(transact.buying.price)}
+    <View style={styles.screen}>
+      <Appbar.Header style={styles.backgroundDark}>
+        <Appbar.Content title="Transaksi" />
+      </Appbar.Header>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={loading} onRefresh={() => getList()} />
+        }>
+        {transaction ? (
+          transaction.length > 0 ? (
+            transaction.map((transact) => (
+              <TouchableNativeFeedback
+                key={transact.id}
+                onPress={() =>
+                  navigation.navigate('UpdateTransactions', {id: transact.id})
+                }>
+                <Card style={[styles.cartItem]}>
+                  <View style={[styles.row, styles.container]}>
+                    <Image
+                      source={{uri: transact.buying.image}}
+                      style={styles.imgSquareSmall}
+                    />
+                    <View style={[styles.flex1, styles.marginHorizontalMini]}>
+                      <Text style={styles.textSmallBold}>
+                        {transact.buying.product_name}
                       </Text>
-                      <Text style={styles.textRight}>{transact.qty} x</Text>
-                      <Text
-                        style={[
-                          styles.textRight,
-                          styles.textMedium,
-                          styles.textPrice,
-                        ]}>
-                        Rp. {toPrice(transact.total)}
+                      <View style={styles.marginVerticalMini}>
+                        <Text style={styles.textRight}>
+                          Rp. {toPrice(transact.buying.price)}
+                        </Text>
+                        <Text style={styles.textRight}>{transact.qty} x</Text>
+                        <Text
+                          style={[
+                            styles.textRight,
+                            styles.textMedium,
+                            styles.textPrice,
+                          ]}>
+                          Rp. {toPrice(transact.total)}
+                        </Text>
+                      </View>
+                      <Text style={[styles.textRight, styles.textSmallBold]}>
+                        {transact.status}
                       </Text>
                     </View>
-                    <Text style={[styles.textRight, styles.textSmallBold]}>
-                      {transact.status}
-                    </Text>
+                    <DeleteView transact={transact} />
                   </View>
-                  <DeleteView transact={transact} />
-                </View>
-              </Card>
-            </TouchableNativeFeedback>
-          ))
-        ) : loading === false ? (
-          <Text>Data Kosong</Text>
-        ) : null
-      ) : (
-        <Text>Error</Text>
-      )}
-    </ScrollView>
+                </Card>
+              </TouchableNativeFeedback>
+            ))
+          ) : loading === false ? (
+            <Text>Data Kosong</Text>
+          ) : null
+        ) : (
+          <Text>Error</Text>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 
