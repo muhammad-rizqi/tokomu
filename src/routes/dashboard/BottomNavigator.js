@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import 'react-native-gesture-handler';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   Chat,
   Cart,

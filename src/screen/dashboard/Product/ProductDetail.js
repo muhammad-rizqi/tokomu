@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {
@@ -22,7 +21,6 @@ import {getProductDetail} from '../../../services/Product';
 import {ActivityIndicator, DataTable} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {toPrice} from '../../../services/helper';
-import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 const {Dimensions} = require('react-native');
 
 const windowWidth = Dimensions.get('window').width;

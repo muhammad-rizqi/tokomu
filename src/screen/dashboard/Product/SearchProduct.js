@@ -37,12 +37,14 @@ const ProductSearch = ({route, navigation}) => {
   );
 };
 
-const ShopSearch = ({route}) => {
+const ShopSearch = ({route, navigation}) => {
   const {shops} = route.params;
   return (
     <View style={styles.screen}>
       {shops.map((shop) => (
-        <TouchableNativeFeedback key={shop.id}>
+        <TouchableNativeFeedback
+          key={shop.id}
+          onPress={() => navigation.navigate('ShopProduct', {data: shop})}>
           <View
             style={[styles.container, styles.backgroundLight, styles.menuList]}>
             <View style={styles.row}>

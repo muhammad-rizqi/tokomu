@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   Text,
   TouchableOpacity,
@@ -92,7 +92,7 @@ const UpdateAccount = ({navigation}) => {
         <Text style={[styles.textTitle, styles.marginVerticalMini]}>
           Pengaturan Akun
         </Text>
-        <Text style={styles.textMediumBold}>Informasi Akun</Text>
+        <Text style={styles.textMedium}>Informasi Akun</Text>
         <View>
           <TextInput
             mode="outlined"
@@ -114,7 +114,7 @@ const UpdateAccount = ({navigation}) => {
           onPress={() => updateAccount()}
         />
         <View style={styles.marginVerticalLarge}>
-          <Text style={styles.textMediumBold}>Ubah Kata Sandi</Text>
+          <Text style={styles.textMedium}>Ubah Kata Sandi</Text>
           <TextInput
             style={styles.marginVerticalMini}
             secureTextEntry={true}
