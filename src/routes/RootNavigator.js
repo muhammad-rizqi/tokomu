@@ -44,7 +44,11 @@ const RootNavigator = ({token}) => {
         component={SearchPoduct}
         options={{headerShown: false}}
       />
-      <Stack.Screen name="ShopProduct" component={ShopProduct} />
+      <Stack.Screen
+        name="ShopProduct"
+        component={ShopProduct}
+        options={{title: 'Toko'}}
+      />
       <Stack.Screen
         name="Detail"
         component={ProductDetail}
@@ -52,39 +56,82 @@ const RootNavigator = ({token}) => {
       />
       {token ? (
         <>
-          <Stack.Screen name="UpdateAddress" component={UpdateAddress} />
-          <Stack.Screen name="UpdateAccount" component={UpdateAccount} />
+          <Stack.Screen
+            name="UpdateAddress"
+            component={UpdateAddress}
+            options={{title: 'Ubah Informasi Akun'}}
+          />
+          <Stack.Screen
+            name="UpdateAccount"
+            component={UpdateAccount}
+            options={{title: 'Pengaturan Akun'}}
+          />
           <Stack.Screen
             name="TransactionList"
             component={TransactionList}
-            options={{detachPreviousScreen: true}}
+            options={{
+              title: 'Daftar Transaksi',
+              detachPreviousScreen: true,
+            }}
           />
           <Stack.Screen
             name="Checkout"
             component={Checkout}
             options={{detachPreviousScreen: true}}
           />
-          <Stack.Screen name="Payment" component={Payment} />
-          <Stack.Screen name="ChatList" component={Chat} />
+          <Stack.Screen
+            name="Payment"
+            component={Payment}
+            options={{title: 'Pembayaran'}}
+          />
+          <Stack.Screen
+            name="ChatList"
+            component={Chat}
+            options={{title: 'Daftar Pesan'}}
+          />
           <Stack.Screen
             name="ChatMessage"
             component={ChatMessages}
             options={{headerShown: false}}
           />
-          <Stack.Screen name="ShopDashboard" component={ShopDashboard} />
-          <Stack.Screen name="ShopUpdate" component={ShopUpdate} />
-          <Stack.Screen name="AddProduct" component={AddProduct} />
-          <Stack.Screen name="ShopAccount" component={ShopAccount} />
+          <Stack.Screen
+            name="ShopDashboard"
+            component={ShopDashboard}
+            options={{title: 'Dashboard Toko'}}
+          />
+          <Stack.Screen
+            name="ShopUpdate"
+            component={ShopUpdate}
+            options={{title: 'Pengaturan Toko'}}
+          />
+          <Stack.Screen
+            name="AddProduct"
+            component={AddProduct}
+            options={{title: 'Tambah & Edit Produk'}}
+          />
+          <Stack.Screen
+            name="ShopAccount"
+            component={ShopAccount}
+            options={{title: 'Pengaturan Rekening'}}
+          />
           <Stack.Screen
             name="ShopTransaction"
             component={ShopTransaction}
-            options={{detachPreviousScreen: true}}
+            options={{
+              title: 'Data Pembelian',
+              detachPreviousScreen: true,
+            }}
           />
           <Stack.Screen
             name="UpdateTransactions"
             component={UpdateTransactions}
+            options={{title: 'Edit Transaksi'}}
           />
-          <Stack.Screen name="ProductDashboard" component={ProductDashboard} />
+          <Stack.Screen
+            name="ProductDashboard"
+            component={ProductDashboard}
+            options={{title: 'Dashboard Produk'}}
+          />
         </>
       ) : (
         <>
