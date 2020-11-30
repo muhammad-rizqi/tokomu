@@ -17,6 +17,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import ChatItem from '../../../components/ChatItem';
 import {
   deleteChatMessages,
+  deleteMessage,
   getChatMessages,
   sendMessage,
 } from '../../../services/Chat';
@@ -100,10 +101,32 @@ const ChatMessages = ({route, navigation}) => {
       .finally(() => setLoading(false));
   };
 
+  const deleteOneMessage = (chatId) => {
+    deleteMessage(chatId, token)
+      .then(() => getMessages())
+      .catch((e) => console.log(e));
+  };
+
+  const deleteOneDialog = (id) => {
+    Alert.alert(
+      'Konfirmasi Hapus',
+      'Anda yakin akan menghapus pesan ini?',
+      [
+        {
+          text: 'Batal',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+        {text: 'OK', onPress: () => deleteOneMessage(id)},
+      ],
+      {cancelable: true},
+    );
+  };
+
   const deleteMessageDialog = () => {
     Alert.alert(
       'Konfirmasi Hapus',
-      'Anda yakin akan menghapus Pesan?',
+      'Anda yakin akan menghapus seluruh pesan?',
       [
         {
           text: 'Batal',
@@ -160,6 +183,7 @@ const ChatMessages = ({route, navigation}) => {
               ) : null
             ) : null}
             <ChatItem
+              onHold={() => deleteOneDialog(msg.id)}
               outgoing={msg.from === user.id}
               message={msg.chat}
               time={msg.created_at.slice(11, 16)}

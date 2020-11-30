@@ -31,6 +31,7 @@ const Chat = ({navigation}) => {
     getChatList(user.id, token)
       .then((res) => {
         let chatTemp = [];
+        console.log(res);
         console.log(res.data.unread);
         if (res.data.chats !== null) {
           dispatch(setChatBadge(res.data.unread.unread));
@@ -124,7 +125,7 @@ const Chat = ({navigation}) => {
             <Text>Riwayat Chat Kosong</Text>
           )
         ) : (
-          <View style={styles.centerContainer}>
+          <View>
             <Text>Riwayat Chat Kosong</Text>
           </View>
         )}
