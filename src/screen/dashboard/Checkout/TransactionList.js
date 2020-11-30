@@ -109,8 +109,10 @@ const TransactionList = ({navigation}) => {
                 </Card>
               </TouchableNativeFeedback>
             ))
-          ) : (
-            <Text>Data Kosong</Text>
+          ) : loading ? null : (
+            <View style={[styles.flex1, styles.centerContainer]}>
+              <Text>Data Kosong</Text>
+            </View>
           )
         ) : (
           <Text>Error</Text>

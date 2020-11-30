@@ -45,7 +45,7 @@ const UpdateTransactions = ({route, navigation}) => {
       const getPayment = await payment(id, token);
       const dataInvoice = await invoiceByTransaction(id, token);
 
-      setInvoice(dataInvoice.data.payment[0]);
+      dataInvoice.data ? setInvoice(dataInvoice.data.payment[0]) : null;
       setData(transaction.data.transaction);
       setBuyer(userDetail.data.user);
       setPaymentData(getPayment.data.payment);
@@ -110,7 +110,7 @@ const UpdateTransactions = ({route, navigation}) => {
         <Text style={[styles.textMedium, styles.marginVerticalLarge]}>
           Informasi Pengiriman Barang :
         </Text>
-        <Text>Jasa Pengiriman :{invoice.delivery_service}</Text>
+        <Text>Jasa Pengiriman : {invoice.delivery_service}</Text>
         <Text>Nomor Resi : {invoice.receipt}</Text>
       </View>
     );

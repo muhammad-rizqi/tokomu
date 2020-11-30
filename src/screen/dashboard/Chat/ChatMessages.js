@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useRef, useState} from 'react';
 import {
@@ -71,7 +72,11 @@ const ChatMessages = ({route, navigation}) => {
   };
 
   if (loading) {
-    return <ActivityIndicator color="blue" size="small" />;
+    return (
+      <View style={[styles.screen, styles.centerContainer]}>
+        <ActivityIndicator color={colors.primary} size="large" />
+      </View>
+    );
   }
   const sendChat = () => {
     setSending(true);
@@ -177,7 +182,11 @@ const ChatMessages = ({route, navigation}) => {
         <TouchableOpacity
           onPress={() => sendChat()}
           disabled={sending}
-          style={styles.marginHorizontalMini}>
+          style={[
+            styles.marginHorizontalMini,
+            styles.marginVerticalMini,
+            {alignSelf: 'flex-end'},
+          ]}>
           <MaterialCommunityIcons
             name={sending ? 'send-clock' : 'send'}
             color={colors.white}

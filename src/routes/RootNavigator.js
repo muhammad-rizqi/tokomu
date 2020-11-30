@@ -28,6 +28,7 @@ const Stack = createStackNavigator();
 const RootNavigator = ({token}) => {
   return (
     <Stack.Navigator
+      detachInactiveScreens={true}
       screenOptions={{
         animationEnabled: false,
         headerStyle: styles.backgroundDark,
@@ -53,8 +54,16 @@ const RootNavigator = ({token}) => {
         <>
           <Stack.Screen name="UpdateAddress" component={UpdateAddress} />
           <Stack.Screen name="UpdateAccount" component={UpdateAccount} />
-          <Stack.Screen name="TransactionList" component={TransactionList} />
-          <Stack.Screen name="Checkout" component={Checkout} />
+          <Stack.Screen
+            name="TransactionList"
+            component={TransactionList}
+            options={{detachPreviousScreen: true}}
+          />
+          <Stack.Screen
+            name="Checkout"
+            component={Checkout}
+            options={{detachPreviousScreen: true}}
+          />
           <Stack.Screen name="Payment" component={Payment} />
           <Stack.Screen name="ChatList" component={Chat} />
           <Stack.Screen

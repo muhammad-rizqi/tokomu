@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
-import {View, Text, ActivityIndicator, Image} from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  Image,
+  RefreshControl,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getChatList} from '../../services/Chat';
 import {colors, styles} from '../../styles/styles';
@@ -65,7 +71,16 @@ const Chat = ({navigation}) => {
       <Appbar.Header style={styles.backgroundDark}>
         <Appbar.Content title="Pesan" />
       </Appbar.Header>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={styles.flex1}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={() => {
+              getList();
+            }}
+          />
+        }>
         {chatList ? (
           chatList.chats ? (
             chatList.chats.map((chat) => (

@@ -120,7 +120,7 @@ const ProductDetail = ({route, navigation}) => {
         <TouchableWithoutFeedback onPress={() => setModal(false)}>
           <View style={[styles.flex1, styles.backgroundOpacity]} />
         </TouchableWithoutFeedback>
-        <View style={{backgroundColor: colors.background}}>
+        <View style={styles.backgroundLight}>
           <View style={[styles.container, styles.row]}>
             <View>
               <Image
@@ -275,9 +275,9 @@ const ProductDetail = ({route, navigation}) => {
           </View>
         </View>
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row, styles.containerMini]}>
         <TouchableOpacity
-          style={[styles.buttonOutlineMedium, styles.marginHorizontalNano]}
+          style={[styles.buttonOutlineMedium]}
           onPress={() => {
             if (user) {
               navigation.navigate('ChatMessage', {
@@ -289,9 +289,9 @@ const ProductDetail = ({route, navigation}) => {
             }
           }}>
           <MaterialCommunityIcons
-            name="chat-plus"
+            name="chat-outline"
             color={colors.backgroundDark2}
-            size={26}
+            size={24}
           />
         </TouchableOpacity>
         <TouchableOpacity
@@ -303,14 +303,14 @@ const ProductDetail = ({route, navigation}) => {
               navigation.navigate('Login');
             }
           }}
-          style={[styles.buttonOutlineMedium, styles.marginHorizontalNano]}>
+          style={[styles.buttonOutlineMedium, styles.marginHorizontalMini]}>
           <MaterialCommunityIcons
-            name="cart-plus"
+            name="cart-outline"
             color={colors.backgroundDark2}
-            size={26}
+            size={24}
           />
         </TouchableOpacity>
-        <View style={[styles.flex1, styles.marginHorizontalMini]}>
+        <View style={[styles.flex1]}>
           <Button
             title="Beli Sekarang"
             onPress={() => {

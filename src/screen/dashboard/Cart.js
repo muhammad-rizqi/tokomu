@@ -23,6 +23,7 @@ import {colors, styles} from '../../styles/styles';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {toPrice} from '../../services/helper';
 import _ from 'lodash';
+import {Appbar} from 'react-native-paper';
 
 const Cart = ({navigation}) => {
   const {token, user, cartReducer} = useSelector((state) => state);
@@ -96,6 +97,9 @@ const Cart = ({navigation}) => {
   };
   return (
     <View style={styles.screen}>
+      <Appbar.Header style={styles.backgroundDark}>
+        <Appbar.Content title="Keranjang" />
+      </Appbar.Header>
       <ScrollView
         refreshControl={
           <RefreshControl
@@ -107,7 +111,7 @@ const Cart = ({navigation}) => {
           />
         }>
         {cart.length === 0 ? (
-          <View style={styles.centerContainer}>
+          <View style={[styles.centerContainer, styles.flex1]}>
             <Text>Keranjang Kosong</Text>
           </View>
         ) : (
